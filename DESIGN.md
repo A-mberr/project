@@ -1,6 +1,6 @@
-Design document
-===============
+# Design document
 
+## Externe databronnen<br>
 Nederland<br>
 Voor meer uitgebreide data van Nederland:<br>
 https://www.volksgezondheidenzorg.info/onderwerp/vaccinaties/cijfers-context/trends#node-trend-vaccinatiegraad-zuigelingen 
@@ -20,37 +20,40 @@ Deze data bevat informatie over de vaccinatiegraad van alle landen van de wereld
 
 Helaas was er niet voor elk vaccinatie type die ook in de dataset van Nederland voorkwam ook informatie van de landen van Europa beschikbaar.
 
-**Chloropleth**<br>
+## Elements<br>
+### Chloropleth<br>
 -	Om de kaart van Europa weer te geven, zal ik gebruik maken van de d3 plug-in D3GeoProjection. Hiermee zal een kaart worden weergegeven. 
 -	Met behulp van d3.scale zullen de thresholds worden bepaald waarmee de landen in de kaart worden ingekleurd. Hierbij wordt ook een geschaalde legende weergegeven aan de zijkant van de kaart. 
 -	Met behulp van een tooltip functie kan er informatie over het geselecteerde land worden weergegeven.
 -	Met behulp van een slider kan je aanpassen van welk jaar de data wil hebben weergegeven.
 
-**Slider**<br>
+### Slider<br>
 -	Met behulp van de slider kan je een jaar kiezen waarvan je je data wil weergeven.
 -	De slider veranderd de data van zowel de chloropleth als dat van de bar chart
 
-**Histogram**<br>
+### Histogram<br>
 -	De x-as geven de jaren weer en de y-as een percentage van 0-100%
 -	De data wordt aangepast afhankelijk van de geselecteerde vaccinatie type via het drop down menu
 -	Ook hier zal een tooltip meer informatie weergeven van de geselecteerde bar
 
-**Drop down menu**<br>
+### Drop down menu<br>
 -	Geeft keuze uit de verschillende vaccinatie typen
 -	Beinvloed de weergave van data van zowel het histogram als dat van de chloropleth
 
-**Bar chart**<br>
+### Bar chart<br>
 -	Geeft data weer van het geselecteerde land in de chloroplath
 -	De bars geven de verschillende vaccinatie typen met de bijbehoren vaccinatiegraad weer
 -	Met behulp van check boxen kan je selecteren van welke vaccinatietypen je wil weergeven in de bar chart. Bij default staan alle boxen aangevinkt
 -	Met behulp van een slider kan ook hier de data van verschillende jaren worden getoond
 
-
-**Tools**<br>
+## Tools<br>
 D3 plugins<br>
 -	D3GeoProjection of D3.geomap
--	D3.scale
+-	D3.scale<br>
 HTML 5 tags:
 -	Input type=range<br>
 http://thenewcode.com/757/Playing-With-The-HTML5-range-Slider-Input 
 -	Input type=checkbox
+
+## Project design
+![design](doc/design.png)

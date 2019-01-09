@@ -4,10 +4,12 @@
 import pandas as pd
 
 # reads csv and converts it to a dataframe
-df = pd.read_csv('vacc_nl.csv', delimiter=',')
+df = pd.read_csv('vacc_nl.csv', encoding='cp1252')
 
-# df = df[['Cohort', 'DKTP', 'Hib', 'Heb B', 'Pneu', 'BMR', 'Men c']]
+df['DKTP'] = df['DKTP'].str.replace(',', '.')
+df['DKTP'] = df['DKTP'].str.strip('b')
+df['DKTP'] = pd.to_numeric(df['DKTP'])
 
-print(df)
-# creates json to use it for d3 visualisation
-# data = df.to_json('data.json', orient='records')
+df = df[['Cohort', 'DKTP']]
+
+df.to_json('data_nl.json', orient='records')

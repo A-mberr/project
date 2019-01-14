@@ -20,78 +20,76 @@ array = ['Albania', 'Andorra', 'Austria', 'Belarus', 'Belgium',
             'Serbia and Montenegro', 'Slovakia', 'Slovenia', 'Spain', 'Sweden',
             'Switzerland', 'Ukraine', 'United Kingdom']
 
-years = 2015
+append_data = []
+years = 2016
 while years <= 2017:
     year = str(years)
     name = "df_" + year
-    DTP = "df_DTP_" + year
+    DTP = "df_DTP" + year
     Hepb = "df_Hepb" + year
     Hib = 'df_Hib' + year
     Pneu = 'df_Pneu' + year
     json = name + '.json'
 
-    print(df_DTP.columns.values)
+    # print(df_DTP.columns.values)
     print(year)
     print(name)
+    # print(DTP)
 
     # takes the list om countries and the column of the same year
     DTP = df_DTP[['Country', year]]
+    # DTP['vaccin'] = "DTP"
+    # print(DTP)
     Hepb = df_Hepb[['Country', year]]
     Hib = df_Hib[['Country', year]]
     Pneu = df_Pneu[['Country', year]]
 
     # selects only the countries from Europe
-    DTP = df_DTP[df_DTP['Country'].isin(array)]
-    Hepb = df_Hepb[df_Hepb['Country'].isin(array)]
-    Hib = df_Hib[df_Hib['Country'].isin(array)]
-    Pneu = df_Pneu[df_Pneu['Country'].isin(array)]
+    DTP = DTP[DTP['Country'].isin(array)]
+    Hepb = Hepb[Hepb['Country'].isin(array)]
+    Hib = Hib[Hib['Country'].isin(array)]
+    Pneu = Pneu[Pneu['Country'].isin(array)]
 
-    # contatenate the different dataframes
-    print(DTP)
-    # print(pd.concat(DTP[year], Hepb[year], Hib[year], Pneu[year]))
+
+    # # print(pd.concat(DTP[year], Hepb[year], Hib[year], Pneu[year]))
     name = pd.concat([DTP, Hepb[year], Hib[year], Pneu[year]], axis=1)
-    name = name[name['Country'].notnull()]
+    # print(pd.concat([df_DTP, df_Hepb], axis=1))
 
+    name = name[name['Country'].notnull()]
+    print(name)
     # rename columns to understand the dataframe
     # df_2017['2017'] = pd.to_numeric(df_2017['2017'], errors='ignore')
+    # name.columns = ['Country', 'DKTP_' + year, 'Hepb_' + year, 'Hib_' + year, 'Pneu_' + year]
     # name.columns = ['Country', 'DKTP', 'Hepb', 'Hib', 'Pneu']
+    # name.columns = ['Country', year, year, year, year]
 
+    # name = name.set_index('Country').to_dict()
+    name = name.set_index('Country')
     # print(name)
-    # name.set_index(['Country']).to_json(json, orient='index')
+
+    append_data.append(name)
+    print(append_data)
+
+    # print(name.to_dict('index'))
+
+    # print(name.columns)
+    # start = json.dumps(start)
+    # starts = json.loads(start)
+    #
+    # starts.to_json(json, orient='index')
     years = years + 1
     print(years)
-    # break
 
+append_data = pd.concat(append_data, axis=1)
+# append_data.groupby(['Country'])
 
-
-# print(name)
-
-# df_1989.set_index(['Country']).to_json('vacc_1989.json', orient='index')
-# df_1990.set_index(['Country']).to_json('vacc_1990.json', orient='index')
-# df_1991.set_index(['Country']).to_json('vacc_1991.json', orient='index')
-# df_1992.set_index(['Country']).to_json('vacc_1992.json', orient='index')
-# df_1993.set_index(['Country']).to_json('vacc_1993.json', orient='index')
-# df_1994.set_index(['Country']).to_json('vacc_1994.json', orient='index')
-# df_1995.set_index(['Country']).to_json('vacc_1995.json', orient='index')
-# df_1996.set_index(['Country']).to_json('vacc_1996.json', orient='index')
-# df_1997.set_index(['Country']).to_json('vacc_1997.json', orient='index')
-# df_1998.set_index(['Country']).to_json('vacc_1998.json', orient='index')
-# df_1999.set_index(['Country']).to_json('vacc_1999.json', orient='index')
-# df_2000.set_index(['Country']).to_json('vacc_2000.json', orient='index')
-# df_2001.set_index(['Country']).to_json('vacc_2001.json', orient='index')
-# df_2002.set_index(['Country']).to_json('vacc_2002.json', orient='index')
-# df_2003.set_index(['Country']).to_json('vacc_2003.json', orient='index')
-# df_2004.set_index(['Country']).to_json('vacc_2004.json', orient='index')
-# df_2005.set_index(['Country']).to_json('vacc_2005.json', orient='index')
-# df_2006.set_index(['Country']).to_json('vacc_2006.json', orient='index')
-# df_2007.set_index(['Country']).to_json('vacc_2007.json', orient='index')
-# df_2008.set_index(['Country']).to_json('vacc_2008.json', orient='index')
-# df_2009.set_index(['Country']).to_json('vacc_2009.json', orient='index')
-# df_2010.set_index(['Country']).to_json('vacc_2010.json', orient='index')
-# df_2011.set_index(['Country']).to_json('vacc_2011.json', orient='index')
-# df_2012.set_index(['Country']).to_json('vacc_2012.json', orient='index')
-# df_2013.set_index(['Country']).to_json('vacc_2013.json', orient='index')
-# df_2014.set_index(['Country']).to_json('vacc_2014.json', orient='index')
-# df_2015.set_index(['Country']).to_json('vacc_2015.json', orient='index')
-# df_2016.set_index(['Country']).to_json('vacc_2016.json', orient='index')
-# df_2017.set_index(['Country']).to_json('vacc_2017.json', orient='index')
+# print(append_data.transpose())
+# print(append_data.sort_index()
+append_data = append_data.transpose()
+print(append_data.index)
+print(append_data.columns)
+# append_data = append_data.groupby(years).agg()
+# append_data.sort_index()
+print(append_data.loc['2016'])
+print(append_data)
+# append_data.to_json('eu_data.json', orient='index')

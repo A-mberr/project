@@ -7,40 +7,20 @@ Student number: 11819359 -->
     <meta charset="utf-8">
     <script src="d3.v5.js"</script>><title>Leaflet GeoJSON Example</title>
     <meta charset="utf-8" />
-    <!-- <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.css" />
-    <style type="text/css">
-        .leaflet-container{background-color:#c5e8ff;}
-    </style> -->
     <script src="https://d3js.org/d3-selection.v1.min.js"></script>
     <link href="https://unpkg.com/basscss@8.0.2/css/basscss.min.css" rel="stylesheet">
     <script src="vacc_script.js"></script>
     <link href="vacc.css" rel="stylesheet">
     <title>Vaccinatiegraad</title>
   </head>
-  <body>
-    <html lang="en">
-    <head>
-      <title>Bootstrap Example</title>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    </head>
-    <body>
-    <nav class="navbar navbar-inverse">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" text="#">Vaccinatiegraad</a>
-        </div>
-        <ul class="nav navbar-nav">
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Visulisatie</a></li>
-          <li><a href="#">Achtergrond</a></li>
-        </ul>
-      </div>
-    </nav>
-    </body>
+  <!-- NAvigation bar code came from:
+  https://www.w3schools.com/css/css_navbar.asp -->
+    <ul>
+  <li><a href="default.asp">Home</a></li>
+  <li><a href="news.asp">News</a></li>
+  <li><a href="contact.asp">Contact</a></li>
+  <li><a href="about.asp">About</a></li>
+</ul>
     </html>
     <h1>Vaccinatiegraad in Europa</h1>
     <h2>Amber Nobel - 11819359</h2>
@@ -51,13 +31,13 @@ Student number: 11819359 -->
       bereiken om enigzins groepsimmuniteit te kunnen garanderen. Wanneer deze vaccinatiegraad lager is dan 95%
       kan dit als gevolg hebben dat mensen elkaar makkelijker kunnen besmetten en er steeds meer gevallen van bijvoorbeeld
       de mazelen in Nederland worden gerapporteerd.</p>
-    <!-- <svg padding=20px></svg> -->
   </body>
 
   <label for="vacc_select">Kies een vaccinatie type om de vaccinatiegraad te bekijken:</label>
   <select id="vacc_select">
     <option value="">--Kies vaccinatie type--</option>
     <option value="DKTP">DKTP</option>
+    <option value="Heb B">Hib</option>
     <option value="Heb B">Heb B</option>
     <option value="Pneu">Pneu</option>
     <option value="Men C">Men C</option>

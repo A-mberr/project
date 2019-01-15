@@ -15,3 +15,8 @@
 ## Dag 5
 - Navigatie bar verbeterd en aangepast met mijn CSS
 - JSON aangepast zodat er 1 JSON wordt gecreerd om de dtaa op te halen voor de chloropleth en dat bar chart
+
+## Dag 6 
+- Navigatiebar aangepast naar de juiste termen
+- Bar chart ingevoerd aan de hand van de data set van NL data
+- Proberen de juiste json te creeeren

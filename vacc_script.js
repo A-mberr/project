@@ -141,34 +141,33 @@ function yLabelsEU(svg_bar, data, yScale, g_bar){
 async function main() {
   let data = await loadData();
 
-  var margin = {top: 10, right: 30, bottom: 30, left: 40},
+  var margin = {top: 10, right: 30, bottom: 30, left: 40, padding: 80},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
-  // SVG for the histogram
-  var svg = d3.select("body").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom);
+  svg = d3.select('.histo')
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom + margin.padding)
+  .style("background", "white")
 
-  g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  g = svg.append("g").attr("transform", "translate(" + margin.left + "," + (margin.top + margin.padding) + ")");
 
   // SVG for map
-  var svg_map = d3.select("body").append("svg")
-    .attr('class', 'map')
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .style("background", "white")
+  svg_map = d3.select('.map')
+  .attr("width", width + margin.left + margin.right+ 200)
+  .attr("height", height + margin.top + margin.bottom + 400)
+  .style("background", "white")
 
-  g_map = svg_map.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  g_map = svg_map.append("g").attr("transform", "translate(" + margin.left + "," + (margin.top + margin.padding) + ")");
 
   // SVG for bar chart
-  var svg_bar = d3.select("body").append("svg")
-    .attr('class', 'map')
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .style("background", "white")
+  svg_bar = d3.select('.chart')
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom + margin.padding)
+  .style("background", "white")
 
-  g_bar = svg_bar.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  g_bar = svg_bar.append("g").attr("transform", "translate(" + margin.left + "," + (margin.top + margin.padding) + ")");
+
 
   let yScale = d3.scaleLinear()
     .domain([0, d3.max(data, d => d['DKTP'])])
@@ -178,14 +177,38 @@ async function main() {
   xLabels(svg, data, height, width, margin, g);
   yLabels(svg, data, yScale, g);
 
-  drawMap(width, height, margin, svg_map, g_map)
+  // drawMap(width, height, margin, svg_map, g_map)
 
   drawBarsEU(svg_bar, data, height, yScale, margin);
   xLabelsEU(svg_bar, data, height, width, margin, g_bar);
   yLabelsEU(svg_bar, data, yScale, g_bar);
-  //
-  var bar = svgDoc.getElementById('bar');
-  bar.style.fill = 'rgb(0,0,0,0)'
+
+  // https://unpkg.com/topojson@3.0.2/dist/topojson.min.js
+
+  // This code has been obtained form the video of Curran Kelleher
+  // https://www.youtube.com/watch?v=Qw6uAg3EO64
+  const projection = d3.geoMercator()
+  .scale(650)
+    .center([19, 62])
+    // .translate([width/2, height/2]);
+  const pathGenerator = d3.geoPath().projection(projection)
+
+  d3.json('data/eu.json')
+    .then(data => {
+      const countries = topojson.feature(data, data.objects.europe)
+
+      // var color = d3.scaleLinear()
+      //   .domain([0, 5, 9])
+      //   .range(["blue", "yellow", "purple"]);
+      var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+      g_map.selectAll('path').data(countries.features)
+        .enter().append('path')
+        .attr("class", "kaart")
+        .attr("d",pathGenerator)
+        .attr('fill',function(d,i) { return color(i); });
+    });
+
 }
 
 main();

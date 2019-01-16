@@ -20,3 +20,9 @@
 - Navigatiebar aangepast naar de juiste termen
 - Bar chart ingevoerd aan de hand van de data set van NL data
 - Proberen de juiste json te creeeren
+
+## Dag 7
+- Kaart ingevoegd met je juiste Topojson
+- Hover functie op kaart
+- HTML aangemaakt voor navigatiebar
+- SVG s aangemaakt via HTML ipv in mijn JS file. Zo heb ik de checkboxen als foreignObject in de SVG kunnen plaatsen

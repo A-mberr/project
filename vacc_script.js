@@ -136,6 +136,49 @@ function yLabelsEU(svg_bar, data, yScale, g_bar){
 }
 
 
+function drawMap(svg_map, g_map) {
+  // https://unpkg.com/topojson@3.0.2/dist/topojson.min.js
+
+  // This code has been obtained form the video of Curran Kelleher
+  // https://www.youtube.com/watch?v=Qw6uAg3EO64
+  const projection = d3.geoMercator()
+  .scale(650)
+    .center([19, 62])
+    // .translate([width/2, height/2]);
+  const pathGenerator = d3.geoPath().projection(projection)
+
+  d3.json('data/eu.json')
+    .then(data => {
+      const countries = topojson.feature(data, data.objects.europe)
+      console.log(countries)
+      // var color = d3.scaleLinear()
+      //   .domain([0, 5, 9])
+      //   .range(["blue", "yellow", "purple"]);
+      // var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+      // TODO: verander coloscale en pas aan naar de juiste treshold grenzen
+      var colors = ['#045a8d','#2b8cbe','#74a9cf','#bdc9e1','#f1eef6']
+      // var colors = ['#f1eef6','#bdc9e1','#74a9cf','#2b8cbe','#045a8d'];
+      const color = d3.scaleThreshold()
+        .domain([0.75, 0.8, 0.85, 0.9, 0.95])
+        .range(colors);
+
+      const countryRate = {"AZ":0,"AL":2,"AM":4,"BA":6,"BG":8,"CY":10,"DK":12,
+        "IE":14,"EE":16,"AT":18,"CZ":20,"FI":22,"FR":24,"GE":26,"DE":28,"GR":30,
+        "HR":32,"HU":34,"IS":36,"IL":38,"IT":40,"LV":42,"BY":44,"LT":46,"SK":48,
+        "LI":50,"MK":52,"MT":54,"BE":56,"FO":58,"AD":60,"LU":62,"MC":64,"ME":66,
+        "NL":68,"NO":70,"PL":72,"PT":74,"RO":76,"MD":78,"SI":80,"ES":82,"SE":84,
+        "CH":86,"TR":88,"GB":90,"UA":92,"SM":94,"RS":96,"VA":98,"RU":100};
+
+      g_map.selectAll('path').data(countries.features)
+        .enter().append('path')
+        .attr("class", "kaart")
+        .attr("d",pathGenerator)
+        .attr('fill', (d, i) => color(countryRate[d.id] / 100));
+    });
+}
+
+
 
 
 async function main() {
@@ -183,32 +226,7 @@ async function main() {
   xLabelsEU(svg_bar, data, height, width, margin, g_bar);
   yLabelsEU(svg_bar, data, yScale, g_bar);
 
-  // https://unpkg.com/topojson@3.0.2/dist/topojson.min.js
-
-  // This code has been obtained form the video of Curran Kelleher
-  // https://www.youtube.com/watch?v=Qw6uAg3EO64
-  const projection = d3.geoMercator()
-  .scale(650)
-    .center([19, 62])
-    // .translate([width/2, height/2]);
-  const pathGenerator = d3.geoPath().projection(projection)
-
-  d3.json('data/eu.json')
-    .then(data => {
-      const countries = topojson.feature(data, data.objects.europe)
-
-      // var color = d3.scaleLinear()
-      //   .domain([0, 5, 9])
-      //   .range(["blue", "yellow", "purple"]);
-      var color = d3.scaleOrdinal(d3.schemeCategory10);
-
-      g_map.selectAll('path').data(countries.features)
-        .enter().append('path')
-        .attr("class", "kaart")
-        .attr("d",pathGenerator)
-        .attr('fill',function(d,i) { return color(i); });
-    });
-
+  drawMap(svg_map, g_map);
 }
 
 main();

@@ -26,3 +26,6 @@
 - Hover functie op kaart
 - HTML aangemaakt voor navigatiebar
 - SVG s aangemaakt via HTML ipv in mijn JS file. Zo heb ik de checkboxen als foreignObject in de SVG kunnen plaatsen
+
+## Dag 8
+- Er zullen tweede json s gemaakt worden zodat zowel de kaart als de bar chart juist kan worden weergegeven

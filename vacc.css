@@ -2,30 +2,27 @@
 Student number: 11819359 */
 
 h1 {
-  /* font-family: Tahoma; */
   font-size: 45px;
   text-align: center;
   font-variant: small-caps;
 }
 
 h2 {
-  /* font-family: Tahoma; */
   font-size: 32px;
   text-align: center;
 }
 
 p {
-  /* font-family: Tahoma; */
   font-size: 18px;
-  /* width: 1100px; */
-  margin: 8%;
+  max-width: 800px;
+  margin: 3em auto;
   border: 5px solid black;
   background-color: white;
   font-weight: bold;
   padding: 20px;
   line-height: 30px;
   box-shadow: -4px 8px 14px 1px rgba(0,0,0,0.54);
-  /* font-variant: small-caps; */
+  /* box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.14) */
 }
 
 body {
@@ -46,12 +43,13 @@ body {
   display: none;
 }
 
+/* code has been gained from https://www.w3schools.com/howto/howto_js_rangeslider.asp */
 .slider {
   -webkit-appearance: none;
-  width: 70%;
+  width: 40%;
   height: 15px;
   border-radius: 5px;
-  background: #d3d3d3;
+  background: #f2f2f2;
   outline: none;
   opacity: 0.7;
   -webkit-transition: .2s;
@@ -64,7 +62,7 @@ body {
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background: black;
+  background: #4CAF50;
   cursor: pointer;
 }
 
@@ -80,4 +78,42 @@ svg {
   background-color: white;
   border: 3px solid black;
   box-shadow: -4px 8px 14px 1px rgba(0,0,0,0.54);
+  margin: 8%;
+}
+
+/* Navigation bar code came from:
+ https://www.w3schools.com/css/css_navbar.asp */
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: black;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+  background-color: steelblue;
+}
+
+.kaart {
+  /* fill: #2bad3e; */
+  stroke: black;
+  stroke-opacity: 0.4;
+}
+
+.kaart:hover {
+  opacity: 0.7;
 }

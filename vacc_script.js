@@ -2,6 +2,8 @@
 // Student ID: 11819359
 // https://bl.ocks.org/d3noob/0e276dc70bb9184727ee47d6dd06e915 was used for constructing this code
 
+
+
 async function loadData() {
   let data = await d3.json("data/data_nl.json");
 
@@ -70,6 +72,72 @@ function xLabels(svg, data, height, width, margin, g){
 function yLabels(svg, data, yScale, g){
   const yAxis = d3.axisLeft().scale(yScale)
   var gY = g.append("g")
+    // .attr("transform", "translate(1, 0)")
+    .call(yAxis);
+}
+
+
+
+function drawMap(height, width, margin, svg_map, g_map) {
+
+  var myimage = g_map.append('image')
+    .attr('xlink:href', 'http://www.datavisualisation-r.com/png/maps_europe_choropleth_countries.png')
+    .attr('width', 500)
+    .attr('height', 400)
+    .attr("x", 300)
+    .attr("y", 1)
+}
+
+
+
+function drawBarsEU(svg_bar, data, height, yScale, margin) {
+  var x = d3.scaleBand()
+    .rangeRound([0, 650])
+    .domain(data.map(function (d) {
+      return d['Cohort'];
+    }))
+    .padding(0.4);
+
+  g_bar.selectAll(".bar")
+         .data(data)
+         .enter().append("rect")
+           .attr("class", "bar")
+           .attr("x", function(d) { return x(d['Cohort']); })
+           .attr('y', d => yScale(d['DKTP']))
+           .attr("width", x.bandwidth())
+           .attr('height', d => height - yScale(d['DKTP']));
+           // .on("mouseover", d => {
+           //   findAxisLabel(d).attr('style', "text-anchor:start; font-weight: bold;");
+           // })
+           // .on("mouseout", d => {
+           //   findAxisLabel(d).attr('style', "text-anchor:start; font-weight: regular;");
+           // });
+}
+
+function xLabelsEU(svg_bar, data, height, width, margin, g_bar){
+  // var xScale = d3.scaleBand()
+  //   .range([-100, width - margin.left])
+  //   .domain([1995, 2015])
+  //
+  // var xAxis = d3.axisBottom()
+  //   .scale(xScale)
+  //   .ticks([20]);
+
+  var x = d3.scaleBand()
+  	.rangeRound([0, 650])
+  	.padding(0.1)
+    .domain(data.map(function (d) {
+      return d['Cohort'];
+    }));
+
+  g_bar.append("g")
+  	.attr("transform", "translate(0" + 10 / 10 + "," + height + ")")
+  	.call(d3.axisBottom(x))
+}
+
+function yLabels(svg, data, yScale, g){
+  const yAxis = d3.axisLeft().scale(yScale)
+  var gY = g_bar.append("g")
     // .attr("transform", "translate(1, 0)")
     .call(yAxis);
 }
@@ -179,8 +247,6 @@ function makeTitles(svg, svg_bar, svg_bar, width, margin) {
     .text("Nederland vergelijken met geselecteerde land")
   }
 
-
-
 async function main() {
   let data = await loadData();
 
@@ -245,6 +311,7 @@ async function main() {
   xLabelsEU(height, width, margin, g_bar, xScale, margin);
   drawBarsEU(svg_bar, data_dtp, height, xScale, yScale, margin);
 
+  drawMap(svg_map, g_map);
 }
 
 main();

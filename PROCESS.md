@@ -29,3 +29,9 @@
 
 ## Dag 8
 - Er zullen tweede json s gemaakt worden zodat zowel de kaart als de bar chart juist kan worden weergegeven
+
+## Dag 9
+- Bar chart veranderd naar een linegraph. Dit is een andere weergave dan de histogram. Hij kan nu punten plotten aan de hand van test data
+- Titels toegevoegd
+- Scales veranderd naar een consistente en juiste format
+- Begin van de legenda gemaakt

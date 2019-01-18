@@ -69,15 +69,6 @@ function xLabels(svg, data, height, width, margin, g){
   	.call(d3.axisBottom(x))
 }
 
-function yLabels(svg, data, yScale, g){
-  const yAxis = d3.axisLeft().scale(yScale)
-  var gY = g.append("g")
-    // .attr("transform", "translate(1, 0)")
-    .call(yAxis);
-}
-
-
-
 function drawMap(height, width, margin, svg_map, g_map) {
 
   var myimage = g_map.append('image')
@@ -137,7 +128,7 @@ function xLabelsEU(svg_bar, data, height, width, margin, g_bar){
 
 function yLabels(svg, data, yScale, g){
   const yAxis = d3.axisLeft().scale(yScale)
-  var gY = g_bar.append("g")
+  var gY = g.append("g")
     // .attr("transform", "translate(1, 0)")
     .call(yAxis);
 }
@@ -309,9 +300,6 @@ async function main() {
 
   yLabelsEU(svg_bar, data, yScale, g_bar, margin);
   xLabelsEU(height, width, margin, g_bar, xScale, margin);
-  drawBarsEU(svg_bar, data_dtp, height, xScale, yScale, margin);
-
-  drawMap(svg_map, g_map);
 }
 
 main();

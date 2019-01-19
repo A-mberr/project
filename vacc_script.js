@@ -81,16 +81,6 @@ function xLabels(svg, data, height, width, margin, g, xScale) {
     .call(xAxis)
 }
 
-function drawMap(height, width, margin, svg_map, g_map) {
-
-  var myimage = g_map.append('image')
-    .attr('xlink:href', 'http://www.datavisualisation-r.com/png/maps_europe_choropleth_countries.png')
-    .attr('width', 500)
-    .attr('height', 400)
-    .attr("x", 300)
-    .attr("y", 1)
-}
-
 function yLabels(svg, data, yScale, g, margin) {
 
   const yAxis = d3.axisLeft().scale(yScale).tickFormat(d => d + "%");
@@ -172,6 +162,46 @@ function drawMap(svg_map, g_map) {
     });
 }
 
+function generateLegend(svg_map, width, margin, height) {
+
+    // Legenda wordt nog gemaakt aan de hand van de data
+    var colors = ['#f1eef6','#d0d1e6','#a6bddb','#74a9cf','#3690c0','#0570b0','#034e7b']
+    var domains = ["Vacciantiegraad (%)", "0-20%", "20-40%", "40-60%", "60-70%", "70-80%", "80-90%", "90-100%"]
+
+    var legend = svg_map.append("g")
+      .attr("class", "legend")
+      .attr("transform",
+        "translate(" + (width + margin.left) +
+        "," + (height / 2) + ")");
+
+    // legend.append("rect")
+    //   .attr("x", 0)
+    //   .attr("y", 10)
+    //   .attr("width", 17)
+    //   .attr("height", 17)
+    // .style("fill", i => colors[i]);
+    legend.selectAll('rect')
+    .data(colors)
+    .enter()
+    .append('rect')
+    .attr('x', 0)
+    .attr("y", (d, i) => i * 20 - margin.padding)
+    .attr('width', 20 - 3)
+    .attr('height', 20 - 3)
+    .style('fill',(d, i) => colors[i]);
+
+    legend.selectAll('text')
+    .data(domains)
+    .enter()
+    .append("text")
+    .attr('x', 30)
+    .attr("y", (d, i) => i * 20 - margin.padding)
+    .text((d, i) => domains[i])
+    .attr('width', 20 - 3)
+    .attr('height', 20 - 3);
+
+}
+
 function makeTitles(svg, svg_bar, svg_bar, width, margin) {
   svg_bar.append("text")
     .attr("x", (width + margin.left + margin.right) / 2)
@@ -230,19 +260,6 @@ async function main() {
 
   g_bar = svg_bar.append("g").attr("transform", "translate(" + margin.left + "," + (margin.top + margin.padding) + ")");
 
-  // Legenda wordt nog gemaakt aan de hand van de data
-  legend = svg_map.append("g")
-    .attr("class", "legend")
-    .attr("transform",
-      "translate(" + (width + margin.left) +
-      "," + (height / 2) + ")");
-
-  legend.append("rect")
-    .attr("x", 0)
-    .attr("y", 10)
-    .attr("width", 17)
-    .attr("height", 17)
-  // .style("fill", i => colors[i]);
 
   let xScale = d3.scaleLinear()
     .domain([1989, 2018])
@@ -259,8 +276,9 @@ async function main() {
   yLabels(svg, data, yScale, g, margin);
 
   drawMap(svg_map, g_map);
+  generateLegend(svg_map, width, margin, height);
 
-  drawline(svg_bar, data_dtp, height, xScale, yScale, margin)
+  drawline(svg_bar, data_dtp, height, xScale, yScale, margin);
 }
 
 main();

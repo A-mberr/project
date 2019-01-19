@@ -3,76 +3,78 @@ Name: Amber Nobel
 Student number: 11819359 -->
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <script src="d3.v5.js"</script>><title>Leaflet GeoJSON Example</title>
+
+<head>
+  <meta charset="utf-8">
+  <script src="d3.v5.js" </script>> <title>Leaflet GeoJSON Example</title>
     <meta charset="utf-8" />
     <script src="https://d3js.org/d3-selection.v1.min.js"></script>
-    <script src='https://unpkg.com/topojson@3.0.2/dist/topojson.min.js'></script>
-    <link href="https://unpkg.com/basscss@8.0.2/css/basscss.min.css" rel="stylesheet">
-    <script src="//d3js.org/topojson.v1.min.js"></script>
-    <script src="https://d3js.org/d3-geo.v1.min.js"></script>
-    <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
-    <script src="https://unpkg.com/topojson-client@3"></script>
-    <script src="https://unpkg.com/topojson-simplify@3"></script>
-    <script src="https://unpkg.com/topojson@3.0.2/dist/topojson.min.js"></script>
-    <script src="vacc_script.js"></script>
-    <link href="vacc.css" rel="stylesheet">
-    <title>Vaccinatiegraad</title>
-  </head>
-  <!-- Navigation bar code came from:
+  <script src='https://unpkg.com/topojson@3.0.2/dist/topojson.min.js'></script>
+  <link href="https://unpkg.com/basscss@8.0.2/css/basscss.min.css" rel="stylesheet">
+  <script src="//d3js.org/topojson.v1.min.js"></script>
+  <script src="https://d3js.org/d3-geo.v1.min.js"></script>
+  <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+  <script src="https://unpkg.com/topojson-client@3"></script>
+  <script src="https://unpkg.com/topojson-simplify@3"></script>
+  <script src="https://unpkg.com/topojson@3.0.2/dist/topojson.min.js"></script>
+  <script src="vacc_script.js"></script>
+  <link href="vacc.css" rel="stylesheet">
+  <title>Vaccinatiegraad</title>
+</head>
+<!-- Navigation bar code came from:
   https://www.w3schools.com/css/css_navbar.asp -->
-    <ul>
+<ul>
   <li><a>Vaccinatiegraad</a></li>
   <li><a href="visualisatie.html">Visualisatie</a></li>
   <li><a href="achtergrond.html">Achtergrond</a></li>
   <li><a href="about.html">About</a></li>
 </ul>
-    </html>
-    <h1>Vaccinatiegraad in Europa</h1>
-    <h2>Amber Nobel - 11819359</h2>
-    <p>Vaccineren lijkt de laatste tijd weer een veel besproken onderwerp in Nederland.
-      Mensen trekken in twijfel of de vaccinaties wel doen wat ze moeten doen of dat ze zelfs
-      bepaalde ziektes kunnen veroorzaken. Dit heeft geleid tot een afname in vaccinatiegraad in Nederland,
-      met als gevolg dat de groepsimmuniteit daalt. De WHO streeft ernaar om een een vaccinatiegraad van 95% te
-      bereiken om enigzins groepsimmuniteit te kunnen garanderen. Wanneer deze vaccinatiegraad lager is dan 95%
-      kan dit als gevolg hebben dat mensen elkaar makkelijker kunnen besmetten en er steeds meer gevallen van bijvoorbeeld
-      de mazelen in Nederland worden gerapporteerd.</p>
-  </body>
 
-  <label for="vacc_select">Kies een vaccinatie type om de vaccinatiegraad te bekijken:</label>
-  <select id="vacc_select">
-    <option value="">--Kies vaccinatie type--</option>
-    <option value="DKTP">DKTP</option>
-    <option value="Heb B">Hib</option>
-    <option value="Heb B">Heb B</option>
-    <option value="Pneu">Pneu</option>
-    <option value="Men C">Men C</option>
+</html>
+<h1>Vaccinatiegraad in Europa</h1>
+<h2>Amber Nobel - 11819359</h2>
+<p>Vaccineren lijkt de laatste tijd weer een veel besproken onderwerp in Nederland.
+  Mensen trekken in twijfel of de vaccinaties wel doen wat ze moeten doen of dat ze zelfs
+  bepaalde ziektes kunnen veroorzaken. Dit heeft geleid tot een afname in vaccinatiegraad in Nederland,
+  met als gevolg dat de groepsimmuniteit daalt. De WHO streeft ernaar om een een vaccinatiegraad van 95% te
+  bereiken om enigzins groepsimmuniteit te kunnen garanderen. Wanneer deze vaccinatiegraad lager is dan 95%
+  kan dit als gevolg hebben dat mensen elkaar makkelijker kunnen besmetten en er steeds meer gevallen van bijvoorbeeld
+  de mazelen in Nederland worden gerapporteerd.</p>
+</body>
 
-   <div class="slidecontainer">
+<label for="vacc_select">Kies een vaccinatie type om de vaccinatiegraad te bekijken:</label>
+<select id="vacc_select">
+  <option value="">--Kies vaccinatie type--</option>
+  <option value="DKTP">DKTP</option>
+  <option value="Heb B">Hib</option>
+  <option value="Heb B">Heb B</option>
+  <option value="Pneu">Pneu</option>
+  <option value="Men C">Men C</option>
+
+  <div class="slidecontainer">
     <input type="range" min="1980" step=1 max="2017" value="50" class="slider" id="myRange">
   </div>
 
+  <div class="flex-container">
+    <svg class="histo"></svg>
 
-    <div class="flex-container">
-    <svg class = "histo"></svg>
-
-
-    <svg class = "chart">
+    <svg class="chart">
       <foreignObject x="850" y="90" width="160" height="160">
-      <input type="checkbox" name="DTP" checked> DTP<br>
-      <input type="checkbox" name="Pneu" > Pneu<br>
-      <input type="checkbox" name="Men C"  >Men C<br>
-      <input type="checkbox" name="Hep B" > Hep B<br>
-      <input type="checkbox" name="Hib" > Hib<br>
+        <input type="checkbox" name="DTP" checked> DTP<br>
+        <input type="checkbox" name="Hib"> Hib<br>
+        <input type="checkbox" name="Hep B"> Hep B<br>
+        <input type="checkbox" name="HPneu"> Pneu<br>
+        <input type="checkbox" name="Men C"> Men C<br>
       </foreignObject> -->
     </svg>
-    </div>
+
+    <svg class="map"></svg>
+  </div>
 
 
-      <svg class = "map"></svg>
 
 
-</body>
 
-   </html>
+  </body>
+
+  </html>

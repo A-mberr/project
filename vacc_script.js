@@ -9,7 +9,7 @@ async function loadData() {
 
 
   // TODO load data on place where used
-  // let data_dtp = await d3.json("data/DTP.json");
+  let data_dtp = await d3.json("data/DTP.json");
   // let data_hepb = await d3.json("data/Hepb.json");
   // let data_hib = await d3.json("data/Hib.json");
   // let data_pneu = await d3.json("data/Pneu.json");
@@ -65,6 +65,7 @@ function xLabels(svg, data, height, width, margin, g){
     }));
 
   g.append("g")
+    .attr("class", "x axis")
   	.attr("transform", "translate(0" + 10 / 10 + "," + height + ")")
   	.call(d3.axisBottom(x))
 }
@@ -77,32 +78,6 @@ function drawMap(height, width, margin, svg_map, g_map) {
     .attr('height', 400)
     .attr("x", 300)
     .attr("y", 1)
-}
-
-
-
-function drawBarsEU(svg_bar, data, height, yScale, margin) {
-  var x = d3.scaleBand()
-    .rangeRound([0, 650])
-    .domain(data.map(function (d) {
-      return d['Cohort'];
-    }))
-    .padding(0.4);
-
-  g_bar.selectAll(".bar")
-         .data(data)
-         .enter().append("rect")
-           .attr("class", "bar")
-           .attr("x", function(d) { return x(d['Cohort']); })
-           .attr('y', d => yScale(d['DKTP']))
-           .attr("width", x.bandwidth())
-           .attr('height', d => height - yScale(d['DKTP']));
-           // .on("mouseover", d => {
-           //   findAxisLabel(d).attr('style', "text-anchor:start; font-weight: bold;");
-           // })
-           // .on("mouseout", d => {
-           //   findAxisLabel(d).attr('style', "text-anchor:start; font-weight: regular;");
-           // });
 }
 
 function xLabelsEU(svg_bar, data, height, width, margin, g_bar){
@@ -124,12 +99,19 @@ function xLabelsEU(svg_bar, data, height, width, margin, g_bar){
   g_bar.append("g")
   	.attr("transform", "translate(0" + 10 / 10 + "," + height + ")")
   	.call(d3.axisBottom(x))
+
 }
 
-function yLabels(svg, data, yScale, g){
-  const yAxis = d3.axisLeft().scale(yScale)
+function yLabels(svg, data, yScale, g, margin){
+
+  const yAxis = d3.axisLeft().scale(yScale).tickFormat(d => d + "%");
   var gY = g.append("g")
-    // .attr("transform", "translate(1, 0)")
+    .attr("transform", "translate(" + margin.top  + ",0)")
+    .call(yAxis);
+
+  const yAxis_line = d3.axisLeft().scale(yScale).tickFormat(d => d + "%");
+  var gY = g_bar.append("g")
+    .attr("transform", "translate(" + margin.top  + ",0)")
     .call(yAxis);
 }
 
@@ -241,6 +223,8 @@ function makeTitles(svg, svg_bar, svg_bar, width, margin) {
 async function main() {
   let data = await loadData();
 
+  let data_dtp = await loadData();
+
   var margin = {top: 10, right: 30, bottom: 30, left: 40, padding: 80},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
@@ -294,12 +278,13 @@ async function main() {
 
   drawBars(svg, data, height, yScale, xScale, margin);
   xLabels(svg, data, height, width, margin, g);
-  yLabels(svg, data, yScale, g);
+  yLabels(svg, data, yScale, g, margin);
 
   drawMap(svg_map, g_map);
 
-  yLabelsEU(svg_bar, data, yScale, g_bar, margin);
+  // yLabelsEU(svg_bar, data, yScale, g_bar, margin);
   xLabelsEU(height, width, margin, g_bar, xScale, margin);
+  drawBarsEU(svg_bar, data_dtp, height, xScale, yScale, margin)
 }
 
 main();

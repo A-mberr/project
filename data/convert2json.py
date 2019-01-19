@@ -10,6 +10,6 @@ df['DKTP'] = df['DKTP'].str.replace(',', '.')
 df['DKTP'] = df['DKTP'].str.strip('b')
 df['DKTP'] = pd.to_numeric(df['DKTP'])
 
-df = df[['Cohort', 'DKTP']]
+df = df[['Cohort', 'DKTP', "Pneu"]]
 
 df.to_json('data_nl.json', orient='records')

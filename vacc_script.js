@@ -24,102 +24,42 @@ async function loadData() {
 //     .filter(function(x) { return x == hovered.name; });
 // }
 
-function drawBars(svg, data, height, yScale, xScale, margin, width) {
+function drawBars(g, xScale, yScale, margin, height) {
+  const bars = [];
 
-  // var x = d3.scaleBand()
-  //   .rangeRound([0, width - margin.padding])
-  //   .padding(0.2)
-  //   .domain(data.map(d => d['Cohort']));
-  //
-  // g.selectAll(".bar")
-  //   .data(data)
-  //   .enter().append("rect")
-  //   .attr("class", "bar")
-  //   .attr("x", d => x(d['Cohort']) + 10)
-  //   .attr('y', d => yScale(d['DKTP']))
-  //   .attr("width", x.bandwidth())
-  //   .attr('height', d => (height - margin.top) - yScale(d['DKTP']));
-  // .on("mouseover", d => {
-  //   findAxisLabel(d).attr('style', "text-anchor:start; font-weight: bold;");
-  // })
-  // .on("mouseout", d => {
-  //   findAxisLabel(d).attr('style', "text-anchor:start; font-weight: regular;");
-  // });
+  for (let i = 0; i < 20; i++) {
+    bars.push({
+      year: 1997 + i,
+      rate: 100 - i,
+    });
+    bars.push({
+      year: 1997 + i,
+      rate: 50 + i,
+    });
+  }
 
-  let test = [{
-      year: 1990,
-      rate: 50,
-      type: "NL",
-    },
-    {
-      year: 1990,
-      rate: 75,
-      type: "UK",
-    },
-    {
-        year: 1991,
-        rate: 77,
-        type: "NL",
-      },
-      {
-        year: 1991,
-        rate: 95,
-        type: "UK",
-      }
-  ]
-
-  var x = d3.scaleBand()
-    .rangeRound([0, width - margin.padding])
-    .padding(0.2)
-    .domain(data.map(d => d['Cohort']));
+  const gutterWidth = 8; // in pixels
+  const halfGutterWidth = gutterWidth / 2;
+  const barWidth = 15;
 
   g.selectAll(".bar")
-    .data(test)
-    .enter().append("rect")
+    .data(bars)
+    .enter()
+    .append("rect")
     .attr("class", "bar")
-    .attr("x", d => x(d.year) + 10)
+    .attr("x", (d, i) => {
+      let x = xScale(d.year);
+      if (i % 2 == 1) {
+        x += barWidth + 1;
+      }
+      return x;
+    })
     .attr('y', d => yScale(d.rate))
-    .attr("width", x.bandwidth())
+    .attr("width", barWidth)
     .attr('height', d => (height - margin.top) - yScale(d.rate));
 }
 
-function drawBarries(svg, g, data, height, yScale, xScale, margin, width) {
-  // https://bl.ocks.org/romsson/2f94c1913b81f7fd20c530236934433a
-  var n = 29
-  var m = 2
-
-  var data = d3.range(m).map(function() {
-    return d3.range(n).map(Math.random);
-  });
-  console.log(data)
-
-  var x0 = d3.scaleBand()
-    .domain(d3.range(n))
-    .range([0, width], .2);
-
-  var x1 = d3.scaleBand()
-    .domain(d3.range(m))
-    .range([0, x0.bandwidth() - 10]);
-
-  var z = d3.scaleOrdinal()
-    .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
-
-  g.append("g").selectAll("g")
-      .data(data)
-    .enter().append("g")
-      .style("fill", (d, i) => z(i))
-      .attr("transform", (d, i) => "translate(" + x1(i) + ",0)")
-    .selectAll("rect")
-      .data(d => d)
-    .enter().append("rect")
-      .attr("width", x1.bandwidth())
-      .attr("height", yScale)
-      .attr("x", (d, i) =>  x0(i))
-      .attr("y", d => height - yScale(d));
-}
-
-
-function xLabels(svg, data, height, width, margin, g, xScale) {
+function xLabels(g, g_bar, xScale, height, margin) {
 
   // const scale_bar = d3.scaleBand()
   //   .rangeRound([0, width - margin.padding])
@@ -127,7 +67,8 @@ function xLabels(svg, data, height, width, margin, g, xScale) {
   //   .domain(data.map(d => d['Cohort']));
 
   const xAxis = d3.axisBottom()
-    .scale(xScale).tickFormat(d3.format("y"))
+    .scale(xScale)
+    .tickFormat(d3.format("y"))
 
   var gX = g.append("g")
     .attr("transform", "translate(0," + (height - margin.top) + ")")
@@ -138,9 +79,10 @@ function xLabels(svg, data, height, width, margin, g, xScale) {
     .call(xAxis)
 }
 
-function yLabels(svg, data, yScale, g, margin) {
-
-  const yAxis = d3.axisLeft().scale(yScale).tickFormat(d => d + "%");
+function yLabels(g, g_bar, yScale, margin) {
+  const yAxis = d3.axisLeft()
+    .scale(yScale)
+    .tickFormat(d => d + "%");
 
   var gY = g.append("g")
     .attr("transform", "translate(" + margin.top + ",0)")
@@ -152,10 +94,16 @@ function yLabels(svg, data, yScale, g, margin) {
 }
 
 
-function drawline(svg_bar, data_dtp, height, xScale, yScale, margin) {
-  var colors = ['#d7191c', '#fdae61', '#abd9e9', '#4682b4']
+function drawline(g_bar, xScale, yScale) {
+  const colors = {
+    "DTP": "#d7191c",
+    "Hib": '#fdae61',
+    "Hep b": '#abd9e9',
+    "Pneu": "#4682b4",
+    "Men C": "#333333", // TODO
+   };
 
-  test = [{
+  const test = [{
       year: 1990,
       rate: 50,
       type: "DTP",
@@ -222,7 +170,9 @@ function generateLegend(svg_map, width, margin, height) {
 
     // Legenda wordt nog gemaakt aan de hand van de data
     var colors = ['#f1eef6','#d0d1e6','#a6bddb','#74a9cf','#3690c0','#0570b0','#034e7b']
-    var domains = ["Vacciantiegraad (%)", "0-20%", "20-40%", "40-60%", "60-70%", "70-80%", "80-90%", "90-100%"]
+    var domains = ["0-20%", "20-40%", "40-60%", "60-70%", "70-80%", "80-90%", "90-100%"]
+
+    // TODO add text "Vacciantiegraad (%)"
 
     var legend = svg_map.append("g")
       .attr("class", "legend")
@@ -230,29 +180,33 @@ function generateLegend(svg_map, width, margin, height) {
         "translate(" + (width + margin.left) +
         "," + (height / 2) + ")");
 
+    const colorBoxSize = 20 - 3; // in pixels
+
     legend.selectAll('rect')
-    .data(colors)
-    .enter()
-    .append('rect')
-    .attr('x', 0)
-    .attr("y", (d, i) => i * 20 - margin.padding)
-    .attr('width', 20 - 3)
-    .attr('height', 20 - 3)
-    .style('fill',(d, i) => colors[i]);
+      .data(colors)
+      .enter()
+      .append('rect')
+      .attr('x', 0)
+      // Drawing a rect starts at top left corner, and goes down. Subtract the box
+      // size to align the boxes with the legend text.
+      .attr("y", (d, i) => i * 20 - margin.padding - colorBoxSize)
+      .attr('width', colorBoxSize)
+      .attr('height', colorBoxSize)
+      .style('fill',(d, i) => colors[i]);
 
     legend.selectAll('text')
-    .data(domains)
-    .enter()
-    .append("text")
-    .attr('x', 30)
-    .attr("y", (d, i) => i * 20 - margin.padding)
-    .text((d, i) => domains[i])
-    .attr('width', 20 - 3)
-    .attr('height', 20 - 3);
+      .data(domains)
+      .enter()
+      .append("text")
+      .attr('x', 30)
+      .attr("y", (d, i) => i * 20 - margin.padding)
+      .text((d, i) => domains[i])
+      .attr('width', colorBoxSize)
+      .attr('height', colorBoxSize);
 
 }
 
-function makeTitles(svg, svg_bar, svg_bar, width, margin) {
+function makeTitles(svg, svg_map, svg_bar, width, margin) {
   svg_bar.append("text")
     .attr("x", (width + margin.left + margin.right) / 2)
     .attr("y", margin.top + margin.padding / 2)
@@ -277,7 +231,7 @@ async function main() {
 
   let data_dtp = await loadData();
 
-  var margin = {
+  const margin = {
       top: 10,
       right: 30,
       bottom: 30,
@@ -287,49 +241,55 @@ async function main() {
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
-  svg = d3.select('.histo')
+  const svg = d3.select('.histo')
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom + margin.padding)
     .style("background", "white")
 
-  g = svg.append("g").attr("transform", "translate(" + margin.left + "," + (margin.top + margin.padding) + ")");
+  const g = svg.append("g")
+    .attr("transform", "translate(" + margin.left + ","
+      + (margin.top + margin.padding) + ")");
 
   // SVG for map
-  svg_map = d3.select('.map')
+  const svg_map = d3.select('.map')
     .attr("width", width + margin.left + margin.right + 200)
     .attr("height", height + margin.top + margin.bottom + 400)
     .style("background", "white")
 
-  g_map = svg_map.append("g").attr("transform", "translate(" + margin.left + "," + (margin.top + margin.padding) + ")");
+  const g_map = svg_map.append("g")
+    .attr("transform", "translate(" + margin.left + ","
+      + (margin.top + margin.padding) + ")");
 
   // SVG for bar chart
-  svg_bar = d3.select('.chart')
+  const svg_bar = d3.select('.chart')
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom + margin.padding)
     .style("background", "white")
 
-  g_bar = svg_bar.append("g").attr("transform", "translate(" + margin.left + "," + (margin.top + margin.padding) + ")");
+  const g_bar = svg_bar.append("g")
+    .attr("transform", "translate(" + margin.left + ","
+      + (margin.top + margin.padding) + ")");
 
 
   let xScale = d3.scaleLinear()
-    .domain([1989, 2018])
+    .domain([1997, 2017])
     .range([margin.top, width - margin.top - margin.padding]);
 
   let yScale = d3.scaleLinear()
     .domain([0, 100])
     .range([height - margin.top, margin.top]);
 
-  makeTitles(svg, svg_bar, svg_bar, width, margin)
+  makeTitles(svg, svg_map, svg_bar, width, margin)
 
 
-  drawBars(svg, data, height, yScale, xScale, margin, width);
-  xLabels(svg, data, height, width, margin, g, xScale);
-  yLabels(svg, data, yScale, g, margin);
+  drawBars(g, xScale, yScale, margin, height);
+  xLabels(g, g_bar, xScale, height, margin);
+  yLabels(g, g_bar, yScale, margin);
 
   drawMap(svg_map, g_map);
   generateLegend(svg_map, width, margin, height);
 
-  drawline(svg_bar, data_dtp, height, xScale, yScale, margin);
+  drawline(g_bar, xScale, yScale);
   // drawBarries(svg, g, data, height, yScale, xScale, margin, width)
 }
 

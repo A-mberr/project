@@ -18,7 +18,6 @@ async function loadData() {
 
 }
 
-
 // function findAxisLabel(hovered) {
 //   return d3.select('.axis--x')
 //     .selectAll('text')
@@ -26,32 +25,99 @@ async function loadData() {
 // }
 
 function drawBars(svg, data, height, yScale, xScale, margin, width) {
-  var x = d3.scaleBand()
-    .rangeRound([0, width - margin.padding])
-    .padding(0.2)
-    .domain(data.map(d => d['Cohort']));
 
   // var x = d3.scaleBand()
-  // .rangeRound([0, width])
-  // .padding(0.1);
-
-  // x = d3.scaleBand().rangeRound([0, width]).padding(0.1)
-
-  g.selectAll(".bar")
-    .data(data)
-    .enter().append("rect")
-    .attr("class", "bar")
-    .attr("x", d => x(d['Cohort']) + 10)
-    .attr('y', d => yScale(d['DKTP']))
-    .attr("width", x.bandwidth())
-    .attr('height', d => (height - margin.top) - yScale(d['DKTP']));
+  //   .rangeRound([0, width - margin.padding])
+  //   .padding(0.2)
+  //   .domain(data.map(d => d['Cohort']));
+  //
+  // g.selectAll(".bar")
+  //   .data(data)
+  //   .enter().append("rect")
+  //   .attr("class", "bar")
+  //   .attr("x", d => x(d['Cohort']) + 10)
+  //   .attr('y', d => yScale(d['DKTP']))
+  //   .attr("width", x.bandwidth())
+  //   .attr('height', d => (height - margin.top) - yScale(d['DKTP']));
   // .on("mouseover", d => {
   //   findAxisLabel(d).attr('style', "text-anchor:start; font-weight: bold;");
   // })
   // .on("mouseout", d => {
   //   findAxisLabel(d).attr('style', "text-anchor:start; font-weight: regular;");
   // });
+
+  let test = [{
+      year: 1990,
+      rate: 50,
+      type: "NL",
+    },
+    {
+      year: 1990,
+      rate: 75,
+      type: "UK",
+    },
+    {
+        year: 1991,
+        rate: 77,
+        type: "NL",
+      },
+      {
+        year: 1991,
+        rate: 95,
+        type: "UK",
+      }
+  ]
+
+  var x = d3.scaleBand()
+    .rangeRound([0, width - margin.padding])
+    .padding(0.2)
+    .domain(data.map(d => d['Cohort']));
+
+  g.selectAll(".bar")
+    .data(test)
+    .enter().append("rect")
+    .attr("class", "bar")
+    .attr("x", d => x(d.year) + 10)
+    .attr('y', d => yScale(d.rate))
+    .attr("width", x.bandwidth())
+    .attr('height', d => (height - margin.top) - yScale(d.rate));
 }
+
+function drawBarries(svg, g, data, height, yScale, xScale, margin, width) {
+  // https://bl.ocks.org/romsson/2f94c1913b81f7fd20c530236934433a
+  var n = 29
+  var m = 2
+
+  var data = d3.range(m).map(function() {
+    return d3.range(n).map(Math.random);
+  });
+  console.log(data)
+
+  var x0 = d3.scaleBand()
+    .domain(d3.range(n))
+    .range([0, width], .2);
+
+  var x1 = d3.scaleBand()
+    .domain(d3.range(m))
+    .range([0, x0.bandwidth() - 10]);
+
+  var z = d3.scaleOrdinal()
+    .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+
+  g.append("g").selectAll("g")
+      .data(data)
+    .enter().append("g")
+      .style("fill", (d, i) => z(i))
+      .attr("transform", (d, i) => "translate(" + x1(i) + ",0)")
+    .selectAll("rect")
+      .data(d => d)
+    .enter().append("rect")
+      .attr("width", x1.bandwidth())
+      .attr("height", yScale)
+      .attr("x", (d, i) =>  x0(i))
+      .attr("y", d => height - yScale(d));
+}
+
 
 function xLabels(svg, data, height, width, margin, g, xScale) {
 
@@ -59,18 +125,9 @@ function xLabels(svg, data, height, width, margin, g, xScale) {
   //   .rangeRound([0, width - margin.padding])
   //   .padding(0.2)
   //   .domain(data.map(d => d['Cohort']));
-  //
-  //   const xAxis_bar = d3.axisBottom()
-  //                 .scale(scale_bar).ticks()
 
   const xAxis = d3.axisBottom()
     .scale(xScale).tickFormat(d3.format("y"))
-
-
-  // var bla = d3.scaleBand()
-  //   .rangeRound([0, width - margin.padding])
-  //   .padding(0.2)
-  //   .domain(data.map(d => d['Cohort']));
 
   var gX = g.append("g")
     .attr("transform", "translate(0," + (height - margin.top) + ")")
@@ -139,7 +196,6 @@ function drawMap(svg_map, g_map) {
   d3.json('data/eu.json')
     .then(data => {
       const countries = topojson.feature(data, data.objects.europe)
-      console.log(countries)
 
       // TODO: verander coloscale en pas aan naar de juiste treshold grenzen
       var colors = ['#045a8d', '#2b8cbe', '#74a9cf', '#bdc9e1', '#f1eef6']
@@ -174,12 +230,6 @@ function generateLegend(svg_map, width, margin, height) {
         "translate(" + (width + margin.left) +
         "," + (height / 2) + ")");
 
-    // legend.append("rect")
-    //   .attr("x", 0)
-    //   .attr("y", 10)
-    //   .attr("width", 17)
-    //   .attr("height", 17)
-    // .style("fill", i => colors[i]);
     legend.selectAll('rect')
     .data(colors)
     .enter()
@@ -271,6 +321,7 @@ async function main() {
 
   makeTitles(svg, svg_bar, svg_bar, width, margin)
 
+
   drawBars(svg, data, height, yScale, xScale, margin, width);
   xLabels(svg, data, height, width, margin, g, xScale);
   yLabels(svg, data, yScale, g, margin);
@@ -279,6 +330,7 @@ async function main() {
   generateLegend(svg_map, width, margin, height);
 
   drawline(svg_bar, data_dtp, height, xScale, yScale, margin);
+  // drawBarries(svg, g, data, height, yScale, xScale, margin, width)
 }
 
 main();

@@ -25,21 +25,26 @@ async function loadData() {
 //     .filter(function(x) { return x == hovered.name; });
 // }
 
-function drawBars(svg, data, height, yScale, margin) {
+function drawBars(svg, data, height, yScale, xScale, margin, width) {
   var x = d3.scaleBand()
-    .rangeRound([0, 650])
-    .domain(data.map(function (d) {
-      return d['Cohort'];
-    }))
+    .rangeRound([0, width - margin.padding])
+    .padding(0.2)
+    .domain(data.map(d => d['Cohort']));
+
+  // var x = d3.scaleBand()
+	// .rangeRound([0, width])
+	// .padding(0.1);
+
+  // x = d3.scaleBand().rangeRound([0, width]).padding(0.1)
 
   g.selectAll(".bar")
          .data(data)
          .enter().append("rect")
            .attr("class", "bar")
-           .attr("x", function(d) { return x(d['Cohort']); })
+           .attr("x", d => x(d['Cohort']) + 10)
            .attr('y', d => yScale(d['DKTP']))
            .attr("width", x.bandwidth())
-           .attr('height', d => height - yScale(d['DKTP']));
+           .attr('height', d => (height - margin.top) - yScale(d['DKTP']));
            // .on("mouseover", d => {
            //   findAxisLabel(d).attr('style', "text-anchor:start; font-weight: bold;");
            // })
@@ -48,26 +53,32 @@ function drawBars(svg, data, height, yScale, margin) {
            // });
 }
 
-function xLabels(svg, data, height, width, margin, g){
-  // var xScale = d3.scaleBand()
-  //   .range([-100, width - margin.left])
-  //   .domain([1995, 2015])
+function xLabels(svg, data, height, width, margin, g, xScale){
+
+  // const scale_bar = d3.scaleBand()
+  //   .rangeRound([0, width - margin.padding])
+  //   .padding(0.2)
+  //   .domain(data.map(d => d['Cohort']));
   //
-  // var xAxis = d3.axisBottom()
-  //   .scale(xScale)
-  //   .ticks([20]);
+  //   const xAxis_bar = d3.axisBottom()
+  //                 .scale(scale_bar).ticks()
 
-  var x = d3.scaleBand()
-  	.rangeRound([0, 650])
-  	.padding(0.1)
-    .domain(data.map(function (d) {
-      return d['Cohort'];
-    }));
+    const xAxis = d3.axisBottom()
+                  .scale(xScale)
 
-  g.append("g")
-    .attr("class", "x axis")
-  	.attr("transform", "translate(0" + 10 / 10 + "," + height + ")")
-  	.call(d3.axisBottom(x))
+
+    // var bla = d3.scaleBand()
+    //   .rangeRound([0, width - margin.padding])
+    //   .padding(0.2)
+    //   .domain(data.map(d => d['Cohort']));
+
+    var gX = g.append("g")
+              .attr("transform", "translate(0," + (height - margin.top) + ")")
+              .call(xAxis);
+
+    var gX_line = g_bar.append("g")
+              .attr("transform", "translate(0," + (height - margin.top) + ")")
+              .call(xAxis)
 }
 
 function drawMap(height, width, margin, svg_map, g_map) {
@@ -80,37 +91,15 @@ function drawMap(height, width, margin, svg_map, g_map) {
     .attr("y", 1)
 }
 
-function xLabelsEU(svg_bar, data, height, width, margin, g_bar){
-  // var xScale = d3.scaleBand()
-  //   .range([-100, width - margin.left])
-  //   .domain([1995, 2015])
-  //
-  // var xAxis = d3.axisBottom()
-  //   .scale(xScale)
-  //   .ticks([20]);
-
-  var x = d3.scaleBand()
-  	.rangeRound([0, 650])
-  	.padding(0.1)
-    .domain(data.map(function (d) {
-      return d['Cohort'];
-    }));
-
-  g_bar.append("g")
-  	.attr("transform", "translate(0" + 10 / 10 + "," + height + ")")
-  	.call(d3.axisBottom(x))
-
-}
-
 function yLabels(svg, data, yScale, g, margin){
 
   const yAxis = d3.axisLeft().scale(yScale).tickFormat(d => d + "%");
+
   var gY = g.append("g")
     .attr("transform", "translate(" + margin.top  + ",0)")
     .call(yAxis);
 
-  const yAxis_line = d3.axisLeft().scale(yScale).tickFormat(d => d + "%");
-  var gY = g_bar.append("g")
+  var gY_line = g_bar.append("g")
     .attr("transform", "translate(" + margin.top  + ",0)")
     .call(yAxis);
 }
@@ -145,27 +134,7 @@ function drawBarsEU(svg_bar, data_dtp, height, xScale, yScale, margin) {
       .attr("fill", d  => colors[d.type]);
 }
 
-function xLabelsEU(height, width, margin, g_bar, xScale){
-
-  const xAxis = d3.axisBottom()
-                .scale(xScale)
-
-  var gX = g_bar.append("g")
-            .attr("transform", "translate(0," + (height - margin.top) + ")")
-            .call(xAxis)
-}
-
-function yLabelsEU(svg_bar, data, yScale, g_bar, margin){
-  const yAxis = d3.axisLeft().scale(yScale).tickFormat(d => d + "%");
-  var gY = g_bar.append("g")
-    .attr("transform", "translate(" + margin.top  + ",0)")
-    .call(yAxis);
-}
-
-
 function drawMap(svg_map, g_map) {
-  // https://unpkg.com/topojson@3.0.2/dist/topojson.min.js
-
   // This code has been obtained form the video of Curran Kelleher
   // https://www.youtube.com/watch?v=Qw6uAg3EO64
   const projection = d3.geoMercator()
@@ -267,23 +236,24 @@ async function main() {
       // .style("fill", i => colors[i]);
 
   let xScale = d3.scaleLinear()
-    .domain([1989, 2017])
-    .range([margin.top, width - margin.top]);
+    .domain([1989, 2018])
+    .range([margin.top, width - margin.top - margin.padding]);
 
   let yScale = d3.scaleLinear()
     .domain([0, 100])
+    // .rangeRound([height, 0]);
     .range([height - margin.top, margin.top]);
 
   makeTitles(svg, svg_bar, svg_bar, width, margin)
 
-  drawBars(svg, data, height, yScale, xScale, margin);
-  xLabels(svg, data, height, width, margin, g);
+  drawBars(svg, data, height, yScale, xScale, margin, width);
+  xLabels(svg, data, height, width, margin, g, xScale);
   yLabels(svg, data, yScale, g, margin);
 
   drawMap(svg_map, g_map);
 
   // yLabelsEU(svg_bar, data, yScale, g_bar, margin);
-  xLabelsEU(height, width, margin, g_bar, xScale, margin);
+  // xLabelsEU(height, width, margin, g_bar, xScale, margin);
   drawBarsEU(svg_bar, data_dtp, height, xScale, yScale, margin)
 }
 

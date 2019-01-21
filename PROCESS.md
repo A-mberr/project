@@ -43,3 +43,8 @@
 - assen verbeterd
 - opmaak van de js en html verbeterd
 - functies samengevoegd en namen veranderd
+
+## Dag 11
+- flexboxen creeeren en divs gebruiken om de html pagina the ordenen
+- legenda's gemaakt en verbeterd voor de visualisaties
+- json format af voor de map

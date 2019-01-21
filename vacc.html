@@ -10,12 +10,6 @@ Student number: 11819359 -->
     <meta charset="utf-8" />
     <script src="https://d3js.org/d3-selection.v1.min.js"></script>
   <script src='https://unpkg.com/topojson@3.0.2/dist/topojson.min.js'></script>
-  <link href="https://unpkg.com/basscss@8.0.2/css/basscss.min.css" rel="stylesheet">
-  <script src="//d3js.org/topojson.v1.min.js"></script>
-  <script src="https://d3js.org/d3-geo.v1.min.js"></script>
-  <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
-  <script src="https://unpkg.com/topojson-client@3"></script>
-  <script src="https://unpkg.com/topojson-simplify@3"></script>
   <script src="https://unpkg.com/topojson@3.0.2/dist/topojson.min.js"></script>
   <script src="vacc_script.js"></script>
   <link href="vacc.css" rel="stylesheet">
@@ -42,34 +36,48 @@ Student number: 11819359 -->
   de mazelen in Nederland worden gerapporteerd.</p>
 </body>
 
-<label for="vacc_select">Kies een vaccinatie type om de vaccinatiegraad te bekijken:</label>
-<select id="vacc_select">
-  <option value="">--Kies vaccinatie type--</option>
-  <option value="DKTP">DKTP</option>
-  <option value="Heb B">Hib</option>
-  <option value="Heb B">Heb B</option>
-  <option value="Pneu">Pneu</option>
-  <option value="Men C">Men C</option>
+<!-- <foreignObject x="350" y="40" width="600" height="160"> -->
 
-  <div class="slidecontainer">
-    <input type="range" min="1980" step=1 max="2017" value="50" class="slider" id="myRange">
-  </div>
+  <!-- code obtained from https://www.w3schools.com/howto/howto_js_rangeslider.asp -->
+  <!-- <div class="slidecontainer"> -->
+    <!-- <input type="range" min="1980" step=1 max="2017" value="50" class="slider" id="myRange"> -->
+  <!-- </div> -->
 
   <div class="flex-container">
-    <svg class="histo"></svg>
-
-    <svg class="chart">
-      <foreignObject x="850" y="90" width="160" height="160">
-        <input type="checkbox" name="DTP" checked> DTP<br>
-        <input type="checkbox" name="Hib"> Hib<br>
-        <input type="checkbox" name="Hep B"> Hep B<br>
-        <input type="checkbox" name="HPneu"> Pneu<br>
-        <input type="checkbox" name="Men C"> Men C<br>
-      </foreignObject> -->
+    <svg class="groupedBars">
+      <foreignObject x="150" y="30" width="650" height="200" class="dropdown">
+        <label for="vacc_select">Vergelijk de vaccinatiegraad van </label>
+        <select id="vacc_select">
+          <!-- <option value="">--Kies vaccinatie type--</option> -->
+          <option selected="selected" value="DKTP">DKTP</option>
+          <option value="Heb B">Hib</option>
+          <option value="Heb B">Heb B</option>
+          <option value="Pneu">Pneu</option>
+          <option value="Men C">Men C</option>
+        </select>
+        <label for="vacc_select"> tussen Nederland en .... </label>
+        </foreignObject>
     </svg>
 
-    <svg class="map"></svg>
+    <input type="range" min="1980" step=1 max="2017" value="50" class="slider" id="myRange">
+
+    <svg class="line">
+      <foreignObject x="850" y="90" width="160" height="160">
+        <input type="checkbox" name="DTP" checked><span style="color: #a6cee3">●</span> DTP <br>
+        <input type="checkbox" name="Hib"><span style="color: #1f78b4">●</span> Hib <br>
+        <input type="checkbox" name="Hep B"><span style="color: #b2df8a">●</span> Hep B <br>
+        <input type="checkbox" name="Pneu"><span style="color: #33a02c">●</span> Pneu <br>
+        <input type="checkbox" name="Men C"><span style="color: #fb9a99">●</span> Men C <br>
+      </foreignObject>
+    </svg>
+
+  <svg class="map"></svg>
+
+
   </div>
+
+
+
 
 
 

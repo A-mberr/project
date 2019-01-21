@@ -84,11 +84,11 @@ function yLabels(g, g_line, yScale, margin) {
     .scale(yScale)
     .tickFormat(d => d + "%");
 
-  var gY = g.append("g")
+  let gY = g.append("g")
     .attr("transform", "translate(" + margin.top + ",0)")
     .call(yAxis);
 
-  var gY_line = g_line.append("g")
+  let gY_line = g_line.append("g")
     .attr("transform", "translate(" + margin.top + ",0)")
     .call(yAxis);
 }
@@ -130,7 +130,7 @@ function drawline(g_line, xScale, yScale) {
     .append("circle")
     .attr("cx", d => xScale(d.year))
     .attr("cy", d => yScale(d.rate))
-    .attr("r", 4)
+    .attr("r", 5)
     .attr("fill", "#ffffff")
 
     // Transition to black after some milliseconds.
@@ -164,6 +164,8 @@ function drawMap(svg_map, g_map) {
           "LI":50,"MK":52,"MT":54,"BE":56,"FO":58,"AD":60,"LU":62,"MC":64,"ME":66,
           "NL":68,"NO":70,"PL":72,"PT":74,"RO":76,"MD":78,"SI":80,"ES":82,"SE":84,
           "CH":86,"TR":88,"GB":90,"UA":92,"SM":94,"RS":96,"VA":98,"RU":100};
+
+        // const countryRate = {'AL': 99, 'AD': 99, 'AT': 90, 'BY': 9, 'BE': 97, 'BA': 68, 'BG': 92, 'HR': 87, 'DK': 98, 'EE': 93, 'FI': 89, 'FR': 95, 'DE': 93, 'GR': 99, 'HU': 99, 'IS': 89, 'IE': 95, 'IT': 94, 'LV': 98, 'LT': 94, 'LU': 99, 'MT': 98, 'MC': 99, 'NL': 94, 'NO': 96, 'PL': 98, 'PT': 98, 'RO': 82, 'SM': 85, 'SK': 96, 'SI': 94, 'ES': 98, 'SE': 97, 'CH': 95, 'UA': 39}
 
       g_map.selectAll('path').data(countries.features)
         .enter().append('path')

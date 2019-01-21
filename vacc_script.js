@@ -68,7 +68,7 @@ function xLabels(g, g_line, xScale, height, margin) {
 
   const xAxis = d3.axisBottom()
     .scale(xScale)
-    .tickFormat(d3.format("y"))
+    .tickFormat(d3.format("y")).ticks(20)
 
   var gX_bar = g.append("g")
     .attr("transform", "translate(0," + (height - margin.top) + ")")

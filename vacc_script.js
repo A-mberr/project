@@ -59,7 +59,7 @@ function drawBars(g, xScale, yScale, margin, height) {
     .attr('height', d => (height - margin.top) - yScale(d.rate));
 }
 
-function xLabels(g, g_bar, xScale, height, margin) {
+function xLabels(g, g_line, xScale, height, margin) {
 
   // const scale_bar = d3.scaleBand()
   //   .rangeRound([0, width - margin.padding])
@@ -70,16 +70,16 @@ function xLabels(g, g_bar, xScale, height, margin) {
     .scale(xScale)
     .tickFormat(d3.format("y"))
 
-  var gX = g.append("g")
+  var gX_bar = g.append("g")
     .attr("transform", "translate(0," + (height - margin.top) + ")")
     .call(xAxis);
 
-  var gX_line = g_bar.append("g")
+  var gX_line = g_line.append("g")
     .attr("transform", "translate(0," + (height - margin.top) + ")")
     .call(xAxis)
 }
 
-function yLabels(g, g_bar, yScale, margin) {
+function yLabels(g, g_line, yScale, margin) {
   const yAxis = d3.axisLeft()
     .scale(yScale)
     .tickFormat(d => d + "%");
@@ -88,34 +88,41 @@ function yLabels(g, g_bar, yScale, margin) {
     .attr("transform", "translate(" + margin.top + ",0)")
     .call(yAxis);
 
-  var gY_line = g_bar.append("g")
+  var gY_line = g_line.append("g")
     .attr("transform", "translate(" + margin.top + ",0)")
     .call(yAxis);
 }
 
 
-function drawline(g_bar, xScale, yScale) {
+function drawline(g_line, xScale, yScale) {
   const colors = {
-    "DTP": "#d7191c",
-    "Hib": '#fdae61',
-    "Hep b": '#abd9e9',
-    "Pneu": "#4682b4",
-    "Men C": "#333333", // TODO
+    "DTP": "#a6cee3",
+    "Hib": '#1f78b4',
+    "Hep b": '#b2df8a',
+    "Pneu": "#33a02c",
+    "Men C": "#fb9a99",
    };
 
+   // var colors = ['#d7191c','#fdae61','#abd9e9','#4682b4']
+
   const test = [{
-      year: 1990,
+      year: 1998,
       rate: 50,
       type: "DTP",
     },
     {
-      year: 1994,
+      year: 2000,
       rate: 75,
       type: "Hib",
+    },
+    {
+      year: 2008,
+      rate: 75,
+      type: "Men C",
     }
   ]
 
-  g_bar.selectAll("circle")
+  g_line.selectAll("circle")
     .remove()
     .exit()
     .data(test)
@@ -123,7 +130,7 @@ function drawline(g_bar, xScale, yScale) {
     .append("circle")
     .attr("cx", d => xScale(d.year))
     .attr("cy", d => yScale(d.rate))
-    .attr("r", 3)
+    .attr("r", 4)
     .attr("fill", "#ffffff")
 
     // Transition to black after some milliseconds.
@@ -166,24 +173,61 @@ function drawMap(svg_map, g_map) {
     });
 }
 
-function generateLegend(svg_map, width, margin, height) {
+function generateLegend(svg_map, svg, width, margin, height) {
 
-    // Legenda wordt nog gemaakt aan de hand van de data
-    var colors = ['#f1eef6','#d0d1e6','#a6bddb','#74a9cf','#3690c0','#0570b0','#034e7b']
-    var domains = ["0-20%", "20-40%", "40-60%", "60-70%", "70-80%", "80-90%", "90-100%"]
+  // Legenda wordt nog gemaakt aan de hand van de data
+  var colors = ['#f1eef6','#d0d1e6','#a6bddb','#74a9cf','#3690c0','#0570b0','#034e7b']
+  var domains = ["0-20%", "20-40%", "40-60%", "60-70%", "70-80%", "80-90%", "90-100%"]
 
-    // TODO add text "Vacciantiegraad (%)"
+  var colorsBar = ["#a6bddb", "#2b8cbe"]
+  var domainsBar = ["Nederland", "Selected country"]
 
-    var legend = svg_map.append("g")
-      .attr("class", "legend")
-      .attr("transform",
-        "translate(" + (width + margin.left) +
-        "," + (height / 2) + ")");
+  // TODO add text "Vacciantiegraad (%)"
 
-    const colorBoxSize = 20 - 3; // in pixels
+  var legendMap = svg_map.append("g")
+    .attr("class", "legend")
+    .attr("transform",
+      "translate(" + (width + margin.left) +
+      "," + (height / 2) + ")");
 
-    legend.selectAll('rect')
-      .data(colors)
+  var legendBar = svg.append("g")
+    .attr("class", "legend")
+    .attr("transform",
+      "translate(" + (width - margin.left) +
+      "," + (height / 2) + ")");
+
+  const colorBoxSize = 20 - 3; // in pixels
+
+  legendMap.selectAll('text')
+    .attr("x", 0)
+    .attr("y", 50)
+    .attr("text-anchor", "middle")
+    .text("Vaccinatiegraad (%)")
+
+  legendMap.selectAll('rect')
+    .data(colors)
+    .enter()
+    .append('rect')
+    .attr('x', 0)
+    // Drawing a rect starts at top left corner, and goes down. Subtract the box
+    // size to align the boxes with the legend text.
+    .attr("y", (d, i) => i * 20 - margin.padding - colorBoxSize)
+    .attr('width', colorBoxSize)
+    .attr('height', colorBoxSize)
+    .style('fill',(d, i) => colors[i]);
+
+  legendMap.selectAll('text')
+    .data(domains)
+    .enter()
+    .append("text")
+    .attr('x', 30)
+    .attr("y", (d, i) => i * 20 - margin.padding)
+    .text((d, i) => domains[i])
+    .attr('width', colorBoxSize)
+    .attr('height', colorBoxSize);
+
+    legendBar.selectAll('rect')
+      .data(colorsBar)
       .enter()
       .append('rect')
       .attr('x', 0)
@@ -192,22 +236,21 @@ function generateLegend(svg_map, width, margin, height) {
       .attr("y", (d, i) => i * 20 - margin.padding - colorBoxSize)
       .attr('width', colorBoxSize)
       .attr('height', colorBoxSize)
-      .style('fill',(d, i) => colors[i]);
+      .style('fill',(d, i) => colorsBar[i]);
 
-    legend.selectAll('text')
-      .data(domains)
+    legendBar.selectAll('text')
+      .data(domainsBar)
       .enter()
       .append("text")
       .attr('x', 30)
       .attr("y", (d, i) => i * 20 - margin.padding)
-      .text((d, i) => domains[i])
+      .text((d, i) => domainsBar[i])
       .attr('width', colorBoxSize)
       .attr('height', colorBoxSize);
-
 }
 
-function makeTitles(svg, svg_map, svg_bar, width, margin) {
-  svg_bar.append("text")
+function makeTitles(svg, svg_map, svg_line, width, margin) {
+  svg_line.append("text")
     .attr("x", (width + margin.left + margin.right) / 2)
     .attr("y", margin.top + margin.padding / 2)
     .attr("text-anchor", "middle")
@@ -219,11 +262,11 @@ function makeTitles(svg, svg_map, svg_bar, width, margin) {
     .attr("text-anchor", "middle")
     .text("Choropleth van vaccinatiegraad in Europa")
 
-  svg.append("text")
-    .attr("x", (width + margin.left + margin.right) / 2)
-    .attr("y", margin.top + margin.padding / 2)
-    .attr("text-anchor", "middle")
-    .text("Nederland vergelijken met geselecteerde land")
+  // svg.append("text")
+  //   .attr("x", (width + margin.left + margin.right) / 2)
+  //   .attr("y", margin.top + margin.padding / 2)
+  //   .attr("text-anchor", "middle")
+  //   .text("Nederland vergelijken met geselecteerde land")
 }
 
 async function main() {
@@ -241,7 +284,8 @@ async function main() {
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
-  const svg = d3.select('.histo')
+  // svg for grouped bar chart
+  const svg = d3.select('.groupedBars')
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom + margin.padding)
     .style("background", "white")
@@ -260,16 +304,15 @@ async function main() {
     .attr("transform", "translate(" + margin.left + ","
       + (margin.top + margin.padding) + ")");
 
-  // SVG for bar chart
-  const svg_bar = d3.select('.chart')
+  // SVG for line graph
+  const svg_line = d3.select('.line')
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom + margin.padding)
     .style("background", "white")
 
-  const g_bar = svg_bar.append("g")
+  const g_line = svg_line.append("g")
     .attr("transform", "translate(" + margin.left + ","
       + (margin.top + margin.padding) + ")");
-
 
   let xScale = d3.scaleLinear()
     .domain([1997, 2017])
@@ -279,18 +322,16 @@ async function main() {
     .domain([0, 100])
     .range([height - margin.top, margin.top]);
 
-  makeTitles(svg, svg_map, svg_bar, width, margin)
-
+  makeTitles(svg, svg_map, svg_line, width, margin)
 
   drawBars(g, xScale, yScale, margin, height);
-  xLabels(g, g_bar, xScale, height, margin);
-  yLabels(g, g_bar, yScale, margin);
+  xLabels(g, g_line, xScale, height, margin);
+  yLabels(g, g_line, yScale, margin);
 
   drawMap(svg_map, g_map);
-  generateLegend(svg_map, width, margin, height);
+  generateLegend(svg_map, svg, width, margin, height);
 
-  drawline(g_bar, xScale, yScale);
-  // drawBarries(svg, g, data, height, yScale, xScale, margin, width)
+  drawline(g_line, xScale, yScale);
 }
 
 main();

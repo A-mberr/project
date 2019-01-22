@@ -2,20 +2,8 @@
 // Student ID: 11819359
 // https://bl.ocks.org/d3noob/0e276dc70bb9184727ee47d6dd06e915 was used for constructing this code
 
-
-
-async function loadData() {
-  let data = await d3.json("data/data_nl.json");
-
-
-  // TODO load data on place where used
-  let data_dtp = await d3.json("data/DTP.json");
-  // let data_hepb = await d3.json("data/Hepb.json");
-  // let data_hib = await d3.json("data/Hib.json");
-  // let data_pneu = await d3.json("data/Pneu.json");
-
-  return data
-
+async function loadCountryComparisonData(vaccType) {
+  return await d3.json("data/vacc_bar_" + vaccType + ".json");
 }
 
 // function findAxisLabel(hovered) {
@@ -24,7 +12,7 @@ async function loadData() {
 //     .filter(function(x) { return x == hovered.name; });
 // }
 
-function drawBars(g, xScale, yScale, margin, height) {
+function drawBars(g, xScale, yScale, margin, height, countryComparisonData, selectedCountry) {
   // const bars = [];
   //
   // for (let i = 0; i < 20; i++) {
@@ -341,10 +329,6 @@ function makeTitles(svg, svg_map, svg_line, width, margin) {
 }
 
 async function main() {
-  let data = await loadData();
-
-  let data_dtp = await loadData();
-
   const margin = {
       top: 10,
       right: 30,
@@ -393,9 +377,13 @@ async function main() {
     .domain([0, 100])
     .range([height - margin.top, margin.top]);
 
+  const selectedCountry = "AL";
+  const countryComparisonData = await loadCountryComparisonData('Hib');
+
   makeTitles(svg, svg_map, svg_line, width, margin)
 
-  drawBars(g, xScale, yScale, margin, height);
+  drawBars(g, xScale, yScale, margin, height, countryComparisonData,
+          selectedCountry);
   xLabels(g, g_line, xScale, height, margin);
   yLabels(g, g_line, yScale, margin);
 

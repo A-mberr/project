@@ -80,7 +80,7 @@ function drawBars(g, xScale, yScale, margin, height) {
   const gutterWidth = 8; // in pixels
   const halfGutterWidth = gutterWidth / 2;
   const barWidth = 15;
-  const colors = {"NL": "#4682B4"}
+  const colors = ["#4682B4", "black"];
 
   g.selectAll(".bar")
     .data(bars)
@@ -97,7 +97,7 @@ function drawBars(g, xScale, yScale, margin, height) {
     .attr('y', d => yScale(d.rate))
     .attr("width", barWidth)
     .attr('height', d => (height - margin.top) - yScale(d.rate))
-    .attr("fill", d => colors[d.country]);
+    .attr("fill", (d, i) => colors[i % 2]);
 }
 
 function xLabels(g, g_line, xScale, height, margin) {
@@ -250,7 +250,7 @@ function generateLegend(svg_map, svg, width, margin, height) {
   var colors = ['#f1eef6','#d0d1e6','#a6bddb','#74a9cf','#3690c0','#0570b0','#034e7b']
   var domains = ["0-20%", "20-40%", "40-60%", "60-70%", "70-80%", "80-90%", "90-100%"]
 
-  var colorsBar = ["#a6bddb", "#2b8cbe"]
+  var colorsBar = ["#2b8cbe", "#000000"]
   var domainsBar = ["Nederland", "Selected country"]
 
   // TODO add text "Vacciantiegraad (%)"

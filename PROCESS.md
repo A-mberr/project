@@ -45,6 +45,11 @@
 - functies samengevoegd en namen veranderd
 
 ## Dag 11
-- flexboxen creeeren en divs gebruiken om de html pagina the ordenen
-- legenda's gemaakt en verbeterd voor de visualisaties
+- Flexboxen creeeren en divs gebruiken om de html pagina the ordenen
+- Legenda's gemaakt en verbeterd voor de visualisaties
 - json format af voor de map
+
+## Dag 12
+- Jsons aangepast. Hieruit data kunnen generen die in de visualisaties gebruikt kunnen worden.
+- De json van de grouped bar chart is nu in het juiste format dat via de JS script wrodt aangepast om de juiste informatie uti te krijgen
+- Kleuren van de bars veranderd zodat de bar van Nederland altijd steelblue is

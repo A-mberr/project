@@ -25,22 +25,62 @@ async function loadData() {
 // }
 
 function drawBars(g, xScale, yScale, margin, height) {
-  const bars = [];
+  // const bars = [];
+  //
+  // for (let i = 0; i < 20; i++) {
+  //   bars.push({
+  //     year: 1997 + i,
+  //     rate: 100 - i,
+  //   });
+  //   bars.push({
+  //     year: 1997 + i,
+  //     rate: 50 + i,
+  //   });
+  // }
 
-  for (let i = 0; i < 20; i++) {
-    bars.push({
-      year: 1997 + i,
-      rate: 100 - i,
-    });
-    bars.push({
-      year: 1997 + i,
-      rate: 50 + i,
-    });
-  }
+  const bars = [{'year': '2017', 'rate': 99, 'type': 'Hib', 'country': 'AL'},
+  {'year': '2017', 'rate': 94, 'type': 'Hib', 'country': 'NL'},
+  {'year': '2016', 'rate': '98', 'type': 'Hib', 'country': 'AL'},
+  {'year': '2016', 'rate': '95', 'type': 'Hib', 'country': 'NL'},
+  {'year': '2015', 'rate': '99', 'type': 'Hib', 'country': 'AL'},
+  {'year': '2015', 'rate': '96', 'type': 'Hib', 'country': 'NL'},
+  {'year': '2014', 'rate': '98', 'type': 'Hib', 'country': 'AL'},
+  {'year': '2014', 'rate': '96', 'type': 'Hib', 'country': 'NL'},
+  {'year': '2013', 'rate': '99', 'type': 'Hib', 'country': 'AL'},
+  {'year': '2013', 'rate': '97', 'type': 'Hib', 'country': 'NL'},
+  {'year': '2012', 'rate': '99', 'type': 'Hib', 'country': 'AL'},
+  {'year': '2012', 'rate': '97', 'type': 'Hib', 'country': 'NL'},
+  {'year': '2011', 'rate': '99', 'type': 'Hib', 'country': 'AL'},
+  {'year': '2011', 'rate': '97', 'type': 'Hib', 'country': 'NL'},
+  {'year': '2010', 'rate': '99', 'type': 'Hib', 'country': 'AL'},
+  {'year': '2010', 'rate': '97', 'type': 'Hib', 'country': 'NL'},
+  {'year': '2009', 'rate': '98', 'type': 'Hib', 'country': 'AL'},
+  {'year': '2009', 'rate': '97', 'type': 'Hib', 'country': 'NL'},
+  {'year': '2008', 'rate': 'NULL', 'type': 'Hib', 'country': 'AL'},
+  {'year': '2008', 'rate': '97', 'type': 'Hib', 'country': 'NL'},
+  {'year': '2007', 'rate': 'NULL', 'type': 'Hib', 'country': 'AL'},
+  {'year': '2007', 'rate': '97', 'type': 'Hib', 'country': 'NL'},
+  {'year': '2006', 'rate': 'NULL', 'type': 'Hib', 'country': 'AL'},
+  {'year': '2006', 'rate': '96', 'type': 'Hib', 'country': 'NL'},
+  {'year': '2005', 'rate': 'NULL', 'type': 'Hib', 'country': 'AL'},
+  {'year': '2005', 'rate': '96', 'type': 'Hib', 'country': 'NL'},
+  {'year': '2004', 'rate': 'NULL', 'type': 'Hib', 'country': 'AL'},
+  {'year': '2004', 'rate': '97', 'type': 'Hib', 'country': 'NL'},
+  {'year': '2003', 'rate': 'NULL', 'type': 'Hib', 'country': 'AL'},
+  {'year': '2003', 'rate': '97', 'type': 'Hib', 'country': 'NL'},
+  {'year': '2002', 'rate': 'NULL', 'type': 'Hib', 'country': 'AL'},
+  {'year': '2002', 'rate': '96', 'type': 'Hib', 'country': 'NL'},
+  {'year': '2001', 'rate': 'NULL', 'type': 'Hib', 'country': 'AL'},
+  {'year': '2001', 'rate': '96', 'type': 'Hib', 'country': 'NL'},
+  {'year': '2000', 'rate': 'NULL', 'type': 'Hib', 'country': 'AL'},
+  {'year': '2000', 'rate': 96.0, 'type': 'Hib', 'country': 'NL'},
+  {'year': '1999', 'rate': 'NULL', 'type': 'Hib', 'country': 'AL'},
+  {'year': '1999', 'rate': 96.0, 'type': 'Hib', 'country': 'NL'}]
 
   const gutterWidth = 8; // in pixels
   const halfGutterWidth = gutterWidth / 2;
   const barWidth = 15;
+  const colors = {"NL": "#4682B4"}
 
   g.selectAll(".bar")
     .data(bars)
@@ -56,7 +96,8 @@ function drawBars(g, xScale, yScale, margin, height) {
     })
     .attr('y', d => yScale(d.rate))
     .attr("width", barWidth)
-    .attr('height', d => (height - margin.top) - yScale(d.rate));
+    .attr('height', d => (height - margin.top) - yScale(d.rate))
+    .attr("fill", d => colors[d.country]);
 }
 
 function xLabels(g, g_line, xScale, height, margin) {
@@ -105,7 +146,7 @@ function drawline(g_line, xScale, yScale) {
 
    // var colors = ['#d7191c','#fdae61','#abd9e9','#4682b4']
 
-  const test = [{
+  const tests = [{
       year: 1998,
       rate: 50,
       type: "DTP",
@@ -122,7 +163,27 @@ function drawline(g_line, xScale, yScale) {
     }
   ]
 
-  g_line.selectAll("circle")
+  const test = [{'year': '2017', 'rate': 95, 'type': 'Hib'},
+  {'year': '2016', 'rate': '95', 'type': 'Hib'},
+  {'year': '2015', 'rate': '95', 'type': 'Hib'},
+  {'year': '2014', 'rate': '95', 'type': 'Hib'},
+  {'year': '2013', 'rate': '95', 'type': 'Hib'},
+  {'year': '2012', 'rate': '95', 'type': 'Hib'},
+  {'year': '2011', 'rate': '95', 'type': 'Hib'},
+  {'year': '2010', 'rate': '95', 'type': 'Hib'},
+  {'year': '2009', 'rate': '95', 'type': 'Hib'},
+  {'year': '2008', 'rate': '95', 'type': 'Hib'},
+  {'year': '2007', 'rate': '93', 'type': 'Hib'},
+  {'year': '2006', 'rate': '93', 'type': 'Hib'},
+  {'year': '2005', 'rate': '93', 'type': 'Hib'},
+  {'year': '2004', 'rate': '91', 'type': 'Hib'},
+  {'year': '2003', 'rate': '91', 'type': 'Hib'},
+  {'year': '2002', 'rate': '91', 'type': 'Hib'},
+  {'year': '2001', 'rate': '91', 'type': 'Hib'},
+  {'year': '2000', 'rate': 91.0, 'type': 'Hib'},
+  {'year': '1999', 'rate': 91.0, 'type': 'Hib'}]
+
+  var points = g_line.selectAll("circle")
     .remove()
     .exit()
     .data(test)
@@ -136,7 +197,9 @@ function drawline(g_line, xScale, yScale) {
     // Transition to black after some milliseconds.
     .transition()
     .duration(1000)
+    // .interpolate("linear")
     .attr("fill", d => colors[d.type]);
+
 }
 
 function drawMap(svg_map, g_map) {
@@ -153,20 +216,26 @@ function drawMap(svg_map, g_map) {
       const countries = topojson.feature(data, data.objects.europe)
 
       // TODO: verander coloscale en pas aan naar de juiste treshold grenzen
-      var colors = ['#045a8d', '#2b8cbe', '#74a9cf', '#bdc9e1', '#f1eef6']
+      // var colors = ['#045a8d', '#2b8cbe', '#74a9cf', '#bdc9e1', '#f1eef6']
+      var colors = ['#f1eef6', '#bdc9e1', '#74a9cf', '#2b8cbe', '#045a8d']
       const color = d3.scaleThreshold()
-        .domain([0.75, 0.8, 0.85, 0.9, 0.95])
+        .domain([0.8, 0.85, 0.9, 0.93, 0.97])
         .range(colors);
 
-        const countryRate = {"AZ":0,"AL":2,"AM":4,"BA":6,"BG":8,"CY":10,"DK":12,
+        const countryRates = {"AZ":0,"AL":2,"AM":4,"BA":6,"BG":8,"CY":10,"DK":12,
           "IE":14,"EE":16,"AT":18,"CZ":20,"FI":22,"FR":24,"GE":26,"DE":28,"GR":30,
           "HR":32,"HU":34,"IS":36,"IL":38,"IT":40,"LV":42,"BY":44,"LT":46,"SK":48,
           "LI":50,"MK":52,"MT":54,"BE":56,"FO":58,"AD":60,"LU":62,"MC":64,"ME":66,
           "NL":68,"NO":70,"PL":72,"PT":74,"RO":76,"MD":78,"SI":80,"ES":82,"SE":84,
           "CH":86,"TR":88,"GB":90,"UA":92,"SM":94,"RS":96,"VA":98,"RU":100};
 
-        // const countryRate = {'AL': 99, 'AD': 99, 'AT': 90, 'BY': 9, 'BE': 97, 'BA': 68, 'BG': 92, 'HR': 87, 'DK': 98, 'EE': 93, 'FI': 89, 'FR': 95, 'DE': 93, 'GR': 99, 'HU': 99, 'IS': 89, 'IE': 95, 'IT': 94, 'LV': 98, 'LT': 94, 'LU': 99, 'MT': 98, 'MC': 99, 'NL': 94, 'NO': 96, 'PL': 98, 'PT': 98, 'RO': 82, 'SM': 85, 'SK': 96, 'SI': 94, 'ES': 98, 'SE': 97, 'CH': 95, 'UA': 39}
-
+      // const countryRate = {'AL': 99, 'AD': 99, 'AT': 90, 'BY': 9, 'BE': 97, 'BA': 68, 'BG': 92, 'HR': 87, 'DK': 98, 'EE': 93, 'FI': 89, 'FR': 95, 'DE': 93, 'GR': 99, 'HU': 99, 'IS': 89, 'IE': 95, 'IT': 94, 'LV': 98, 'LT': 94, 'LU': 99, 'MT': 98, 'MC': 99, 'NL': 94, 'NO': 96, 'PL': 98, 'PT': 98, 'RO': 82, 'SM': 85, 'SK': 96, 'SI': 94, 'ES': 98, 'SE': 97, 'CH': 95, 'UA': 39}
+      const countryRate = {'AL': 99, 'AD': 99, 'AT': 90, 'BY': 9, 'BE': 97,
+      'BA': 68, 'BG': 92, 'HR': 87, 'CZ': 94, 'DK': 98, 'EE': 93, 'FI': 89,
+      'FR': 95, 'DE': 93, 'GR': 99, 'HU': 99, 'IS': 89, 'IE': 95, 'IT': 94,
+      'LV': 98, 'LT': 94, 'LU': 99, 'MT': 98, 'MC': 99, 'NL': 94, 'NO': 96,
+      'PL': 98, 'PT': 98, 'MD': 88, 'RO': 82, 'SM': 85, 'SI': 94, 'ES': 98,
+      'SE': 97, 'CH': 95, 'MK': 91, 'UA': 39, 'GB': 94}
       g_map.selectAll('path').data(countries.features)
         .enter().append('path')
         .attr("class", "kaart")
@@ -195,8 +264,8 @@ function generateLegend(svg_map, svg, width, margin, height) {
   var legendBar = svg.append("g")
     .attr("class", "legend")
     .attr("transform",
-      "translate(" + (width - margin.left) +
-      "," + (height / 2) + ")");
+      "translate(" + (width - margin.left- margin.padding) +
+      "," + (height / 3.5) + ")");
 
   const colorBoxSize = 20 - 3; // in pixels
 
@@ -228,27 +297,27 @@ function generateLegend(svg_map, svg, width, margin, height) {
     .attr('width', colorBoxSize)
     .attr('height', colorBoxSize);
 
-    legendBar.selectAll('rect')
-      .data(colorsBar)
-      .enter()
-      .append('rect')
-      .attr('x', 0)
-      // Drawing a rect starts at top left corner, and goes down. Subtract the box
-      // size to align the boxes with the legend text.
-      .attr("y", (d, i) => i * 20 - margin.padding - colorBoxSize)
-      .attr('width', colorBoxSize)
-      .attr('height', colorBoxSize)
-      .style('fill',(d, i) => colorsBar[i]);
+  legendBar.selectAll('rect')
+    .data(colorsBar)
+    .enter()
+    .append('rect')
+    .attr('x', 0)
+    // Drawing a rect starts at top left corner, and goes down. Subtract the box
+    // size to align the boxes with the legend text.
+    .attr("y", (d, i) => i * 20 - margin.padding - colorBoxSize)
+    .attr('width', colorBoxSize)
+    .attr('height', colorBoxSize)
+    .style('fill',(d, i) => colorsBar[i]);
 
-    legendBar.selectAll('text')
-      .data(domainsBar)
-      .enter()
-      .append("text")
-      .attr('x', 30)
-      .attr("y", (d, i) => i * 20 - margin.padding)
-      .text((d, i) => domainsBar[i])
-      .attr('width', colorBoxSize)
-      .attr('height', colorBoxSize);
+  legendBar.selectAll('text')
+    .data(domainsBar)
+    .enter()
+    .append("text")
+    .attr('x', 30)
+    .attr("y", (d, i) => i * 20 - margin.padding)
+    .text((d, i) => domainsBar[i])
+    .attr('width', colorBoxSize)
+    .attr('height', colorBoxSize);
 }
 
 function makeTitles(svg, svg_map, svg_line, width, margin) {

@@ -91,12 +91,13 @@ df["Country"] = df['Country'].map(codes).fillna(df['Country'])
 print(df["Country"])
 
 print(pd.to_numeric(df.columns, errors='ignore'))
+df = df.reset_index(drop=True)
 # df = df.replace(np.nan, "NULL")
 #
 # print(df)
 #
 data = []
-for i in range(37):
+for i in range(39):
     for j in range(20):
         data.append({
           "year": df.columns.values[j],

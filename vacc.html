@@ -6,15 +6,15 @@ Student number: 11819359 -->
 
 <head>
   <meta charset="utf-8">
-  <script src="d3.v5.js" </script>> <title>Leaflet GeoJSON Example</title>
-    <meta charset="utf-8" />
-    <script src="https://d3js.org/d3-selection.v1.min.js"></script>
+  <script src="d3.v5.js"></script>
+  <script src="https://d3js.org/d3-selection.v1.min.js"></script>
   <script src='https://unpkg.com/topojson@3.0.2/dist/topojson.min.js'></script>
-  <script src="https://unpkg.com/topojson@3.0.2/dist/topojson.min.js"></script>
   <script src="vacc_script.js"></script>
   <link href="vacc.css" rel="stylesheet">
   <title>Vaccinatiegraad</title>
 </head>
+
+<body>
 <!-- Navigation bar code came from:
   https://www.w3schools.com/css/css_navbar.asp -->
 <ul>
@@ -24,9 +24,7 @@ Student number: 11819359 -->
   <li><a href="about.html">About</a></li>
 </ul>
 
-</html>
 <h1>Vaccinatiegraad in Europa</h1>
-<h2>Amber Nobel - 11819359</h2>
 <p>Vaccineren lijkt de laatste tijd weer een veel besproken onderwerp in Nederland.
   Mensen trekken in twijfel of de vaccinaties wel doen wat ze moeten doen of dat ze zelfs
   bepaalde ziektes kunnen veroorzaken. Dit heeft geleid tot een afname in vaccinatiegraad in Nederland,
@@ -34,7 +32,6 @@ Student number: 11819359 -->
   bereiken om enigzins groepsimmuniteit te kunnen garanderen. Wanneer deze vaccinatiegraad lager is dan 95%
   kan dit als gevolg hebben dat mensen elkaar makkelijker kunnen besmetten en er steeds meer gevallen van bijvoorbeeld
   de mazelen in Nederland worden gerapporteerd.</p>
-</body>
 
 <!-- <foreignObject x="350" y="40" width="600" height="160"> -->
 
@@ -42,6 +39,7 @@ Student number: 11819359 -->
   <!-- <div class="slidecontainer"> -->
     <!-- <input type="range" min="1980" step=1 max="2017" value="50" class="slider" id="myRange"> -->
   <!-- </div> -->
+
 
   <div class="flex-container">
     <svg class="groupedBars">
@@ -56,10 +54,10 @@ Student number: 11819359 -->
           <option value="Men C">Men C</option>
         </select>
         <label for="vacc_select"> tussen Nederland en .... </label>
-        </foreignObject>
+      </foreignObject>
     </svg>
 
-    <input type="range" min="1980" step=1 max="2017" value="50" class="slider" id="myRange">
+    <input type="range" min="1980" step=1 max="2017" value="50" class="slider" id="myRange" name="foo" >
 
     <svg class="line">
       <foreignObject x="850" y="90" width="160" height="160">
@@ -71,18 +69,8 @@ Student number: 11819359 -->
       </foreignObject>
     </svg>
 
-  <svg class="map"></svg>
-
+    <svg class="map"></svg>
 
   </div>
-
-
-
-
-
-
-
-
-  </body>
-
-  </html>
+</body>
+</html>

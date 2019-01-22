@@ -26,44 +26,28 @@ function drawBars(g, xScale, yScale, margin, height, countryComparisonData, sele
   //   });
   // }
 
-  const bars = [{'year': '2017', 'rate': 99, 'type': 'Hib', 'country': 'AL'},
-  {'year': '2017', 'rate': 94, 'type': 'Hib', 'country': 'NL'},
-  {'year': '2016', 'rate': '98', 'type': 'Hib', 'country': 'AL'},
-  {'year': '2016', 'rate': '95', 'type': 'Hib', 'country': 'NL'},
-  {'year': '2015', 'rate': '99', 'type': 'Hib', 'country': 'AL'},
-  {'year': '2015', 'rate': '96', 'type': 'Hib', 'country': 'NL'},
-  {'year': '2014', 'rate': '98', 'type': 'Hib', 'country': 'AL'},
-  {'year': '2014', 'rate': '96', 'type': 'Hib', 'country': 'NL'},
-  {'year': '2013', 'rate': '99', 'type': 'Hib', 'country': 'AL'},
-  {'year': '2013', 'rate': '97', 'type': 'Hib', 'country': 'NL'},
-  {'year': '2012', 'rate': '99', 'type': 'Hib', 'country': 'AL'},
-  {'year': '2012', 'rate': '97', 'type': 'Hib', 'country': 'NL'},
-  {'year': '2011', 'rate': '99', 'type': 'Hib', 'country': 'AL'},
-  {'year': '2011', 'rate': '97', 'type': 'Hib', 'country': 'NL'},
-  {'year': '2010', 'rate': '99', 'type': 'Hib', 'country': 'AL'},
-  {'year': '2010', 'rate': '97', 'type': 'Hib', 'country': 'NL'},
-  {'year': '2009', 'rate': '98', 'type': 'Hib', 'country': 'AL'},
-  {'year': '2009', 'rate': '97', 'type': 'Hib', 'country': 'NL'},
-  {'year': '2008', 'rate': 'NULL', 'type': 'Hib', 'country': 'AL'},
-  {'year': '2008', 'rate': '97', 'type': 'Hib', 'country': 'NL'},
-  {'year': '2007', 'rate': 'NULL', 'type': 'Hib', 'country': 'AL'},
-  {'year': '2007', 'rate': '97', 'type': 'Hib', 'country': 'NL'},
-  {'year': '2006', 'rate': 'NULL', 'type': 'Hib', 'country': 'AL'},
-  {'year': '2006', 'rate': '96', 'type': 'Hib', 'country': 'NL'},
-  {'year': '2005', 'rate': 'NULL', 'type': 'Hib', 'country': 'AL'},
-  {'year': '2005', 'rate': '96', 'type': 'Hib', 'country': 'NL'},
-  {'year': '2004', 'rate': 'NULL', 'type': 'Hib', 'country': 'AL'},
-  {'year': '2004', 'rate': '97', 'type': 'Hib', 'country': 'NL'},
-  {'year': '2003', 'rate': 'NULL', 'type': 'Hib', 'country': 'AL'},
-  {'year': '2003', 'rate': '97', 'type': 'Hib', 'country': 'NL'},
-  {'year': '2002', 'rate': 'NULL', 'type': 'Hib', 'country': 'AL'},
-  {'year': '2002', 'rate': '96', 'type': 'Hib', 'country': 'NL'},
-  {'year': '2001', 'rate': 'NULL', 'type': 'Hib', 'country': 'AL'},
-  {'year': '2001', 'rate': '96', 'type': 'Hib', 'country': 'NL'},
-  {'year': '2000', 'rate': 'NULL', 'type': 'Hib', 'country': 'AL'},
-  {'year': '2000', 'rate': 96.0, 'type': 'Hib', 'country': 'NL'},
-  {'year': '1999', 'rate': 'NULL', 'type': 'Hib', 'country': 'AL'},
-  {'year': '1999', 'rate': 96.0, 'type': 'Hib', 'country': 'NL'}]
+  const ratesInNetherlands = countryComparisonData['NL'];
+  const ratesInCountry = countryComparisonData[selectedCountry];
+  const years = Object.keys(ratesInCountry);
+
+  const bars = [];
+
+  for (let i = 0; i < years.length; i++) {
+    let year = years[i];
+    if (ratesInCountry[year] == null || ratesInNetherlands[year] == null) {
+      continue;
+    }
+    bars.push({
+      year: year,
+      rate: '' + ratesInCountry[year],
+    });
+    bars.push({
+      year: year,
+      rate: ratesInNetherlands[year],
+    });
+  }
+
+  console.log(bars);
 
   const gutterWidth = 8; // in pixels
   const halfGutterWidth = gutterWidth / 2;

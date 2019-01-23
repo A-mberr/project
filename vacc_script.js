@@ -6,6 +6,11 @@ async function loadCountryComparisonData(vaccType) {
   return await d3.json("data/vacc_bar_" + vaccType + ".json");
 }
 
+async function loadMapData(vaccType) {
+  return await d3.json("data/vacc_map_" + vaccType + ".json");
+}
+
+
 // function findAxisLabel(hovered) {
 //   return d3.select('.axis--x')
 //     .selectAll('text')
@@ -195,7 +200,7 @@ function drawline(g_line, xScale, yScale) {
    // yScale.domain(d3.extent(test, function(d) { return d.rate }));
 }
 
-function drawMap(svg_map, g_map) {
+function drawMap(svg_map, g_map, mapData, selectedYear) {
   // This code has been obtained form the video of Curran Kelleher
   // https://www.youtube.com/watch?v=Qw6uAg3EO64
   const projection = d3.geoMercator()
@@ -210,25 +215,15 @@ function drawMap(svg_map, g_map) {
 
       // TODO: verander coloscale en pas aan naar de juiste treshold grenzen
       // var colors = ['#045a8d', '#2b8cbe', '#74a9cf', '#bdc9e1', '#f1eef6']
-      var colors = ['#f1eef6', '#bdc9e1', '#74a9cf', '#2b8cbe', '#045a8d']
+      var colors = ['#f1eef6','#d0d1e6','#a6bddb','#74a9cf','#3690c0','#0570b0','#034e7b']
       const color = d3.scaleThreshold()
-        .domain([0.8, 0.85, 0.9, 0.93, 0.97])
+        .domain([0.5, 0.6, 0.7, 0.8, 0.85, 0.9, 0.95])
         .range(colors);
 
-        const countryRates = {"AZ":0,"AL":2,"AM":4,"BA":6,"BG":8,"CY":10,"DK":12,
-          "IE":14,"EE":16,"AT":18,"CZ":20,"FI":22,"FR":24,"GE":26,"DE":28,"GR":30,
-          "HR":32,"HU":34,"IS":36,"IL":38,"IT":40,"LV":42,"BY":44,"LT":46,"SK":48,
-          "LI":50,"MK":52,"MT":54,"BE":56,"FO":58,"AD":60,"LU":62,"MC":64,"ME":66,
-          "NL":68,"NO":70,"PL":72,"PT":74,"RO":76,"MD":78,"SI":80,"ES":82,"SE":84,
-          "CH":86,"TR":88,"GB":90,"UA":92,"SM":94,"RS":96,"VA":98,"RU":100};
+      const years = Object.keys(mapData);
 
-      // const countryRate = {'AL': 99, 'AD': 99, 'AT': 90, 'BY': 9, 'BE': 97, 'BA': 68, 'BG': 92, 'HR': 87, 'DK': 98, 'EE': 93, 'FI': 89, 'FR': 95, 'DE': 93, 'GR': 99, 'HU': 99, 'IS': 89, 'IE': 95, 'IT': 94, 'LV': 98, 'LT': 94, 'LU': 99, 'MT': 98, 'MC': 99, 'NL': 94, 'NO': 96, 'PL': 98, 'PT': 98, 'RO': 82, 'SM': 85, 'SK': 96, 'SI': 94, 'ES': 98, 'SE': 97, 'CH': 95, 'UA': 39}
-      const countryRate = {'AL': 99, 'AD': 99, 'AT': 90, 'BY': 9, 'BE': 97,
-      'BA': 68, 'BG': 92, 'HR': 87, 'CZ': 94, 'DK': 98, 'EE': 93, 'FI': 89,
-      'FR': 95, 'DE': 93, 'GR': 99, 'HU': 99, 'IS': 89, 'IE': 95, 'IT': 94,
-      'LV': 98, 'LT': 94, 'LU': 99, 'MT': 98, 'MC': 99, 'NL': 94, 'NO': 96,
-      'PL': 98, 'PT': 98, 'MD': 88, 'RO': 82, 'SM': 85, 'SI': 94, 'ES': 98,
-      'SE': 97, 'CH': 95, 'MK': 91, 'UA': 39, 'GB': 94}
+      let countryRate = mapData[selectedYear]
+
       g_map.selectAll('path').data(countries.features)
         .enter().append('path')
         .attr("class", "kaart")
@@ -241,7 +236,7 @@ function generateLegend(svg_map, svg, width, margin, height) {
 
   // Legenda wordt nog gemaakt aan de hand van de data
   var colors = ['#f1eef6','#d0d1e6','#a6bddb','#74a9cf','#3690c0','#0570b0','#034e7b']
-  var domains = ["0-20%", "20-40%", "40-60%", "60-70%", "70-80%", "80-90%", "90-100%"]
+  var domains = ["0-20%", "20-40%", "40-60%", "70-80%", "80-90%", "90-95%", "95-100%"]
 
   var colorsBar = ["#2b8cbe", "#000000"]
   var domainsBar = ["Nederland", "Selected country"]
@@ -325,12 +320,6 @@ function makeTitles(svg, svg_map, svg_line, width, margin) {
     .attr("y", margin.top + margin.padding / 2)
     .attr("text-anchor", "middle")
     .text("Choropleth van vaccinatiegraad in Europa")
-
-  // svg.append("text")
-  //   .attr("x", (width + margin.left + margin.right) / 2)
-  //   .attr("y", margin.top + margin.padding / 2)
-  //   .attr("text-anchor", "middle")
-  //   .text("Nederland vergelijken met geselecteerde land")
 }
 
 async function main() {
@@ -385,6 +374,9 @@ async function main() {
   const selectedCountry = "AL";
   const countryComparisonData = await loadCountryComparisonData('Hib');
 
+  const selectedYear = 2000;
+  const mapData = await loadMapData('Hib');
+
   makeTitles(svg, svg_map, svg_line, width, margin)
 
   drawBars(g, xScale, yScale, margin, height, countryComparisonData,
@@ -392,7 +384,7 @@ async function main() {
   xLabels(g, g_line, xScale, height, margin);
   yLabels(g, g_line, yScale, margin);
 
-  drawMap(svg_map, g_map);
+  drawMap(svg_map, g_map, mapData, selectedYear);
   generateLegend(svg_map, svg, width, margin, height);
 
   drawline(g_line, xScale, yScale);

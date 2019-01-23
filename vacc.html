@@ -53,10 +53,25 @@ Student number: 11819359 -->
       </foreignObject>
     </svg>
 
-    <input type="range" min="1980" step=1 max="2017" value="50" class="slider" id="myRange" name="foo" >
+    <!-- <input type="range" min="1980" step=1 max="2017" value="50" class="slider" id="myRange" name="range" >
+    <output class="output" name="output" for="range">50</output> -->
+    <!-- <input type="range" name="range" min="1997" step=1 max="2017" value="50" class="slider" id="myRange" onchange="updateTextInput(this.value);">
+    <input type="text" id="textInput" value=""> -->
+
+    <!-- <form name="range">
+      <input class="slider" type="range" name="range" id="ageInputId" value="21" min="1997" max="2017" oninput="ageOutputId.value = ageInputId.value">
+
+      <output name="ageOutputName" id="ageOutputId">2008</output>
+    </form> -->
+
+    <!-- https://bl.ocks.org/johnwalley/e1d256b81e51da68f7feb632a53c3518 -->
+      <div class="row align-items-center">
+        <!-- <div class="col-sm-2"><p id="value-time"></p></div> -->
+        <div class="col-sm"><div id="slider-time"></div></div>
+      </div>
 
     <svg class="line">
-      <foreignObject x="850" y="90" width="160" height="160">
+      <foreignObject x="875" y="140" width="160" height="160">
         <input type="checkbox" name="DTP" checked><span style="color: #a6cee3">●</span> DTP <br>
         <input type="checkbox" name="Hib"><span style="color: #1f78b4">●</span> Hib <br>
         <input type="checkbox" name="Hep B"><span style="color: #b2df8a">●</span> Hep B <br>
@@ -70,6 +85,7 @@ Student number: 11819359 -->
   </div>
   <script src="d3.v5.js"></script>
   <script src='https://unpkg.com/topojson@3.0.2/dist/topojson.min.js'></script>
+  <script src="https://unpkg.com/d3-simple-slider"></script>
   <script src="vacc_script.js"></script>
 </body>
 </html>

@@ -112,7 +112,7 @@ function yLabels(g, g_line, yScale, margin) {
 }
 
 
-function drawline(g_line, xScale, yScale) {
+function drawline(g_line, xScale, yScale, countryComparisonData, selectedCountry) {
   const colors = {
     "DTP": "#a6cee3",
     "Hib": '#1f78b4',
@@ -140,6 +140,28 @@ function drawline(g_line, xScale, yScale) {
     }
   ]
 
+  const ratesInCountry = countryComparisonData[selectedCountry];
+  const years = Object.keys(ratesInCountry);
+
+  console.log(years)
+  console.log(ratesInCountry)
+
+  const bars = [];
+
+  for (let i = 0; i < years.length; i++) {
+    let year = years[i];
+    if (ratesInCountry[year] == null) {
+      continue;
+    }
+    bars.push({
+      year: year,
+      rate: '' + ratesInCountry[year],
+      type: "Hib"
+    });
+  }
+
+  console.log(bars)
+
   const test = [{'year': '2017', 'rate': 95, 'type': 'Hib'},
   {'year': '2016', 'rate': '95', 'type': 'Hib'},
   {'year': '2015', 'rate': '95', 'type': 'Hib'},
@@ -163,7 +185,7 @@ function drawline(g_line, xScale, yScale) {
   var points = g_line.selectAll("circle")
     .remove()
     .exit()
-    .data(test)
+    .data(bars)
     .enter()
     .append("circle")
     .attr("cx", d => xScale(d.year))
@@ -177,27 +199,14 @@ function drawline(g_line, xScale, yScale) {
     // .interpolate("linear")
     .attr("fill", d => colors[d.type]);
 
-  //   var x = d3.scaleLinear()
-  //   .range([0, width]);
-  //
-  //   y = d3.scaleLinear()
-  // .range([height, 0]);
-
   var lines = d3.line()
     .x(function(d) { return xScale(d.year); })
     .y(function(d) { return yScale(d.rate); });
 
     g_line.append("path")
-      .datum(test)
+      .datum(bars)
       .attr("class", "lines")
       .attr("d", lines);
-
-  // var line = d3.line()
-  // .xScale(function(d) { return xScale(d.date)})
-  //  .yScale(function(d) { return yScale(d.value)});
-
-   // xScale.domain(d3.extent(test, function(d) { return d.year }));
-   // yScale.domain(d3.extent(test, function(d) { return d.rate }));
 }
 
 function drawMap(svg_map, g_map, mapData, selectedYear) {
@@ -371,7 +380,7 @@ async function main() {
     .domain([0, 100])
     .range([height - margin.top, margin.top]);
 
-  const selectedCountry = "AL";
+  const selectedCountry = "DE";
   const countryComparisonData = await loadCountryComparisonData('Hib');
 
   const selectedYear = 2000;
@@ -387,7 +396,7 @@ async function main() {
   drawMap(svg_map, g_map, mapData, selectedYear);
   generateLegend(svg_map, svg, width, margin, height);
 
-  drawline(g_line, xScale, yScale);
+  drawline(g_line, xScale, yScale, countryComparisonData, selectedCountry);
 }
 
 main();

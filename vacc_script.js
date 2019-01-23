@@ -62,7 +62,7 @@ function drawBars(g, xScale, yScale, margin, height, countryComparisonData, sele
     .attr("x", (d, i) => {
       let x = xScale(d.year);
       if (i % 2 == 1) {
-        x += barWidth + 1;
+        x += barWidth + 1 - 33;
       }
       return x;
     })
@@ -172,6 +172,27 @@ function drawline(g_line, xScale, yScale) {
     // .interpolate("linear")
     .attr("fill", d => colors[d.type]);
 
+  //   var x = d3.scaleLinear()
+  //   .range([0, width]);
+  //
+  //   y = d3.scaleLinear()
+  // .range([height, 0]);
+
+  var lines = d3.line()
+    .x(function(d) { return xScale(d.year); })
+    .y(function(d) { return yScale(d.rate); });
+
+    g_line.append("path")
+      .datum(test)
+      .attr("class", "lines")
+      .attr("d", lines);
+
+  // var line = d3.line()
+  // .xScale(function(d) { return xScale(d.date)})
+  //  .yScale(function(d) { return yScale(d.value)});
+
+   // xScale.domain(d3.extent(test, function(d) { return d.year }));
+   // yScale.domain(d3.extent(test, function(d) { return d.rate }));
 }
 
 function drawMap(svg_map, g_map) {

@@ -53,3 +53,8 @@
 - Jsons aangepast. Hieruit data kunnen generen die in de visualisaties gebruikt kunnen worden.
 - De json van de grouped bar chart is nu in het juiste format dat via de JS script wrodt aangepast om de juiste informatie uti te krijgen
 - Kleuren van de bars veranderd zodat de bar van Nederland altijd steelblue is
+
+## Dag 13
+- Jsons gecreeerd om de data van de map in te laden. Hiervoor is ookd e code in de JS file aangepast dat het op basis van de json de kaart inkleurt
+- lijn getekend in de line line char chart
+- positie van de grouped bars aangepast zodat ze kloppen met de X as

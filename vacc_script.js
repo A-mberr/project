@@ -112,7 +112,7 @@ function yLabels(g, g_line, yScale, margin) {
 }
 
 
-function drawline(g_line, xScale, yScale, countryComparisonData, selectedCountry) {
+function drawline(g_line, xScale, yScale, countryComparisonData, selectedCountry, hepbData, dtpData, pneuData, hibData) {
   const colors = {
     "DTP": "#a6cee3",
     "Hib": '#1f78b4',
@@ -140,47 +140,39 @@ function drawline(g_line, xScale, yScale, countryComparisonData, selectedCountry
   //   }
   // ]
 
-  const ratesInCountry = countryComparisonData[selectedCountry];
-  const years = Object.keys(ratesInCountry);
+  const ratesInCountryHib = hibData[selectedCountry];
+  const yearsHib = Object.keys(ratesInCountryHib);
 
-  console.log(years)
-  console.log(ratesInCountry)
+  const ratesInCountryHebp = hepbData[selectedCountry];
+  const yearsHepb = Object.keys(ratesInCountryHebp);
+
+  const ratesInCountryDTP = dtpData[selectedCountry];
+  const yearsDTP = Object.keys(ratesInCountryDTP);
+
+  const ratesInCountryPneu = pneuData[selectedCountry];
+  const yearsPneu = Object.keys(ratesInCountryPneu);
+
+  // const ratesInCountry = countryComparisonData[selectedCountry];
+  // const years = Object.keys(ratesInCountry);
+
+  // console.log(years)
+  // console.log(ratesInCountry)
 
   const bars = [];
 
-  for (let i = 0; i < years.length; i++) {
-    let year = years[i];
-    if (ratesInCountry[year] == null) {
+  for (let i = 0; i < yearsPneu.length; i++) {
+    let year = yearsPneu[i];
+    if (ratesInCountryPneu[year] == null) {
       continue;
     }
     bars.push({
       year: year,
-      rate: '' + ratesInCountry[year],
-      type: "Hib"
+      rate: '' + ratesInCountryPneu[year],
+      type: "Pneu"
     });
   }
 
   console.log(bars)
-
-  // const test = [{'year': '2017', 'rate': 95, 'type': 'Hib'},
-  // {'year': '2016', 'rate': '95', 'type': 'Hib'},
-  // {'year': '2015', 'rate': '95', 'type': 'Hib'},
-  // {'year': '2014', 'rate': '95', 'type': 'Hib'},
-  // {'year': '2013', 'rate': '95', 'type': 'Hib'},
-  // {'year': '2012', 'rate': '95', 'type': 'Hib'},
-  // {'year': '2011', 'rate': '95', 'type': 'Hib'},
-  // {'year': '2010', 'rate': '95', 'type': 'Hib'},
-  // {'year': '2009', 'rate': '95', 'type': 'Hib'},
-  // {'year': '2008', 'rate': '95', 'type': 'Hib'},
-  // {'year': '2007', 'rate': '93', 'type': 'Hib'},
-  // {'year': '2006', 'rate': '93', 'type': 'Hib'},
-  // {'year': '2005', 'rate': '93', 'type': 'Hib'},
-  // {'year': '2004', 'rate': '91', 'type': 'Hib'},
-  // {'year': '2003', 'rate': '91', 'type': 'Hib'},
-  // {'year': '2002', 'rate': '91', 'type': 'Hib'},
-  // {'year': '2001', 'rate': '91', 'type': 'Hib'},
-  // {'year': '2000', 'rate': 91.0, 'type': 'Hib'},
-  // {'year': '1999', 'rate': 91.0, 'type': 'Hib'}]
 
   var points = g_line.selectAll("circle")
     .remove()
@@ -439,6 +431,11 @@ async function main() {
   const selectedCountry = "BE";
   const countryComparisonData = await loadCountryComparisonData('Hib');
 
+  const hibData = await loadCountryComparisonData('Hib');
+  const pneuData = await loadCountryComparisonData('Pneu');
+  const dtpData = await loadCountryComparisonData('DTP')
+  const hepbData = await loadCountryComparisonData('Hepb')
+
   // const selectedYear = 2016;
   const mapData = await loadMapData('Hib');
 
@@ -452,7 +449,7 @@ async function main() {
   drawMap(svg_map, g_map, mapData);
   generateLegend(svg_map, svg, width, margin, height);
 
-  drawline(g_line, xScale, yScale, countryComparisonData, selectedCountry);
+  drawline(g_line, xScale, yScale, countryComparisonData, selectedCountry, hepbData, dtpData, pneuData, hibData);
 
   update(2002);
 
@@ -485,6 +482,26 @@ function update(yearUpdate) {
        .attr('fill', (d, i) => color(countryRate[d.id] / 100));
   });
 }
+
+// var data = ["DTP", "Hib", "Hepb", "Pneu"];
+//
+// var select = d3.select('body')
+//   .append('select')
+//   	.attr('class','select')
+//     .on('change',onchange)
+//
+// var options = select
+//   .selectAll('option')
+// 	.data(data).enter()
+// 	.append('option')
+// 		.text(function (d) { return d; });
+//
+// function onchange() {
+// 	selectValue = d3.select('select').property('value')
+// 	d3.select('body')
+// 		.append('p')
+// 		.text(selectValue + ' is the last selected option.')
+// };
 
 
 }

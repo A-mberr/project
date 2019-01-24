@@ -162,25 +162,25 @@ function drawline(g_line, xScale, yScale, countryComparisonData, selectedCountry
 
   console.log(bars)
 
-  const test = [{'year': '2017', 'rate': 95, 'type': 'Hib'},
-  {'year': '2016', 'rate': '95', 'type': 'Hib'},
-  {'year': '2015', 'rate': '95', 'type': 'Hib'},
-  {'year': '2014', 'rate': '95', 'type': 'Hib'},
-  {'year': '2013', 'rate': '95', 'type': 'Hib'},
-  {'year': '2012', 'rate': '95', 'type': 'Hib'},
-  {'year': '2011', 'rate': '95', 'type': 'Hib'},
-  {'year': '2010', 'rate': '95', 'type': 'Hib'},
-  {'year': '2009', 'rate': '95', 'type': 'Hib'},
-  {'year': '2008', 'rate': '95', 'type': 'Hib'},
-  {'year': '2007', 'rate': '93', 'type': 'Hib'},
-  {'year': '2006', 'rate': '93', 'type': 'Hib'},
-  {'year': '2005', 'rate': '93', 'type': 'Hib'},
-  {'year': '2004', 'rate': '91', 'type': 'Hib'},
-  {'year': '2003', 'rate': '91', 'type': 'Hib'},
-  {'year': '2002', 'rate': '91', 'type': 'Hib'},
-  {'year': '2001', 'rate': '91', 'type': 'Hib'},
-  {'year': '2000', 'rate': 91.0, 'type': 'Hib'},
-  {'year': '1999', 'rate': 91.0, 'type': 'Hib'}]
+  // const test = [{'year': '2017', 'rate': 95, 'type': 'Hib'},
+  // {'year': '2016', 'rate': '95', 'type': 'Hib'},
+  // {'year': '2015', 'rate': '95', 'type': 'Hib'},
+  // {'year': '2014', 'rate': '95', 'type': 'Hib'},
+  // {'year': '2013', 'rate': '95', 'type': 'Hib'},
+  // {'year': '2012', 'rate': '95', 'type': 'Hib'},
+  // {'year': '2011', 'rate': '95', 'type': 'Hib'},
+  // {'year': '2010', 'rate': '95', 'type': 'Hib'},
+  // {'year': '2009', 'rate': '95', 'type': 'Hib'},
+  // {'year': '2008', 'rate': '95', 'type': 'Hib'},
+  // {'year': '2007', 'rate': '93', 'type': 'Hib'},
+  // {'year': '2006', 'rate': '93', 'type': 'Hib'},
+  // {'year': '2005', 'rate': '93', 'type': 'Hib'},
+  // {'year': '2004', 'rate': '91', 'type': 'Hib'},
+  // {'year': '2003', 'rate': '91', 'type': 'Hib'},
+  // {'year': '2002', 'rate': '91', 'type': 'Hib'},
+  // {'year': '2001', 'rate': '91', 'type': 'Hib'},
+  // {'year': '2000', 'rate': 91.0, 'type': 'Hib'},
+  // {'year': '1999', 'rate': 91.0, 'type': 'Hib'}]
 
   var points = g_line.selectAll("circle")
     .remove()
@@ -208,6 +208,11 @@ function drawline(g_line, xScale, yScale, countryComparisonData, selectedCountry
       .attr("class", "lines")
       .attr("d", lines);
 }
+
+function showHibData() {
+
+}
+
 
 function drawMap(svg_map, g_map, mapData, selectedYear) {
   // This code has been obtained form the video of Curran Kelleher
@@ -237,15 +242,15 @@ function drawMap(svg_map, g_map, mapData, selectedYear) {
         .enter().append('path')
         .attr("class", "kaart")
         .attr("d", pathGenerator)
+      .append('title')
+      // .text(d => console.log(d.id));
+      .text(d => d.properties.NAME);
+      // .text('hello');
       //   .attr('fill', (d, i) => color(countryRate[d.id] / 100));
 // console.log(countryRate[d.id])
     });
 
 
-}
-
-function changeMap() {
-  g_map.attr("selectedYear", this.value)
 }
 
 function drawSlider() {
@@ -280,11 +285,10 @@ function drawSlider() {
    d3.select('p#value-time').text(d3.timeFormat('%Y')(sliderTime.value()));
 
 
-   let sliderValue = d3.timeFormat('%Y')(sliderTime.value())
-   d3.select("#slider").on("input", function() {
-  	update(+this.value);
-		});
-   return sliderValue
+   // let sliderValue = d3.timeFormat('%Y')(sliderTime.value())
+   // d3.select("#slider").on("input", function() {
+  	// update(+this.value);
+		// });
 
    // d3.select("drawSlider").on("input", changeMap)
 }
@@ -380,23 +384,6 @@ function makeTitles(svg, svg_map, svg_line, width, margin) {
     .text("Choropleth van vaccinatiegraad in Europa")
 }
 
-function update(slider) {
-
-
-  // g_map.selectAll('path').data(countries.features)
-  //   .enter().append('path')
-  //   .attr("class", "kaart")
-  //   .attr("d", pathGenerator)
-  //   .attr('fill', (d, i) => color(mapData[slider][d.id] / 100));
-
-  // // update the circle radius
-  // holder.selectAll("circle")
-  //   .attr("r", slider);
-
-  map.attr('fill', (d, i) => color(mapData[slider][d.id] / 100))
-
-}
-
 
 async function main() {
   const margin = {
@@ -449,10 +436,10 @@ async function main() {
 
   let sliderValue = drawSlider()
 
-  const selectedCountry = "AL";
+  const selectedCountry = "BE";
   const countryComparisonData = await loadCountryComparisonData('Hib');
 
-  const selectedYear = 2016;
+  // const selectedYear = 2016;
   const mapData = await loadMapData('Hib');
 
   makeTitles(svg, svg_map, svg_line, width, margin)
@@ -462,36 +449,20 @@ async function main() {
   xLabels(g, g_line, xScale, height, margin);
   yLabels(g, g_line, yScale, margin);
 
-  drawMap(svg_map, g_map, mapData, selectedYear);
+  drawMap(svg_map, g_map, mapData);
   generateLegend(svg_map, svg, width, margin, height);
 
   drawline(g_line, xScale, yScale, countryComparisonData, selectedCountry);
 
-  var holder = d3.select("body")
-      .append("svg")
-      .attr("width", width)
-      .attr("height", height);
-
-  // draw the circle
-  holder.append("circle")
-    .attr("cx", 300)
-    .attr("cy", 150)
-    .style("fill", "none")
-    .style("stroke", "blue")
-    .attr("r", 120);
+  update(2002);
 
     d3.select("#slider").on("input", function() {
       update(+this.value);
     });
 
-    // Initial starting radius of the circle
-update(2002);
 
 // update the elements
-function update(yearr, mapdata, countries, map) {
-
-  // const selectedYear = yearr
-  // console.log(yearr)
+function update(yearUpdate) {
 
   var colors = ['#f1eef6','#d0d1e6','#a6bddb','#74a9cf','#3690c0','#0570b0','#034e7b']
   const color = d3.scaleThreshold()
@@ -508,10 +479,10 @@ function update(yearr, mapdata, countries, map) {
     .then(data => {
       const countries = topojson.feature(data, data.objects.europe)
 
-    let countryRate = mapData[yearr]
+      let countryRate = mapData[ yearUpdate]
 
-     g_map.selectAll('path')
-     .attr('fill', (d, i) => color(countryRate[d.id] / 100));
+       g_map.selectAll('path')
+       .attr('fill', (d, i) => color(countryRate[d.id] / 100));
   });
 }
 

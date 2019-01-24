@@ -58,3 +58,8 @@
 - Jsons gecreeerd om de data van de map in te laden. Hiervoor is ookd e code in de JS file aangepast dat het op basis van de json de kaart inkleurt
 - lijn getekend in de line line char chart
 - positie van de grouped bars aangepast zodat ze kloppen met de X as
+
+## Dag 14
+- Slider interactief gemaakt met de map
+- tooltip gecreerd ide denaam van het land weergeeft in de map
+- data toegevoegd zodat meerdere lijnen tegelijk kunnen worden getekend

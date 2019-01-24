@@ -233,13 +233,62 @@ function drawMap(svg_map, g_map, mapData, selectedYear) {
 
       let countryRate = mapData[selectedYear]
 
-      g_map.selectAll('path').data(countries.features)
+      let map = g_map.selectAll('path').data(countries.features)
         .enter().append('path')
         .attr("class", "kaart")
         .attr("d", pathGenerator)
-        .attr('fill', (d, i) => color(countryRate[d.id] / 100));
+      //   .attr('fill', (d, i) => color(countryRate[d.id] / 100));
+// console.log(countryRate[d.id])
     });
+
+
 }
+
+function changeMap() {
+  g_map.attr("selectedYear", this.value)
+}
+
+function drawSlider() {
+  // https://bl.ocks.org/johnwalley/e1d256b81e51da68f7feb632a53c3518
+   var dataTime = d3.range(0, 20).map(function(d) {
+     return new Date(1997 + d, 10, 3);
+   });
+
+   var sliderTime = d3
+     .sliderBottom()
+     .min(d3.min(dataTime))
+     .max(d3.max(dataTime))
+     .step(1000 * 60 * 60 * 24 * 365)
+     .width(680)
+     .tickFormat(d3.timeFormat('%Y'))
+     .tickValues(dataTime)
+     .default(new Date(2006, 10, 3))
+     .on('onchange', val => {
+       d3.select('p#value-time').text(d3.timeFormat('%Y')(val));
+     });
+
+   var gTime = d3
+     .select('div#slider-time')
+     .append('svg')
+     .attr('width', 800)
+     .attr('height', 100)
+     .append('g')
+     .attr('transform', 'translate(30,30)');
+
+   gTime.call(sliderTime);
+
+   d3.select('p#value-time').text(d3.timeFormat('%Y')(sliderTime.value()));
+
+
+   let sliderValue = d3.timeFormat('%Y')(sliderTime.value())
+   d3.select("#slider").on("input", function() {
+  	update(+this.value);
+		});
+   return sliderValue
+
+   // d3.select("drawSlider").on("input", changeMap)
+}
+
 
 function generateLegend(svg_map, svg, width, margin, height) {
 
@@ -331,6 +380,24 @@ function makeTitles(svg, svg_map, svg_line, width, margin) {
     .text("Choropleth van vaccinatiegraad in Europa")
 }
 
+function update(slider) {
+
+
+  // g_map.selectAll('path').data(countries.features)
+  //   .enter().append('path')
+  //   .attr("class", "kaart")
+  //   .attr("d", pathGenerator)
+  //   .attr('fill', (d, i) => color(mapData[slider][d.id] / 100));
+
+  // // update the circle radius
+  // holder.selectAll("circle")
+  //   .attr("r", slider);
+
+  map.attr('fill', (d, i) => color(mapData[slider][d.id] / 100))
+
+}
+
+
 async function main() {
   const margin = {
       top: 10,
@@ -380,10 +447,12 @@ async function main() {
     .domain([0, 100])
     .range([height - margin.top, margin.top]);
 
+  let sliderValue = drawSlider()
+
   const selectedCountry = "AL";
   const countryComparisonData = await loadCountryComparisonData('Hib');
 
-  const selectedYear = 2000;
+  const selectedYear = 2016;
   const mapData = await loadMapData('Hib');
 
   makeTitles(svg, svg_map, svg_line, width, margin)
@@ -398,38 +467,55 @@ async function main() {
 
   drawline(g_line, xScale, yScale, countryComparisonData, selectedCountry);
 
-  // Time
-   var dataTime = d3.range(0, 20).map(function(d) {
-     return new Date(1997 + d, 10, 3);
-   });
+  var holder = d3.select("body")
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height);
 
-   // https://bl.ocks.org/johnwalley/e1d256b81e51da68f7feb632a53c3518
-   var sliderTime = d3
-     .sliderBottom()
-     .min(d3.min(dataTime))
-     .max(d3.max(dataTime))
-     .step(1000 * 60 * 60 * 24 * 365)
-     .width(680)
-     .tickFormat(d3.timeFormat('%Y'))
-     .tickValues(dataTime)
-     .default(new Date(2006, 10, 3))
-     .on('onchange', val => {
-       d3.select('p#value-time').text(d3.timeFormat('%Y')(val));
-     });
+  // draw the circle
+  holder.append("circle")
+    .attr("cx", 300)
+    .attr("cy", 150)
+    .style("fill", "none")
+    .style("stroke", "blue")
+    .attr("r", 120);
 
-   var gTime = d3
-     .select('div#slider-time')
-     .append('svg')
-     .attr('width', 800)
-     .attr('height', 100)
-     .append('g')
-     .attr('transform', 'translate(30,30)');
+    d3.select("#slider").on("input", function() {
+      update(+this.value);
+    });
 
-   gTime.call(sliderTime);
+    // Initial starting radius of the circle
+update(2002);
 
-   console.log(sliderTime)
+// update the elements
+function update(yearr, mapdata, countries, map) {
 
-   d3.select('p#value-time').text(d3.timeFormat('%Y')(sliderTime.value()));
+  // const selectedYear = yearr
+  // console.log(yearr)
+
+  var colors = ['#f1eef6','#d0d1e6','#a6bddb','#74a9cf','#3690c0','#0570b0','#034e7b']
+  const color = d3.scaleThreshold()
+    .domain([0.5, 0.6, 0.7, 0.8, 0.85, 0.9, 0.95])
+    .range(colors);
+    //
+    // const projection = d3.geoMercator()
+    //   .scale(650)
+    //   .center([19, 62])
+    // // .translate([width/2, height/2]);
+    // const pathGenerator = d3.geoPath().projection(projection)
+
+  d3.json('data/eu.json')
+    .then(data => {
+      const countries = topojson.feature(data, data.objects.europe)
+
+    let countryRate = mapData[yearr]
+
+     g_map.selectAll('path')
+     .attr('fill', (d, i) => color(countryRate[d.id] / 100));
+  });
+}
+
+
 }
 
 main();

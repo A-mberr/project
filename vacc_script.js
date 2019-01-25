@@ -112,28 +112,8 @@ function yLabels(g, g_line, yScale, margin) {
 }
 
 
-function drawline(g_line, xScale, yScale, countryComparisonData, selectedCountry) {
+function drawline(g_line, xScale, yScale, data, vaccTypes) {
 
-  const data = {
-    "DTP" : [
-      {year:2014, rate:93},
-      {year:2015, rate:91},
-    ],
-    "Pneu" : [
-      {year:1997, rate:3},
-      {year:1998, rate:6},
-    ],
-    "Hib" : [
-      {year:2007, rate:20},
-      {year:2008, rate:28},
-    ],
-    "Hepb" : [
-      {year:2000, rate:60},
-      {year:2001, rate:61},
-    ],
-  };
-
-  const vaccTypes = ['DTP', "Pneu", 'Hib', 'Hepb']
   const dots = [];
 
   for (vaccType of vaccTypes) {
@@ -171,7 +151,6 @@ function drawline(g_line, xScale, yScale, countryComparisonData, selectedCountry
     // Transition to black after some milliseconds.
     .transition()
     .duration(1000)
-    // .interpolate("linear")
     .attr("fill", d => colors[d.type]);
 
   g_line.selectAll('path')
@@ -188,10 +167,6 @@ function drawline(g_line, xScale, yScale, countryComparisonData, selectedCountry
   }
 }
 
-function showHibData() {
-
-}
-
 
 function drawMap(svg_map, g_map, mapData, selectedYear) {
   // This code has been obtained form the video of Curran Kelleher
@@ -206,6 +181,10 @@ function drawMap(svg_map, g_map, mapData, selectedYear) {
     .then(data => {
       const countries = topojson.feature(data, data.objects.europe)
 
+      // let countryRate = mapData[yearUpdate]
+
+      // console.log(mapData)
+
       // TODO: verander coloscale en pas aan naar de juiste treshold grenzen
       // var colors = ['#045a8d', '#2b8cbe', '#74a9cf', '#bdc9e1', '#f1eef6']
       var colors = ['#f1eef6','#d0d1e6','#a6bddb','#74a9cf','#3690c0','#0570b0','#034e7b']
@@ -216,6 +195,9 @@ function drawMap(svg_map, g_map, mapData, selectedYear) {
       const years = Object.keys(mapData);
 
       let countryRate = mapData[selectedYear]
+        console.log(data)
+
+      console.log("blah", data)
 
       let map = g_map.selectAll('path').data(countries.features)
         .enter().append('path')
@@ -226,7 +208,7 @@ function drawMap(svg_map, g_map, mapData, selectedYear) {
       .text(d => d.properties.NAME);
       // .text('hello');
       //   .attr('fill', (d, i) => color(countryRate[d.id] / 100));
-// console.log(countryRate[d.id])
+
     });
 
 
@@ -283,7 +265,6 @@ function generateLegend(svg_map, svg, width, margin, height) {
   var domainsBar = ["Nederland", "Selected country"]
 
   // TODO add text "Vacciantiegraad (%)"
-
   var legendMap = svg_map.append("g")
     .attr("class", "legend")
     .attr("transform",
@@ -360,7 +341,7 @@ function makeTitles(svg, svg_map, svg_line, width, margin) {
     .attr("x", (width + margin.left + margin.right) / 2)
     .attr("y", margin.top + margin.padding / 2)
     .attr("text-anchor", "middle")
-    .text("Choropleth van vaccinatiegraad in Europa")
+    .text("De vaccinatiegraad in Europa")
 }
 
 
@@ -418,10 +399,10 @@ async function main() {
   const selectedCountry = "DE";
   const countryComparisonData = await loadCountryComparisonData('Hib');
 
-  const hibData = await loadCountryComparisonData('Hib');
-  const pneuData = await loadCountryComparisonData('Pneu');
-  const dtpData = await loadCountryComparisonData('DTP')
-  const hepbData = await loadCountryComparisonData('Hepb')
+  // const hibData = await loadCountryComparisonData('Hib');
+  // const pneuData = await loadCountryComparisonData('Pneu');
+  // const dtpData = await loadCountryComparisonData('DTP')
+  // const hepbData = await loadCountryComparisonData('Hepb')
 
   // const selectedYear = 2016;
   const mapData = await loadMapData('Hib');
@@ -436,7 +417,28 @@ async function main() {
   drawMap(svg_map, g_map, mapData);
   generateLegend(svg_map, svg, width, margin, height);
 
-  drawline(g_line, xScale, yScale, countryComparisonData, selectedCountry, hepbData, dtpData, pneuData, hibData);
+  const lineData = {
+    "DTP" : [
+      {year:2014, rate:93},
+      {year:2015, rate:91},
+    ],
+    "Pneu" : [
+      {year:1997, rate:3},
+      {year:1998, rate:6},
+    ],
+    "Hib" : [
+      {year:2007, rate:20},
+      {year:2008, rate:28},
+    ],
+    "Hepb" : [
+      {year:2000, rate:60},
+      {year:2001, rate:61},
+    ],
+  };
+
+  const lineVaccTypes = ['DTP', "Pneu", 'Hib', 'Hepb']
+
+  drawline(g_line, xScale, yScale, lineData, lineVaccTypes);
 
   updateMap(2002);
 
@@ -461,36 +463,29 @@ function updateMap(yearUpdate) {
 
   d3.json('data/eu.json')
     .then(data => {
-      const countries = topojson.feature(data, data.objects.europe)
+      // const countries = topojson.feature(data, data.objects.europe)
 
-      let countryRate = mapData[ yearUpdate]
+      let countryRate = mapData[yearUpdate]
 
        g_map.selectAll('path')
        .attr('fill', (d, i) => color(countryRate[d.id] / 100));
   });
 }
 
-// var data = ["DTP", "Hib", "Hepb", "Pneu"];
-//
-// var select = d3.select('body')
-//   .append('select')
-//   	.attr('class','select')
-//     .on('change',onchange)
-//
-// var options = select
-//   .selectAll('option')
-// 	.data(data).enter()
-// 	.append('option')
-// 		.text(function (d) { return d; });
-//
-// function onchange() {
-// 	selectValue = d3.select('select').property('value')
-// 	d3.select('body')
-// 		.append('p')
-// 		.text(selectValue + ' is the last selected option.')
-// };
-
 
 }
 
 main();
+
+d3.select(".myCheckbox").on("change",update);
+update();
+
+function update() {
+  var choices = [];
+  d3.selectAll('.vacc-type-checkbox').each(function() {
+    console.log(this.value, this.checked);
+    if (this.checked == true) {
+      choices.push(this.value)}
+      console.log("checked", choices)
+  });
+}

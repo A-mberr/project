@@ -112,72 +112,55 @@ function yLabels(g, g_line, yScale, margin) {
 }
 
 
-function drawline(g_line, xScale, yScale, countryComparisonData, selectedCountry, hepbData, dtpData, pneuData, hibData) {
+function drawline(g_line, xScale, yScale, countryComparisonData, selectedCountry) {
+
+  const data = {
+    "DTP" : [
+      {year:2014, rate:93},
+      {year:2015, rate:91},
+    ],
+    "Pneu" : [
+      {year:1997, rate:3},
+      {year:1998, rate:6},
+    ],
+    "Hib" : [
+      {year:2007, rate:20},
+      {year:2008, rate:28},
+    ],
+    "Hepb" : [
+      {year:2000, rate:60},
+      {year:2001, rate:61},
+    ],
+  };
+
+  const vaccTypes = ['DTP', "Pneu", 'Hib', 'Hepb']
+  const dots = [];
+
+  for (vaccType of vaccTypes) {
+    const values =  data[vaccType];
+    for (value of values) {
+      dots.push({
+        year: value.year,
+        rate: value.rate,
+        type: vaccType,
+      });
+
+    }
+  }
+
+  console.log("Dots", dots)
+
   const colors = {
     "DTP": "#a6cee3",
     "Hib": '#1f78b4',
     "Hep b": '#b2df8a',
     "Pneu": "#33a02c",
-    "Men C": "#fb9a99",
-   };
+  };
 
-   // var colors = ['#d7191c','#fdae61','#abd9e9','#4682b4']
-
-  // const tests = [{
-  //     year: 1998,
-  //     rate: 50,
-  //     type: "DTP",
-  //   },
-  //   {
-  //     year: 2000,
-  //     rate: 75,
-  //     type: "Hib",
-  //   },
-  //   {
-  //     year: 2008,
-  //     rate: 75,
-  //     type: "Men C",
-  //   }
-  // ]
-
-  const ratesInCountryHib = hibData[selectedCountry];
-  const yearsHib = Object.keys(ratesInCountryHib);
-
-  const ratesInCountryHebp = hepbData[selectedCountry];
-  const yearsHepb = Object.keys(ratesInCountryHebp);
-
-  const ratesInCountryDTP = dtpData[selectedCountry];
-  const yearsDTP = Object.keys(ratesInCountryDTP);
-
-  const ratesInCountryPneu = pneuData[selectedCountry];
-  const yearsPneu = Object.keys(ratesInCountryPneu);
-
-  // const ratesInCountry = countryComparisonData[selectedCountry];
-  // const years = Object.keys(ratesInCountry);
-
-  // console.log(years)
-  // console.log(ratesInCountry)
-
-  const bars = [];
-
-  for (let i = 0; i < yearsPneu.length; i++) {
-    let year = yearsPneu[i];
-    if (ratesInCountryPneu[year] == null) {
-      continue;
-    }
-    bars.push({
-      year: year,
-      rate: '' + ratesInCountryPneu[year],
-      type: "Pneu"
-    });
-  }
-
-  console.log(bars)
-
-  var points = g_line.selectAll("circle")
+  g_line.selectAll("circle")
     .remove()
     .exit()
-    .data(bars)
+    .data(dots)
     .enter()
     .append("circle")
     .attr("cx", d => xScale(d.year))
@@ -191,14 +174,18 @@ function drawline(g_line, xScale, yScale, countryComparisonData, selectedCountry
     // .interpolate("linear")
     .attr("fill", d => colors[d.type]);
 
-  var lines = d3.line()
-    .x(function(d) { return xScale(d.year); })
-    .y(function(d) { return yScale(d.rate); });
+  g_line.selectAll('path')
+    .remove();
 
-    g_line.append("path")
-      .datum(bars)
-      .attr("class", "lines")
-      .attr("d", lines);
+  for (vaccType of vaccTypes) {
+    const line = d3.line()
+      .x(d => xScale(d.year))
+      .y(d => yScale(d.rate));
+
+    g_line.append('path')
+      .attr("class", "lines " + vaccType)
+      .attr("d", line(data[vaccType]));
+  }
 }
 
 function showHibData() {
@@ -428,7 +415,7 @@ async function main() {
 
   let sliderValue = drawSlider()
 
-  const selectedCountry = "BE";
+  const selectedCountry = "DE";
   const countryComparisonData = await loadCountryComparisonData('Hib');
 
   const hibData = await loadCountryComparisonData('Hib');
@@ -451,15 +438,15 @@ async function main() {
 
   drawline(g_line, xScale, yScale, countryComparisonData, selectedCountry, hepbData, dtpData, pneuData, hibData);
 
-  update(2002);
+  updateMap(2002);
 
     d3.select("#slider").on("input", function() {
-      update(+this.value);
+      updateMap(+this.value);
     });
 
 
 // update the elements
-function update(yearUpdate) {
+function updateMap(yearUpdate) {
 
   var colors = ['#f1eef6','#d0d1e6','#a6bddb','#74a9cf','#3690c0','#0570b0','#034e7b']
   const color = d3.scaleThreshold()

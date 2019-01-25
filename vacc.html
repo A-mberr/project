@@ -37,13 +37,18 @@ Student number: 11819359 -->
   <!-- </div> -->
 
 
+
   <div class="flex-container">
+    <svg class="map"></svg>
+    <div class="tooltip"></div>
+    <input type="range" min="1997" step=1 max="2017" value="2006" class="slider" id="slider" name="slider" >
+
     <svg class="groupedBars">
       <foreignObject x="150" y="30" width="650" height="200" class="dropdown">
         <label for="vacc_select">Vergelijk de vaccinatiegraad van </label>
         <select id="vacc_select">
           <!-- <option value="">--Kies vaccinatie type--</option> -->
-          <option selected="selected" value="DKTP">DKTP</option>
+          <option selected="selected" value="DTP">DTP</option>
           <option value="Heb B">Hib</option>
           <option value="Heb B">Heb B</option>
           <option value="Pneu">Pneu</option>
@@ -65,24 +70,40 @@ Student number: 11819359 -->
     </form> -->
 
     <!-- https://bl.ocks.org/johnwalley/e1d256b81e51da68f7feb632a53c3518 -->
-      <div class="row align-items-center">
-        <!-- <div class="col-sm-2"><p id="value-time"></p></div> -->
-        <div class="col-sm"><div id="slider-time"></div></div>
-      </div>
+
+      <!-- <div class="row align-items-center">
+       <div class="col-sm-2"><p id="value-time"></p></div>
+       <div class="col-sm"><div id="slider-time"></div></div>
+     </div> -->
 
     <svg class="line">
       <foreignObject x="875" y="140" width="160" height="160">
-        <input type="checkbox" name="DTP" checked><span style="color: #a6cee3">●</span> DTP <br>
-        <input type="checkbox" name="Hib"><span style="color: #1f78b4">●</span> Hib <br>
-        <input type="checkbox" name="Hep B"><span style="color: #b2df8a">●</span> Hep B <br>
-        <input type="checkbox" name="Pneu"><span style="color: #33a02c">●</span> Pneu <br>
-        <input type="checkbox" name="Men C"><span style="color: #fb9a99">●</span> Men C <br>
+        <input type="checkbox" class="vacc-type-checkbox" name="vaccType" value="DTP"><span style="color: #a6cee3">●</span> DTP <br>
+        <input type="checkbox" class="vacc-type-checkbox" name="vaccType" value="Pneu"><span style="color: #33a02c">●</span> Pneu <br>
+        <input type="checkbox" class="vacc-type-checkbox" name="vaccType" value="Hib"> <span style="color: #1f78b4">●</span> Hib<br>
+        <input type="checkbox" class="vacc-type-checkbox" name="vaccType" value="Hepb"><span style="color: #b2df8a">●</span> Hep B <br>
       </foreignObject>
     </svg>
 
-    <svg class="map"></svg>
+
 
   </div>
+
+
+<!-- 
+
+  <input type="checkbox" name="DTP" checked><span style="color: #a6cee3">●</span> DTP <br>
+  <input type="checkbox" name="Hib"><span style="color: #1f78b4">●</span> Hib<br>
+  <input type="checkbox" name="Hep B"><span style="color: #b2df8a">●</span> Hep B <br>
+  <input type="checkbox" name="Pneu"><span style="color: #33a02c">●</span> Pneu <br>
+  <input type="checkbox" name="Men C"><span style="color: #fb9a99">●</span> Men C <br> -->
+  <!-- <label for="nRadius"
+         style="display: inline-block; width: 240px; text-align: right">
+  </label>
+  <input type="range" min="1" max="150" id="slider"> -->
+
+
+
   <script src="d3.v5.js"></script>
   <script src='https://unpkg.com/topojson@3.0.2/dist/topojson.min.js'></script>
   <script src="https://unpkg.com/d3-simple-slider"></script>

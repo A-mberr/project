@@ -63,3 +63,8 @@
 - Slider interactief gemaakt met de map
 - tooltip gecreerd ide denaam van het land weergeeft in de map
 - data toegevoegd zodat meerdere lijnen tegelijk kunnen worden getekend
+
+## Dag 15
+- De code kan nu meerdere lijnen tekenen in de line chart
+- Code teogevoegd aan zowel de html en de js om de checkboxes te laten werken
+- er zitten nog problemen in de main. Dit probleem zal morgen worden opgelost

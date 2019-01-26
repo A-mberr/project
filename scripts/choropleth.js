@@ -15,29 +15,30 @@ function drawMap(svg_map, g_map, polygons) {
   // This code has been obtained form the video of Curran Kelleher
   // https://www.youtube.com/watch?v=Qw6uAg3EO64
   const projection = d3.geoMercator()
-    .scale(650)
-    .center([19, 62])
-  // .translate([width/2, height/2]);
+    .scale(500)
+    .center([34, 58])
   const pathGenerator = d3.geoPath().projection(projection)
 
-      const countries = topojson.feature(polygons, polygons.objects.europe)
+  const countries = topojson.feature(polygons, polygons.objects.europe)
 
-      // TODO: verander colorscale en pas aan naar de juiste treshold grenzen
-      // var colors = ['#045a8d', '#2b8cbe', '#74a9cf', '#bdc9e1', '#f1eef6']
-      var colors = ['#f1eef6','#d0d1e6','#a6bddb','#74a9cf','#3690c0','#0570b0','#034e7b']
-      const color = d3.scaleThreshold()
-        .domain([0.5, 0.6, 0.7, 0.8, 0.85, 0.9, 0.95])
-        .range(colors);
+  // TODO: verander colorscale en pas aan naar de juiste treshold grenzen
+  var colors = ['#f1eef6','#d0d1e6','#a6bddb','#74a9cf','#3690c0','#0570b0','#034e7b']
+  const color = d3.scaleThreshold()
+    .domain([0.5, 0.6, 0.7, 0.8, 0.85, 0.9, 0.95])
+    .range(colors);
 
-      let map = g_map.selectAll('path').data(countries.features)
-        .enter().append('path')
-        .attr('class', 'kaart')
-        .attr('d', pathGenerator)
-        .append('title')
-        .text(d => d.properties.NAME);
-      // .text('hello');
-      //   .attr('fill', (d, i) => color(countryRate[d.id] / 100));
+  let clicked = []
+  let map = g_map.selectAll('path').data(countries.features)
+    .enter().append('path')
+    .attr('class', 'kaart')
+    .attr('d', pathGenerator)
+    .append('title')
+    // .text(d => console.log(d.id));
+    .text(d => d.properties.NAME);
 
+  d3.selectAll('path').on('click', function(d, i) {
+    console.log(d.id);
+  });
 }
 
 function generateLegend(svg_map, graph) {
@@ -51,7 +52,7 @@ function generateLegend(svg_map, graph) {
   var legendMap = svg_map.append('g')
     .attr('class', 'legend')
     .attr('transform',
-    'translate(' + (graph.width + graph.margin.left) + ',' + (graph.height / 2) + ')');
+    'translate(' + (graph.width + graph.margin.left - 120) + ',' + (graph.height / 2) + ')');
 
   const colorBoxSize = 20 - 3; // in pixels
 
@@ -93,22 +94,6 @@ function makeTitles(svg_map, graph) {
     .text('De vaccinatiegraad in Europa')
 }
 
-// function updateMap(yearUpdate) {
-//
-//   var colors = ['#f1eef6','#d0d1e6','#a6bddb','#74a9cf','#3690c0','#0570b0','#034e7b']
-//   const color = d3.scaleThreshold()
-//     .domain([0.5, 0.6, 0.7, 0.8, 0.85, 0.9, 0.95])
-//     .range(colors);
-//
-//   d3.json('data/eu.json')
-//     .then(data => {
-//       let countryRate = mapData[yearUpdate]
-//
-//        g_map.selectAll('path')
-//        .attr('fill', (d, i) => color(countryRate[d.id] / 100));
-//   });
-// }
-
 // update the elements
 function updateMap(yearUpdate, mapData) {
 
@@ -120,13 +105,7 @@ function updateMap(yearUpdate, mapData) {
   //d3.json('data/eu.json').then(jkjjkk => {
     let countryRate = mapData[yearUpdate]
     g_map.selectAll('path')
-      // .attr('fill', (d, i) => color(Object.values(countryRate) / 100));
       .attr('fill', (d, i) => color(countryRate[d.id] / 100));
-
-    console.log("iii", countryRate)
-    console.log("jjj", Object.values(countryRate))
-
-  //});
 }
 
 function main(data) {
@@ -149,8 +128,8 @@ function main(data) {
 
 // SVG for map
 const svg_map = d3.select('.map')
-  .attr('width', graph.width + graph.margin.left + graph.margin.right + 200)
-  .attr('height', graph.height + graph.margin.top + graph.margin.bottom + 400)
+  .attr('width', graph.width + graph.margin.left + graph.margin.right)
+  .attr('height', graph.height + graph.margin.top + graph.margin.bottom + 200)
   .style('background', 'white')
 
 const g_map = svg_map.append('g')

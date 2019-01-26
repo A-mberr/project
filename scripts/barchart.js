@@ -2,11 +2,13 @@
 // Student ID: 11819359
 // https://bl.ocks.org/d3noob/0e276dc70bb9184727ee47d6dd06e915 was used for constructing this code
 
+(function() {
+
 async function loadCountryComparisonData(vaccType) {
-  return await d3.json("data/vacc_bar_" + vaccType + ".json");
+  return await d3.json('data/vacc_bar_' + vaccType + '.json');
 }
 
-function drawBars(g, xScale, yScale, margin, height, countryComparisonData, selectedCountry) {
+function drawBars(g, graph, countryComparisonData, selectedCountry) {
 
   const ratesInNetherlands = countryComparisonData['NL'];
   const ratesInCountry = countryComparisonData[selectedCountry];
@@ -32,57 +34,57 @@ function drawBars(g, xScale, yScale, margin, height, countryComparisonData, sele
   const gutterWidth = 8; // in pixels
   const halfGutterWidth = gutterWidth / 2;
   const barWidth = 15;
-  const colors = ["#4682B4", "black"];
+  const colors = ['#4682B4', 'black'];
 
-  g.selectAll(".bar")
+  g.selectAll('.bar')
     .data(bars)
     .enter()
-    .append("rect")
-    .attr("class", "bar")
-    .attr("x", (d, i) => {
-      let x = xScale(d.year);
+    .append('rect')
+    .attr('class', 'bar')
+    .attr('x', (d, i) => {
+      let x = graph.xScale(d.year);
       if (i % 2 == 1) {
         x += barWidth + 1 - 33;
       }
       return x;
     })
-    .attr('y', d => yScale(d.rate))
-    .attr("width", barWidth)
-    .attr('height', d => (height - margin.top) - yScale(d.rate))
-    .attr("fill", (d, i) => colors[i % 2]);
+    .attr('y', d => graph.yScale(d.rate))
+    .attr('width', barWidth)
+    .attr('height', d => (graph.height - graph.margin.top) - graph.yScale(d.rate))
+    .attr('fill', (d, i) => colors[i % 2]);
 }
 
-function xLabels(g, g_line, xScale, height, margin) {
+function xLabels(g, graph) {
 
   const xAxis = d3.axisBottom()
-    .scale(xScale)
-    .tickFormat(d3.format("y")).ticks(20)
+    .scale(graph.xScale)
+    .tickFormat(d3.format('y')).ticks(20)
 
-  var gX_bar = g.append("g")
-    .attr("transform", "translate(0," + (height - margin.top) + ")")
+  var gX_bar = g.append('g')
+    .attr('transform', 'translate(0,' + (graph.height - graph.margin.top) + ')')
     .call(xAxis);
 }
 
-function yLabels(g, g_line, yScale, margin) {
+function yLabels(g, graph) {
   const yAxis = d3.axisLeft()
-    .scale(yScale)
-    .tickFormat(d => d + "%");
+    .scale(graph.yScale)
+    .tickFormat(d => d + '%');
 
-  let gY = g.append("g")
-    .attr("transform", "translate(" + margin.top + ",0)")
+  let gY = g.append('g')
+    .attr('transform', 'translate(' + graph.margin.top + ',0)')
     .call(yAxis);
 }
 
-function generateLegend(svg_map, svg, width, margin, height) {
+function generateLegend(svg, graph) {
 
-  var colorsBar = ["#2b8cbe", "#000000"]
-  var domainsBar = ["Nederland", "Selected country"]
+  var colorsBar = ['#2b8cbe', '#000000']
+  var domainsBar = ['Nederland', 'Selected country']
 
-  var legendBar = svg.append("g")
-    .attr("class", "legend")
-    .attr("transform",
-      "translate(" + (width - margin.left- margin.padding) +
-      "," + (height / 3.5) + ")");
+  var legendBar = svg.append('g')
+    .attr('class', 'legend')
+    .attr('transform',
+      'translate(' + (graph.width - graph.margin.left- graph.margin.padding) +
+      ',' + (graph.height / 3.5) + ')');
 
   const colorBoxSize = 20 - 3; // in pixels
 
@@ -93,7 +95,7 @@ function generateLegend(svg_map, svg, width, margin, height) {
     .attr('x', 0)
     // Drawing a rect starts at top left corner, and goes down. Subtract the box
     // size to align the boxes with the legend text.
-    .attr("y", (d, i) => i * 20 - margin.padding - colorBoxSize)
+    .attr('y', (d, i) => i * 20 - graph.margin.padding - colorBoxSize)
     .attr('width', colorBoxSize)
     .attr('height', colorBoxSize)
     .style('fill',(d, i) => colorsBar[i]);
@@ -101,10 +103,38 @@ function generateLegend(svg_map, svg, width, margin, height) {
   legendBar.selectAll('text')
     .data(domainsBar)
     .enter()
-    .append("text")
+    .append('text')
     .attr('x', 30)
-    .attr("y", (d, i) => i * 20 - margin.padding)
+    .attr('y', (d, i) => i * 20 - graph.margin.padding)
     .text((d, i) => domainsBar[i])
     .attr('width', colorBoxSize)
     .attr('height', colorBoxSize);
 }
+
+
+async function main() {
+  const svg = d3.select('.groupedBars')
+    .attr('width', graph.width + graph.margin.left + graph.margin.right)
+    .attr('height', graph.height + graph.margin.top + graph.margin.bottom + graph.margin.padding)
+    .style('background', 'white')
+
+  const g = svg.append('g')
+    .attr('transform', 'translate(' + graph.margin.left + ','
+      + (graph.margin.top + graph.margin.padding) + ')');
+
+  const selectedCountry = 'DE';
+  const countryComparisonData = await loadCountryComparisonData('Hib');
+
+  drawBars(g, graph, countryComparisonData,
+          selectedCountry);
+
+  xLabels(g, graph)
+
+  yLabels(g, graph)
+
+  generateLegend(svg, graph)
+}
+
+main()
+
+})();

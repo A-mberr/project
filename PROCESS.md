@@ -68,3 +68,12 @@
 - De code kan nu meerdere lijnen tekenen in de line chart
 - Code teogevoegd aan zowel de html en de js om de checkboxes te laten werken
 - er zitten nog problemen in de main. Dit probleem zal morgen worden opgelost
+- Code gegenereerd om de de lines te runnen op een meer effecientere manier
+
+## Dag 16
+- De grote file met al mijn functie opgedeeld in kleinere files die elk een visualisatie weergeven.
+- HMTL aangepast zodat er radio boxes in staan
+- CSS file aangepast voor de juiste layout en een logischere opmaak
+- Fucntie toevoegd die kan achterhalen welk land je hebt aangeklikt. Deze informatie wordt gebruikt om de andere visualisaties mee aan te passen.
+- HTML aangepast om een ligischere layout te creeeren
+- 

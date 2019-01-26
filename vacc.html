@@ -27,7 +27,19 @@ Student number: 11819359 -->
   met als gevolg dat de groepsimmuniteit daalt. De WHO streeft ernaar om een een vaccinatiegraad van 95% te
   bereiken om enigzins groepsimmuniteit te kunnen garanderen. Wanneer deze vaccinatiegraad lager is dan 95%
   kan dit als gevolg hebben dat mensen elkaar makkelijker kunnen besmetten en er steeds meer gevallen van bijvoorbeeld
-  de mazelen in Nederland worden gerapporteerd.</p>
+  de mazelen in Nederland worden gerapporteerd.<br>
+  <br>Op deze website kan je de vaccinatiegraad visualiseren in Europa. Aan de hand van de slider kan je door de jaren heen zien hoe dit is veranderd.
+  Maar als eerste stap, kies een vaccinatietype waarvan je de vaccinatiegraad wil zien in Europa:<br><br>
+  <input type="radio" id="DTP" name="vacc_type_radio" value="DTP" checked>
+    <label for="DTP">DTP</label>
+  <input type="radio" id="Pneu" name="vacc_type_radio" value="Pneu">
+    <label for="Pneu">Pneumokokken</label>
+  <input type="radio" id="Hepb" name="vacc_type_radio" value="Hepb">
+    <label for="Hepb">Hepatitis B</label>
+  <input type="radio" id="Hib" name="vacc_type_radio" value="Hib">
+    <label for="Hib">Haemophilus influenzae type B (Hib)</label>
+
+  </p>
 
 <!-- <foreignObject x="350" y="40" width="600" height="160"> -->
 
@@ -37,6 +49,19 @@ Student number: 11819359 -->
   <!-- </div> -->
 
 
+  <!-- <foreignObject x="150" y="30" width="650" height="200" class="radio-elements"> -->
+  <!-- <div class="vacc-type-radio-box"><p>
+    Om een beeld te geen van de vaccinatiegraad in Europa ten opzichte van Nederland, zijn deze visualisaties gecreeerd
+    <br>
+    <input type="radio" id="DTP" name="vacc_type_radio" value="DTP" checked>
+      <label for="DTP">DTP</label>
+    <input type="radio" id="Pneu" name="vacc_type_radio" value="Pneu">
+      <label for="Pneu">Pneumokokken</label>
+    <input type="radio" id="Hepb" name="vacc_type_radio" value="Hepb">
+      <label for="Hepb">Hepatitis B</label>
+    <input type="radio" id="Hib" name="vacc_type_radio" value="Hib">
+      <label for="Hib">Haemophilus influenzae type B (Hib)</label>
+  </p></div> -->
 
   <div class="flex-container">
     <svg class="map"></svg>
@@ -47,12 +72,10 @@ Student number: 11819359 -->
       <foreignObject x="150" y="30" width="650" height="200" class="dropdown">
         <label for="vacc_select">Vergelijk de vaccinatiegraad van </label>
         <select id="vacc_select">
-          <!-- <option value="">--Kies vaccinatie type--</option> -->
-          <option selected="selected" value="DTP">DTP</option>
+          <option selected="selected" value="DTP" selected>DTP</option>
           <option value="Heb B">Hib</option>
           <option value="Heb B">Heb B</option>
           <option value="Pneu">Pneu</option>
-          <option value="Men C">Men C</option>
         </select>
         <label for="vacc_select"> tussen Nederland en .... </label>
       </foreignObject>
@@ -78,35 +101,21 @@ Student number: 11819359 -->
 
     <svg class="line">
       <foreignObject x="875" y="140" width="160" height="160">
-        <input type="checkbox" class="vacc-type-checkbox" name="vaccType" value="DTP"><span style="color: #a6cee3">●</span> DTP <br>
+        <input type="checkbox" class="vacc-type-checkbox" name="vaccType" value="DTP" checked><span style="color: #a6cee3">●</span> DTP <br>
         <input type="checkbox" class="vacc-type-checkbox" name="vaccType" value="Pneu"><span style="color: #33a02c">●</span> Pneu <br>
-        <input type="checkbox" class="vacc-type-checkbox" name="vaccType" value="Hib"> <span style="color: #1f78b4">●</span> Hib<br>
+        <input type="checkbox" class="vacc-type-checkbox" name="vaccType" value="Hib"><span style="color: #1f78b4">●</span> Hib<br>
         <input type="checkbox" class="vacc-type-checkbox" name="vaccType" value="Hepb"><span style="color: #b2df8a">●</span> Hep B <br>
       </foreignObject>
     </svg>
-
-
-
   </div>
 
-
-<!-- 
-
-  <input type="checkbox" name="DTP" checked><span style="color: #a6cee3">●</span> DTP <br>
-  <input type="checkbox" name="Hib"><span style="color: #1f78b4">●</span> Hib<br>
-  <input type="checkbox" name="Hep B"><span style="color: #b2df8a">●</span> Hep B <br>
-  <input type="checkbox" name="Pneu"><span style="color: #33a02c">●</span> Pneu <br>
-  <input type="checkbox" name="Men C"><span style="color: #fb9a99">●</span> Men C <br> -->
-  <!-- <label for="nRadius"
-         style="display: inline-block; width: 240px; text-align: right">
-  </label>
-  <input type="range" min="1" max="150" id="slider"> -->
-
-
-
   <script src="d3.v5.js"></script>
-  <script src='https://unpkg.com/topojson@3.0.2/dist/topojson.min.js'></script>
+  <script src="https://unpkg.com/topojson@3.0.2/dist/topojson.min.js"></script>
   <script src="https://unpkg.com/d3-simple-slider"></script>
-  <script src="vacc_script.js"></script>
+  <script src="scripts/common.js"></script>
+  <script src="scripts/linechart.js"></script>
+  <script src="scripts/barchart.js"></script>
+  <script src="scripts/choropleth.js"></script>
+
 </body>
 </html>

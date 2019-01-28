@@ -86,11 +86,11 @@ for vacc_type in vacc_types:
 
             code = codes[country]
 
-            values = {
-                int(year): float(row[year])
+            values = [
+                {'year': int(year), 'rate': float(row[year])}
                 for year in years
                 if row.get(year) not in ['', None]
-            }
+            ]
             data[code][vacc_type] = values
 
 with open("vacc_line.json", "w") as jsonfile:

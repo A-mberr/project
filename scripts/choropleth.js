@@ -16,7 +16,7 @@ function drawMap(svg_map, g_map, polygons) {
   // https://www.youtube.com/watch?v=Qw6uAg3EO64
   const projection = d3.geoMercator()
     .scale(500)
-    .center([34, 58])
+    .center([27, 60])
   const pathGenerator = d3.geoPath().projection(projection)
 
   const countries = topojson.feature(polygons, polygons.objects.europe)
@@ -24,7 +24,7 @@ function drawMap(svg_map, g_map, polygons) {
   // TODO: verander colorscale en pas aan naar de juiste treshold grenzen
   var colors = ['#f1eef6','#d0d1e6','#a6bddb','#74a9cf','#3690c0','#0570b0','#034e7b']
   const color = d3.scaleThreshold()
-    .domain([0.5, 0.6, 0.7, 0.8, 0.85, 0.9, 0.95])
+    .domain([0.4, 0.5, 0.6, 0.7, 0.8, 0.85, 0.9, 0.95])
     .range(colors);
 
   let clicked = []
@@ -35,24 +35,20 @@ function drawMap(svg_map, g_map, polygons) {
     .append('title')
     // .text(d => console.log(d.id));
     .text(d => d.properties.NAME);
-
-  d3.selectAll('path').on('click', function(d, i) {
-    console.log(d.id);
-  });
 }
 
 function generateLegend(svg_map, graph) {
 
   // Legenda wordt nog gemaakt aan de hand van de data
   // TODO: verander de legenda naar waarden die loppen met de margins
-  var colors = ['#f1eef6','#d0d1e6','#a6bddb','#74a9cf','#3690c0','#0570b0','#034e7b']
-  var domains = ['0-20%', '20-40%', '40-60%', '70-80%', '80-90%', '90-95%', '95-100%']
+  var colors = ['#fff7fb','#ece7f2','#d0d1e6','#a6bddb','#74a9cf','#3690c0','#0570b0','#034e7b']
+  var domains = ['<40%', '40-50%', '50-60%', '60-70%', '70-80%', '85-90%', '90-95%', '95-100%']
 
   // TODO add text 'Vacciantiegraad (%)'
   var legendMap = svg_map.append('g')
     .attr('class', 'legend')
     .attr('transform',
-    'translate(' + (graph.width + graph.margin.left - 120) + ',' + (graph.height / 2) + ')');
+    'translate(' + (graph.width + graph.margin.left - 130) + ',' + (graph.height / 2) + ')');
 
   const colorBoxSize = 20 - 3; // in pixels
 
@@ -69,7 +65,7 @@ function generateLegend(svg_map, graph) {
     .attr('x', 0)
     // Drawing a rect starts at top left corner, and goes down. Subtract the box
     // size to align the boxes with the legend text.
-    .attr('y', (d, i) => i * 20 - graph.margin.padding - colorBoxSize)
+    .attr('y', (d, i) => i * 23 - graph.margin.padding - colorBoxSize)
     .attr('width', colorBoxSize)
     .attr('height', colorBoxSize)
     .style('fill',(d, i) => colors[i]);
@@ -79,19 +75,20 @@ function generateLegend(svg_map, graph) {
     .enter()
     .append('text')
     .attr('x', 30)
-    .attr('y', (d, i) => i * 20 - graph.margin.padding)
+    .attr('y', (d, i) => i * 23 - graph.margin.padding)
     .text((d, i) => domains[i])
     .attr('width', colorBoxSize)
     .attr('height', colorBoxSize);
 }
 
-function makeTitles(svg_map, graph) {
+function makeTitle(svg_map, graph) {
 
   svg_map.append('text')
+    .attr('class', 'title')
     .attr('x', (graph.width + graph.margin.left + graph.margin.right) / 2)
     .attr('y', graph.margin.top + graph.margin.padding / 2)
     .attr('text-anchor', 'middle')
-    .text('De vaccinatiegraad in Europa')
+    .text('Vaccinatiegraad in Europa')
 }
 
 // update the elements
@@ -102,10 +99,9 @@ function updateMap(yearUpdate, mapData) {
     .domain([0.5, 0.6, 0.7, 0.8, 0.85, 0.9, 0.95])
     .range(colors);
 
-  //d3.json('data/eu.json').then(jkjjkk => {
-    let countryRate = mapData[yearUpdate]
-    g_map.selectAll('path')
-      .attr('fill', (d, i) => color(countryRate[d.id] / 100));
+  let countryRate = mapData[yearUpdate]
+  g_map.selectAll('path')
+    .attr('fill', (d, i) => color(countryRate[d.id] / 100));
 }
 
 function main(data) {
@@ -117,19 +113,23 @@ function main(data) {
 
   generateLegend(svg_map, graph)
 
-  makeTitles(svg_map, graph)
+  makeTitle(svg_map, graph)
 
   updateMap(defaultSelectedYear, vaccData);
 
   d3.select('#slider').on('input', function() {
     updateMap(+this.value, vaccData);
   });
+
+  d3.selectAll('path').on('click', function(d, i) {
+    console.log(d.id);
+  });
 }
 
 // SVG for map
 const svg_map = d3.select('.map')
   .attr('width', graph.width + graph.margin.left + graph.margin.right)
-  .attr('height', graph.height + graph.margin.top + graph.margin.bottom + 200)
+  .attr('height', graph.height + graph.margin.top + graph.margin.bottom + 250)
   .style('background', 'white')
 
 const g_map = svg_map.append('g')

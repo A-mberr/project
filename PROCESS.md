@@ -76,4 +76,5 @@
 - CSS file aangepast voor de juiste layout en een logischere opmaak
 - Fucntie toevoegd die kan achterhalen welk land je hebt aangeklikt. Deze informatie wordt gebruikt om de andere visualisaties mee aan te passen.
 - HTML aangepast om een ligischere layout te creeeren
-- 
+- Json juiste format voor line graph zodat de lijnen getekend kunnen worden vai de js file
+- Styling aspecten verbeterd

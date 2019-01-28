@@ -1,123 +1,97 @@
 # Name: Amber Nobel
 # Student number: 11819359
-
-import pandas as pd
+from collections import defaultdict
 import json
+
 import csv
-import numpy as np
 
-# # reads csv and converts it to a dataframe
-# df = pd.read_csv('vacc_nl.csv', encoding='cp1252')
-#
-# df['DKTP'] = df['DKTP'].str.replace(',', '.')
-# df['DKTP'] = df['DKTP'].str.strip('b')
-# df['DKTP'] = pd.to_numeric(df['DKTP'])
-#
-# df = df[['Cohort', 'DKTP', "Pneu"]]
-#
-# df.to_json('data_nl.json', orient='records')
+codes = {
+    "Albania": "AL",
+    "Andorra": "AD",
+    "Austria": "AT",
+    "Azerbaijan": "AZ",
+    "Belarus": "BY",
+    "Belgium": "BE",
+    "Bosnia and Herzegovina": "BA",
+    "Bulgaria": "BG",
+    "Croatia": "HR",
+    "Cyprus": "CY",
+    "Czechia": "CZ",
+    "Denmark": "DK",
+    "Estonia": "EE",
+    "Finland": "FI",
+    "France": "FR",
+    "Georgia": "GE",
+    "Germany": "DE",
+    "Greece": "GR",
+    "Hungary": "HU",
+    "Iceland": "IS",
+    "Ireland": "IE",
+    "Italy": "IT",
+    "Kazakhstan": "KZ",
+    "Kosovo": "XK",
+    "Latvia": "LV",
+    "Liechtenstein": "LI",
+    "Lithuania": "LT",
+    "Luxembourg": "LU",
+    "The former Yugoslav republic of Macedonia": "MK",
+    "Malta": "MT",
+    "Republic of Moldova": "MD",
+    "Monaco": "MC",
+    "Montenegro": "ME",
+    "Netherlands": "NL",
+    "Norway": "NO",
+    "Poland": "PL",
+    "Portugal": "PT",
+    "Romania": "RO",
+    "Russia": "RU",
+    "San Marino": "SM",
+    "Serbia": "RS",
+    "Slovakia": "SK",
+    "Slovenia": "SI",
+    "Spain": "ES",
+    "Sweden": "SE",
+    "Switzerland": "CH",
+    "Turkey": "TR",
+    "Ukraine": "UA",
+    "United Kingdom of Great Britain and Northern Ireland": "GB",
+    "Vatican City": "VA"
+}
 
+vacc_types = [
+    "Hib",
+    "Pneu",
+    "DTP",
+    "Hepb",
+]
 
-array = ['Albania', 'Andorra', 'Austria', 'Belarus', 'Belgium',
-            'Bosnia and Herzegovina', 'Bulgaria', 'Croatia', 'Czechia',
-            'Denmark', 'Estonia', 'Finland', 'France', 'Germany', 'Greece',
-            'Hungary', 'Iceland', 'Ireland', 'Italy', 'Latvia', 'Liechtenstein',
-            'Lithuania', 'Luxembourg', 'The former Yugoslav republic of Macedonia',
-            'Malta', 'Republic of Moldova', 'Monaco', 'Netherlands', 'Norway',
-            'Poland', 'Portugal', 'Romania', 'Russia', 'San Marino',
-            'Serbia and Montenegro', 'Serbia', 'Slovakia', 'Slovenia', 'Spain',
-            'Sweden', 'Switzerland', 'Ukraine',
-            'United Kingdom of Great Britain and Northern Ireland']
+years = list(map(str, range(1989, 2018)))
+field_names = ['Country'] + list(reversed(years))
 
-codes = {"Albania": "AL",
-"Andorra": "AD",
-"Austria": "AT",
-"Azerbaijan": "AZ",
-"Belarus": "BY",
-"Belgium": "BE",
-"Bosnia and Herzegovina": "BA",
-"Bulgaria": "BG",
-"Croatia": "HR",
-"Cyprus": "CY",
-"Czechia": "CZ",
-"Denmark": "DK",
-"Estonia": "EE",
-"Finland": "FI",
-"France": "FR",
-"Georgia": "GE",
-"Germany": "DE",
-"Greece": "GR",
-"Hungary": "HU",
-"Iceland": "IS",
-"Ireland": "IE",
-"Italy": "IT",
-"Kazakhstan": "KZ",
-"Kosovo": "XK",
-"Latvia": "LV",
-"Liechtenstein": "LI",
-"Lithuania": "LT",
-"Luxembourg": "LU",
-"The former Yugoslav republic of Macedonia": "MK",
-"Malta": "MT",
-"Republic of Moldova": "MD",
-"Monaco": "MC",
-"Montenegro": "ME",
-"Netherlands": "NL",
-"Norway": "NO",
-"Poland": "PL",
-"Portugal": "PT",
-"Romania": "RO",
-"Russia": "RU",
-"San Marino": "SM",
-"Serbia": "RS",
-"Slovakia": "SK",
-"Slovenia": "SI",
-"Spain": "ES",
-"Sweden": "SE",
-"Switzerland": "CH",
-"Turkey": "TR",
-"Ukraine": "UA",
-"United Kingdom of Great Britain and Northern Ireland": "GB",
-"Vatican City": "VA"}
+data = defaultdict(dict)
 
-csvFilePath = "vacc_eu_Hib.csv"
+for vacc_type in vacc_types:
 
-df = pd.read_csv(csvFilePath, header=1)
+    with open('vacc_eu_{}.csv'.format(vacc_type), newline='') as csvfile:
+        # skip the first line (header)
+        next(csvfile)
 
-df = df[df['Country'].isin(array)]
-df = df[df['Country'].notnull()]
+        reader = csv.DictReader(csvfile)
 
-df["Country"] = df['Country'].map(codes).fillna(df['Country'])
-print(df["Country"])
+        for row in reader:
+            country = row['Country']
 
-print(pd.to_numeric(df.columns, errors='ignore'))
-df = df.reset_index(drop=True)
-# df = df.replace(np.nan, "NULL")
-#
-# print(df)
-#
-data = []
-for i in range(39):
-    for j in range(20):
-        data.append({
-          "year": df.columns.values[j],
-          "rate": df.iloc[i][j],
-          "type": "Hib"
-        })
+            if country not in codes:
+                continue
 
-print(data)
-# with open(csvFilePath) as f:
-#     reader = csv.reader(f)
-#     next(reader)
-#     # csvReader = csv.DictReader(csvFile)
-#     for row in reader:
-#         print(row)
-#         # country = csv("Country")
-#         # data[country] = row
-#         # print(row['Country'])
-# #         rows.append(row)
+            code = codes[country]
 
-# print(bars)
+            values = {
+                int(year): float(row[year])
+                for year in years
+                if row.get(year) not in ['', None]
+            }
+            data[code][vacc_type] = values
 
 with open("vacc_line.json", "w") as jsonfile:
-    (json.dump(data, jsonfile))
+    json.dump(data, jsonfile)

@@ -14,7 +14,7 @@ const graph = (function() {
 
 
   const xScale = d3.scaleLinear()
-    .domain([1997, 2017])
+    .domain([1998, 2017])
     .range([margin.top, width - margin.top - margin.padding]);
 
   const yScale = d3.scaleLinear()
@@ -27,5 +27,6 @@ const graph = (function() {
     height: height,
     xScale: xScale,
     yScale: yScale,
+    maxYears: 20,
   };
 })();

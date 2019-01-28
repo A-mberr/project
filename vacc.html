@@ -13,46 +13,23 @@ Student number: 11819359 -->
 <body>
 <!-- Navigation bar code came from:
   https://www.w3schools.com/css/css_navbar.asp -->
-<ul>
-  <li><a>Vaccinatiegraad</a></li>
-  <li><a href="visualisatie.html">Visualisatie</a></li>
-  <li><a href="achtergrond.html">Achtergrond</a></li>
-  <li><a href="about.html">About</a></li>
-</ul>
+  <ul>
+    <li><a>Vaccinatiegraad</a></li>
+    <li><a href="visualisatie.html">Visualisatie</a></li>
+    <li><a href="achtergrond.html">Achtergrond</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
 
-<h1>Vaccinatiegraad in Europa</h1>
-<p>Vaccineren lijkt de laatste tijd weer een veel besproken onderwerp in Nederland.
-  Mensen trekken in twijfel of de vaccinaties wel doen wat ze moeten doen of dat ze zelfs
-  bepaalde ziektes kunnen veroorzaken. Dit heeft geleid tot een afname in vaccinatiegraad in Nederland,
-  met als gevolg dat de groepsimmuniteit daalt. De WHO streeft ernaar om een een vaccinatiegraad van 95% te
-  bereiken om enigzins groepsimmuniteit te kunnen garanderen. Wanneer deze vaccinatiegraad lager is dan 95%
-  kan dit als gevolg hebben dat mensen elkaar makkelijker kunnen besmetten en er steeds meer gevallen van bijvoorbeeld
-  de mazelen in Nederland worden gerapporteerd.<br>
-  <br>Op deze website kan je de vaccinatiegraad visualiseren in Europa. Aan de hand van de slider kan je door de jaren heen zien hoe dit is veranderd.
-  Maar als eerste stap, kies een vaccinatietype waarvan je de vaccinatiegraad wil zien in Europa:<br><br>
-  <input type="radio" id="DTP" name="vacc_type_radio" value="DTP" checked>
-    <label for="DTP">DTP</label>
-  <input type="radio" id="Pneu" name="vacc_type_radio" value="Pneu">
-    <label for="Pneu">Pneumokokken</label>
-  <input type="radio" id="Hepb" name="vacc_type_radio" value="Hepb">
-    <label for="Hepb">Hepatitis B</label>
-  <input type="radio" id="Hib" name="vacc_type_radio" value="Hib">
-    <label for="Hib">Haemophilus influenzae type B (Hib)</label>
-
-  </p>
-
-<!-- <foreignObject x="350" y="40" width="600" height="160"> -->
-
-  <!-- code obtained from https://www.w3schools.com/howto/howto_js_rangeslider.asp -->
-  <!-- <div class="slidecontainer"> -->
-    <!-- <input type="range" min="1980" step=1 max="2017" value="50" class="slider" id="myRange"> -->
-  <!-- </div> -->
-
-
-  <!-- <foreignObject x="150" y="30" width="650" height="200" class="radio-elements"> -->
-  <!-- <div class="vacc-type-radio-box"><p>
-    Om een beeld te geen van de vaccinatiegraad in Europa ten opzichte van Nederland, zijn deze visualisaties gecreeerd
-    <br>
+  <h1>Vaccinatiegraad in Europa</h1>
+  <p>Vaccineren lijkt de laatste tijd weer een veel besproken onderwerp in Nederland.
+    Mensen trekken in twijfel of de vaccinaties wel doen wat ze moeten doen of dat ze zelfs
+    bepaalde ziektes kunnen veroorzaken. Dit heeft geleid tot een afname in vaccinatiegraad in Nederland,
+    met als gevolg dat de groepsimmuniteit daalt. De WHO streeft ernaar om een een vaccinatiegraad van 95% te
+    bereiken om enigzins groepsimmuniteit te kunnen garanderen. Wanneer deze vaccinatiegraad lager is dan 95%
+    kan dit als gevolg hebben dat mensen elkaar makkelijker kunnen besmetten en er steeds meer gevallen van bijvoorbeeld
+    de mazelen in Nederland worden gerapporteerd.<br>
+    <br>Op deze website kan je de vaccinatiegraad visualiseren in Europa. Aan de hand van de slider kan je door de jaren heen zien hoe dit is veranderd.
+    Maar als eerste stap, kies een vaccinatietype waarvan je de vaccinatiegraad wil zien in Europa:<br><br><br>
     <input type="radio" id="DTP" name="vacc_type_radio" value="DTP" checked>
       <label for="DTP">DTP</label>
     <input type="radio" id="Pneu" name="vacc_type_radio" value="Pneu">
@@ -60,44 +37,41 @@ Student number: 11819359 -->
     <input type="radio" id="Hepb" name="vacc_type_radio" value="Hepb">
       <label for="Hepb">Hepatitis B</label>
     <input type="radio" id="Hib" name="vacc_type_radio" value="Hib">
-      <label for="Hib">Haemophilus influenzae type B (Hib)</label>
-  </p></div> -->
+      <label for="Hib">Haemophilus influenzae type B (Hib)</label><br><br>
+  </p>
 
   <div class="flex-container">
     <svg class="map"></svg>
-    <div class="tooltip"></div>
-    <input type="range" min="1997" step=1 max="2017" value="2006" class="slider" id="slider" name="slider" >
+      <div class="tooltip"></div>
+      <div class="slider" style="">
+      <div style="position: relative; width: 100%; height: 20px">
+        <span style="position: absolute; left: 0" >1997</span>
+        <span style="position: absolute; left: 49%" >2007</span>
+        <span style="position: absolute; right: 0">2017</span>
+      </div>
+      <input type="range" min="1997" step=1 max="2017" value="2007" id="slider" name="slider"
+       style="width: 100%">
+      </div>
 
-    <svg class="groupedBars">
-      <foreignObject x="150" y="30" width="650" height="200" class="dropdown">
-        <label for="vacc_select">Vergelijk de vaccinatiegraad van </label>
-        <select id="vacc_select">
-          <option selected="selected" value="DTP" selected>DTP</option>
-          <option value="Heb B">Hib</option>
-          <option value="Heb B">Heb B</option>
-          <option value="Pneu">Pneu</option>
-        </select>
-        <label for="vacc_select"> tussen Nederland en .... </label>
-      </foreignObject>
-    </svg>
+    <svg class="groupedBars"></svg>
 
-    <!-- <input type="range" min="1980" step=1 max="2017" value="50" class="slider" id="myRange" name="range" >
-    <output class="output" name="output" for="range">50</output> -->
-    <!-- <input type="range" name="range" min="1997" step=1 max="2017" value="50" class="slider" id="myRange" onchange="updateTextInput(this.value);">
-    <input type="text" id="textInput" value=""> -->
+      <!-- <input type="range" min="1980" step=1 max="2017" value="50" class="slider" id="myRange" name="range" >
+      <output class="output" name="output" for="range">50</output> -->
+      <!-- <input type="range" name="range" min="1997" step=1 max="2017" value="50" class="slider" id="myRange" onchange="updateTextInput(this.value);">
+      <input type="text" id="textInput" value=""> -->
 
-    <!-- <form name="range">
-      <input class="slider" type="range" name="range" id="ageInputId" value="21" min="1997" max="2017" oninput="ageOutputId.value = ageInputId.value">
+      <!-- <form name="range">
+        <input class="slider" type="range" name="range" id="ageInputId" value="21" min="1997" max="2017" oninput="ageOutputId.value = ageInputId.value">
 
-      <output name="ageOutputName" id="ageOutputId">2008</output>
-    </form> -->
+        <output name="ageOutputName" id="ageOutputId">2008</output>
+      </form> -->
 
-    <!-- https://bl.ocks.org/johnwalley/e1d256b81e51da68f7feb632a53c3518 -->
+      <!-- https://bl.ocks.org/johnwalley/e1d256b81e51da68f7feb632a53c3518 -->
 
-      <!-- <div class="row align-items-center">
-       <div class="col-sm-2"><p id="value-time"></p></div>
-       <div class="col-sm"><div id="slider-time"></div></div>
-     </div> -->
+        <!-- <div class="row align-items-center">
+         <div class="col-sm-2"><p id="value-time"></p></div>
+         <div class="col-sm"><div id="slider-time"></div></div>
+       </div> -->
 
     <svg class="line">
       <foreignObject x="875" y="140" width="160" height="160">
@@ -109,13 +83,13 @@ Student number: 11819359 -->
     </svg>
   </div>
 
-  <script src="d3.v5.js"></script>
-  <script src="https://unpkg.com/topojson@3.0.2/dist/topojson.min.js"></script>
-  <script src="https://unpkg.com/d3-simple-slider"></script>
-  <script src="scripts/common.js"></script>
-  <script src="scripts/linechart.js"></script>
-  <script src="scripts/barchart.js"></script>
-  <script src="scripts/choropleth.js"></script>
+    <script src="d3.v5.js"></script>
+    <script src="https://unpkg.com/topojson@3.0.2/dist/topojson.min.js"></script>
+    <script src="https://unpkg.com/d3-simple-slider"></script>
+    <script src="scripts/common.js"></script>
+    <script src="scripts/linechart.js"></script>
+    <script src="scripts/barchart.js"></script>
+    <script src="scripts/choropleth.js"></script>
 
-</body>
+  </body>
 </html>

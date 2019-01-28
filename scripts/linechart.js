@@ -31,7 +31,7 @@ function drawLines(g_line, graph, data) {
 
   for (vaccType of vaccTypes) {
     const values =  data[vaccType];
-    for (const value of values) {
+    for (const value of values.slice(-graph.maxYears)) {
       dots.push({
         year: value.year,
         rate: value.rate,
@@ -64,16 +64,17 @@ function drawLines(g_line, graph, data) {
     g_line.append('path')
       .attr('class', 'lines ' + vaccType)
       .attr('stroke', colors[vaccType])
-      .attr('d', line(data[vaccType]));
+      .attr('d', line(data[vaccType].slice(-graph.maxYears)));
   }
 }
 
 function makeTitle(svg_line, graph) {
   svg_line.append('text')
+    .attr('class', 'title')
     .attr('x', (graph.width + graph.margin.left + graph.margin.right) / 2)
     .attr('y', graph.margin.top + graph.margin.padding / 2)
     .attr('text-anchor', 'middle')
-    .text('Line chart van geselecteerde landnaam')
+    .text('Vaccinatiegraad van .....')
 }
 
 // TODO: verander de variabele namen naar kortere namen
@@ -97,7 +98,6 @@ async function main(data) {
   yLabel(g_line, graph)
 
   makeTitle(svg_line, graph)
-
   update();
 }
 

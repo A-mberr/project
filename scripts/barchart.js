@@ -12,7 +12,7 @@ function drawBars(g, graph, countryComparisonData, selectedCountry) {
 
   const ratesInNetherlands = countryComparisonData['NL'];
   const ratesInCountry = countryComparisonData[selectedCountry];
-  const years = Object.keys(ratesInCountry);
+  const years = Object.keys(ratesInCountry).slice(-graph.maxYears);
 
   const bars = [];
 
@@ -31,6 +31,7 @@ function drawBars(g, graph, countryComparisonData, selectedCountry) {
     });
   }
 
+  console.log(years)
   const gutterWidth = 8; // in pixels
   const halfGutterWidth = gutterWidth / 2;
   const barWidth = 15;
@@ -44,7 +45,7 @@ function drawBars(g, graph, countryComparisonData, selectedCountry) {
     .attr('x', (d, i) => {
       let x = graph.xScale(d.year);
       if (i % 2 == 1) {
-        x += barWidth + 1 - 33;
+        x += barWidth + 1;
       }
       return x;
     })
@@ -54,18 +55,26 @@ function drawBars(g, graph, countryComparisonData, selectedCountry) {
     .attr('fill', (d, i) => colors[i % 2]);
 }
 
-function xLabels(g, graph) {
-
+function xLabel(g, graph) {
   const xAxis = d3.axisBottom()
     .scale(graph.xScale)
-    .tickFormat(d3.format('y')).ticks(20)
+    .tickFormat(d3.format('y')).ticks(graph.maxYears)
 
   var gX_bar = g.append('g')
-    .attr('transform', 'translate(0,' + (graph.height - graph.margin.top) + ')')
-    .call(xAxis);
+    .attr('transform', 'translate(15,' + (graph.height - graph.margin.top) + ')')
+    .call(xAxis)
+
+  // Fix the border of the ticks.
+  gX_bar.append("line")
+    .attr("x1", -6)
+    .attr("y1", 1)
+    .attr("x2", 818)
+    .attr("y2", 1)
+    .attr("stroke-width", 1.7)
+    .attr("stroke", "black");
 }
 
-function yLabels(g, graph) {
+function yLabel(g, graph) {
   const yAxis = d3.axisLeft()
     .scale(graph.yScale)
     .tickFormat(d => d + '%');
@@ -75,10 +84,10 @@ function yLabels(g, graph) {
     .call(yAxis);
 }
 
-function generateLegend(svg, graph) {
+function generateLegend(svg, graph, selectedCountry) {
 
   var colorsBar = ['#2b8cbe', '#000000']
-  var domainsBar = ['Nederland', 'Selected country']
+  var domainsBar = ['Nederland', selectedCountry]
 
   var legendBar = svg.append('g')
     .attr('class', 'legend')
@@ -111,6 +120,14 @@ function generateLegend(svg, graph) {
     .attr('height', colorBoxSize);
 }
 
+function makeTitle(svg, graph) {
+  svg.append('text')
+    .attr('class', 'title')
+    .attr('x', (graph.width + graph.margin.left + graph.margin.right) / 2)
+    .attr('y', graph.margin.top + graph.margin.padding / 2)
+    .attr('text-anchor', 'middle')
+    .text('Vergelijk de vaccnaitiegraad met Nederland')
+}
 
 async function main() {
   const svg = d3.select('.groupedBars')
@@ -128,11 +145,13 @@ async function main() {
   drawBars(g, graph, countryComparisonData,
           selectedCountry);
 
-  xLabels(g, graph)
+  xLabel(g, graph)
 
-  yLabels(g, graph)
+  yLabel(g, graph)
 
-  generateLegend(svg, graph)
+  makeTitle(svg, graph)
+
+  generateLegend(svg, graph, selectedCountry)
 }
 
 main()

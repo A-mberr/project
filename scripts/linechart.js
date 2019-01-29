@@ -1,7 +1,6 @@
 // Name: Amber Nobel
 // Student ID: 11819359
 
-
 const lineChart = (function() {
 
 function loadLineData() {
@@ -53,8 +52,8 @@ function drawLines(g_line, graph, data) {
     .attr('r', 5)
     .attr('fill', d => colors[d.type]);
 
-  g_line.selectAll('path')
-    .remove();
+  g_line.select('.lines')
+    .remove().exit();
 
   for (vaccType of vaccTypes) {
     let line = d3.line()
@@ -63,6 +62,7 @@ function drawLines(g_line, graph, data) {
 
     g_line.append('path')
       .attr('class', 'lines ' + vaccType)
+      .attr('class', 'lines')
       .attr('stroke', colors[vaccType])
       .attr('d', line(data[vaccType].slice(-graph.maxYears)));
   }

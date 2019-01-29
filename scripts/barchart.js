@@ -2,16 +2,15 @@
 // Student ID: 11819359
 // https://bl.ocks.org/d3noob/0e276dc70bb9184727ee47d6dd06e915 was used for constructing this code
 
-(function() {
+const barChart = (function() {
 
 async function loadCountryComparisonData(vaccType) {
-  return await d3.json('data/vacc_bar_' + vaccType + '.json');
+  return d3.json('data/vacc_bar_' + vaccType + '.json');
 }
 
-function drawBars(g, graph, countryComparisonData, selectedCountry) {
-
-  const ratesInNetherlands = countryComparisonData['NL'];
-  const ratesInCountry = countryComparisonData[selectedCountry];
+function drawBars(g, graph, data, country) {
+  const ratesInNetherlands = data['NL'];
+  const ratesInCountry = data[country];
   const years = Object.keys(ratesInCountry).slice(-graph.maxYears);
 
   const bars = [];
@@ -31,13 +30,14 @@ function drawBars(g, graph, countryComparisonData, selectedCountry) {
     });
   }
 
-  console.log(years)
   const gutterWidth = 8; // in pixels
   const halfGutterWidth = gutterWidth / 2;
   const barWidth = 15;
   const colors = ['#4682B4', 'black'];
 
   g.selectAll('.bar')
+    .remove()
+    .exit()
     .data(bars)
     .enter()
     .append('rect')
@@ -84,10 +84,10 @@ function yLabel(g, graph) {
     .call(yAxis);
 }
 
-function generateLegend(svg, graph, selectedCountry) {
+function generateLegend(svg, graph, country) {
 
-  var colorsBar = ['#2b8cbe', '#000000']
-  var domainsBar = ['Nederland', selectedCountry]
+  var colorsBar = ['#2b8cbe', '#000000'];
+  var domainsBar = ['Nederland', country];
 
   var legendBar = svg.append('g')
     .attr('class', 'legend')
@@ -129,31 +129,42 @@ function makeTitle(svg, graph) {
     .text('Vergelijk de vaccnaitiegraad met Nederland')
 }
 
-async function main() {
-  const svg = d3.select('.groupedBars')
-    .attr('width', graph.width + graph.margin.left + graph.margin.right)
-    .attr('height', graph.height + graph.margin.top + graph.margin.bottom + graph.margin.padding)
-    .style('background', 'white')
-
-  const g = svg.append('g')
-    .attr('transform', 'translate(' + graph.margin.left + ','
-      + (graph.margin.top + graph.margin.padding) + ')');
-
-  const selectedCountry = 'DE';
-  const countryComparisonData = await loadCountryComparisonData('Hib');
-
-  drawBars(g, graph, countryComparisonData,
-          selectedCountry);
-
-  xLabel(g, graph)
-
-  yLabel(g, graph)
-
-  makeTitle(svg, graph)
-
+function update() {
+  drawBars(g, graph, countryComparisonData, selectedCountry);
   generateLegend(svg, graph, selectedCountry)
 }
 
-main()
+function main(barData) {
+  countryComparisonData = barData
+
+  // const countryComparisonData = await loadCountryComparisonData('Hib');
+  xLabel(g, graph)
+  yLabel(g, graph)
+  makeTitle(svg, graph)
+  update();
+}
+
+const svg = d3.select('.groupedBars')
+  .attr('width', graph.width + graph.margin.left + graph.margin.right)
+  .attr('height', graph.height + graph.margin.top + graph.margin.bottom + graph.margin.padding)
+  .style('background', 'white')
+
+const g = svg.append('g')
+  .attr('transform', 'translate(' + graph.margin.left + ','
+    + (graph.margin.top + graph.margin.padding) + ')');
+
+let selectedCountry = 'DE';
+let countryComparisonData = null;
+
+loadCountryComparisonData('Hib').then(main);
+// loadCountryComparisonData(vaccType).then(main);
+
+return {
+  setSelectedCountry: function(countryCode) {
+    console.log('barChart:', countryCode);
+    selectedCountry = countryCode;
+    update();
+  },
+};
 
 })();

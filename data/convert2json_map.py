@@ -9,8 +9,8 @@ countries_in_eu = [
     'Denmark', 'Estonia', 'Finland', 'France', 'Germany', 'Greece',
     'Hungary', 'Iceland', 'Ireland', 'Italy', 'Latvia', 'Liechtenstein',
     'Lithuania', 'Luxembourg', 'The former Yugoslav republic of Macedonia',
-    'Malta', 'Republic of Moldova', 'Monaco', 'Netherlands', 'Norway',
-    'Poland', 'Portugal', 'Romania', 'Russia', 'San Marino',
+    'Malta', 'Republic of Moldova', 'Monaco', 'Montenegro', 'Netherlands',
+    'Norway', 'Poland', 'Portugal', 'Romania', 'San Marino',
     'Serbia and Montenegro', 'Serbia', 'Slovakia', 'Slovenia', 'Spain',
     'Sweden', 'Switzerland', 'Ukraine',
     'United Kingdom of Great Britain and Northern Ireland'
@@ -55,7 +55,6 @@ codes = {
     "Poland": "PL",
     "Portugal": "PT",
     "Romania": "RO",
-    "Russia": "RU",
     "San Marino": "SM",
     "Serbia": "RS",
     "Slovakia": "SK",
@@ -71,7 +70,6 @@ codes = {
 
 vacc_types = [
     "Hib",
-    # "Men C",
     "Pneu",
     "DTP",
     "Hepb",

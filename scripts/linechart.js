@@ -52,7 +52,7 @@ function drawLines(g_line, graph, data) {
     .attr('r', 5)
     .attr('fill', d => colors[d.type]);
 
-  g_line.select('.lines')
+  g_line.selectAll('.lines')
     .remove().exit();
 
   for (vaccType of vaccTypes) {

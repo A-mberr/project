@@ -12,7 +12,6 @@ const graph = (function() {
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
-
   const xScale = d3.scaleLinear()
     .domain([1998, 2017])
     .range([margin.top, width - margin.top - margin.padding]);
@@ -28,5 +27,10 @@ const graph = (function() {
     xScale: xScale,
     yScale: yScale,
     maxYears: 20,
+    setSelectedCountry: function(countryCode) {
+      console.log('clicked country:', countryCode);
+      barChart.setSelectedCountry(countryCode);
+      lineChart.setSelectedCountry(countryCode);
+    },
   };
 })();

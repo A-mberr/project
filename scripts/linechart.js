@@ -68,13 +68,15 @@ function drawLines(g_line, graph, data) {
   }
 }
 
-function makeTitle(svg_line, graph) {
+function makeTitle(svg_line, graph, country) {
   svg_line.append('text')
+    .remove()
+    .exit()
     .attr('class', 'title')
     .attr('x', (graph.width + graph.margin.left + graph.margin.right) / 2)
     .attr('y', graph.margin.top + graph.margin.padding / 2)
     .attr('text-anchor', 'middle')
-    .text('Vaccinatiegraad van .....')
+    .text('Vaccinatiegraad in ' + country)
 }
 
 // TODO: verander de variabele namen naar kortere namen
@@ -88,6 +90,7 @@ function updateVaccTypes() {
 function update() {
   updateVaccTypes();
   drawLines(g_line, graph, lineData[country])
+  makeTitle(svg_line, graph, country)
 }
 
 function main(data) {
@@ -97,7 +100,6 @@ function main(data) {
 
   yLabel(g_line, graph)
 
-  makeTitle(svg_line, graph)
   update();
 }
 

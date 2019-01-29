@@ -83,4 +83,7 @@
 - Interactie werkt aan door het klikken op de kaart.
 - Flexboxes toegevoegd zodat de visualisaties beter worden weergegeven
 - Meerdere html pages gemaakt om de visualisatie te verduidelijken en bronnen weer te geven
-- 
+- Dict toegevoegd om zo nodig de landcode om te zetten in de volledige land namen
+- interactie door het klikken op de radio buttons
+- checkboxes werken nu goed
+- License toegevoegd

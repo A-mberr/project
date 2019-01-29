@@ -89,8 +89,6 @@ function generateLegend(svg, graph, country, legend) {
   var colorsBar = ['#000000', '#2b8cbe'];
   var domainsBar = ['Nederland', country];
 
-  console.log(domainsBar)
-
   const colorBoxSize = 20 - 3; // in pixels
 
   legend.selectAll('rect')
@@ -130,7 +128,7 @@ function makeTitle(svg, graph) {
 
 function update() {
   drawBars(g, graph, countryComparisonData, selectedCountry);
-  generateLegend(svg, graph, selectedCountry, legend)
+  generateLegend(svg, graph, graph.fullCountryNames[selectedCountry], legend)
 }
 
 function main(barData) {
@@ -144,7 +142,6 @@ function main(barData) {
 const svg = d3.select('.groupedBars')
   .attr('width', graph.width + graph.margin.left + graph.margin.right)
   .attr('height', graph.height + graph.margin.top + graph.margin.bottom + graph.margin.padding)
-  .style('background', 'white')
 
 const g = svg.append('g')
   .attr('transform', 'translate(' + graph.margin.left + ','
@@ -158,15 +155,24 @@ const legend = svg.append('g')
 
 let selectedCountry = 'DE';
 let countryComparisonData = null;
+let selectedVaccType = 'DTP';
 
-loadCountryComparisonData('Hib').then(main);
-// loadCountryComparisonData(vaccType).then(main);
+function load() {
+  loadCountryComparisonData(selectedVaccType).then(main);
+}
+
+load();
 
 return {
   setSelectedCountry: function(countryCode) {
     console.log('barChart:', countryCode);
     selectedCountry = countryCode;
     update();
+  },
+  setSelectedVaccType: function(vaccType) {
+    console.log('barChart Vacc:', vaccType);
+    selectedVaccType = vaccType;
+    load();
   },
 };
 

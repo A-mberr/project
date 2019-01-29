@@ -69,9 +69,14 @@ function drawLines(g_line, graph, data) {
 }
 
 function makeTitle(svg_line, graph, country) {
-  svg_line.append('text')
+
+  svg_line.selectAll('.title')
+  // .append('text')
     .remove()
     .exit()
+    .data(country)
+    .enter()
+    .append('text')
     .attr('class', 'title')
     .attr('x', (graph.width + graph.margin.left + graph.margin.right) / 2)
     .attr('y', graph.margin.top + graph.margin.padding / 2)

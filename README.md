@@ -11,11 +11,16 @@ De visualisatie zal een beeld schetsen van de vaccinatiegraad van 4 verschillend
 Aan de hand van deze data kunnen we een beeld schetsen van de vaccinatiegraad van Nederland tegenover die van andere landen in Europa. De ontwikkeling van het invoeren van vaccinaties zullen ook zichtbaar worden door de stijging van de vaccinatiegraad. De visualisatie zal ook een beeld schetsen van de weg die we hebben af te leggen om de gewenste vaccinatiegraad van 95% te bereiken.
 
 **Visualisatie**<br>
-The choropleth geeft de kaart van Europa weer met hierin de vaccinatiegraaf weergegeven aan de hand van een legende. De vaccinatiegraad van de geselecteerde radio button wordt weergegeven. Met behulp van de range slider kan er een trend worden gezien over de jaren heen. Hoe donkerder de landen ingekleurd zijn, hoe hoger de vaccinatiegraad. Wanneer je met de muis over een land op de kaart gaat komt er in het wolkje informatie te staan over de vaccinatiegraad, het jaar en het land. Je kan in de choropleth een land aanklikken waardoor zowel de grouped bar chart en de line graph hierop zullen aanpassen.
+The choropleth geeft de kaart van Europa weer met hierin de vaccinatiegraad weergegeven aan de hand van een legende. De vaccinatiegraad van de geselecteerde radio button wordt weergegeven. Met behulp van de range slider kan er een trend worden gezien over de jaren heen. Hoe donkerder de landen ingekleurd zijn, hoe hoger de vaccinatiegraad. Wanneer je met de muis over een land op de kaart gaat komt er in het wolkje informatie te staan over de vaccinatiegraad, het jaar en het land. Je kan in de choropleth een land aanklikken waardoor zowel de grouped bar chart en de line graph hierop zullen aanpassen.
+![Choropleth](doc/map.png)
+![Radio buttons](doc/radio_buttons.png)
+![Range Slider](doc/range_slider.png)
 
 Voor de visualisatie om de vaccinatiegraad van Nederland te vergelijken met een ander land wordt er een grouped bar chart gecreëerd. Deze bar chart geeft de vaccinatiegraad weer over de tijd vergeleken met een ander Europees land dat is geselecteerd via de choropleth. Je kan de data aanpassen door een ander land te selecteren en door met behulp van radio buttons een vaccinatiegraad te selecteren.
+![Grouped bar chart](doc/grouped_barchart.png)
 
 De line chart zal de vaccinatiegraad over de jaren heen weergeven van het geselecteerde land van de choropleth. In de visualisatie zullen checkboxen weergegeven zijn. Hierdoor kan je aanklikken voor welke vaccinatietypen weergegeven wil hebben. Hierdoor kan je goed de verschillende trends vergelijken van verschillende vaccinatietypen.
+![Line chart](doc/linechart.png)
 
 
 **Benodigde talen en libraries**<br>

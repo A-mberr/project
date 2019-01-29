@@ -27,7 +27,6 @@ function drawMap(svg_map, g_map, polygons) {
     .domain([0.4, 0.5, 0.6, 0.7, 0.8, 0.85, 0.9, 0.95])
     .range(colors);
 
-  let clicked = []
   let map = g_map.selectAll('path').data(countries.features)
     .enter().append('path')
     .attr('class', 'kaart')
@@ -121,9 +120,7 @@ function main(data) {
     updateMap(+this.value, vaccData);
   });
 
-  d3.selectAll('path').on('click', function(d, i) {
-    console.log(d.id);
-  });
+  d3.selectAll('path').on('click', (d, i) => graph.setSelectedCountry(d.id));
 }
 
 // SVG for map

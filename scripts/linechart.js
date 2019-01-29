@@ -1,6 +1,8 @@
 // Name: Amber Nobel
 // Student ID: 11819359
-(function() {
+
+
+const lineChart = (function() {
 
 function loadLineData() {
   return d3.json('data/vacc_line.json');
@@ -39,8 +41,6 @@ function drawLines(g_line, graph, data) {
       });
     }
   }
-
-  console.log('hoi')
 
   g_line.selectAll('circle')
     .remove()
@@ -90,7 +90,7 @@ function update() {
   drawLines(g_line, graph, lineData[country])
 }
 
-async function main(data) {
+function main(data) {
   lineData = data;
 
   xLabel(g_line, graph)
@@ -124,5 +124,13 @@ let vaccTypes = [];
 d3.selectAll(".vacc-type-checkbox").on("change", update);
 
 loadLineData().then(main);
+
+return {
+  setSelectedCountry: function(countryCode) {
+    console.log('lineChart:', countryCode)
+    country = countryCode;
+    update();
+  }
+}
 
 })();

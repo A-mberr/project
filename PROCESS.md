@@ -78,3 +78,9 @@
 - HTML aangepast om een ligischere layout te creeeren
 - Json juiste format voor line graph zodat de lijnen getekend kunnen worden vai de js file
 - Styling aspecten verbeterd
+
+## Dag 17
+- Interactie werkt aan door het klikken op de kaart.
+- Flexboxes toegevoegd zodat de visualisaties beter worden weergegeven
+- Meerdere html pages gemaakt om de visualisatie te verduidelijken en bronnen weer te geven
+- 

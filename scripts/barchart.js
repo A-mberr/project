@@ -84,20 +84,16 @@ function yLabel(g, graph) {
     .call(yAxis);
 }
 
-function generateLegend(svg, graph, country) {
+function generateLegend(svg, graph, country, legend) {
 
-  var colorsBar = ['#2b8cbe', '#000000'];
+  var colorsBar = ['#000000', '#2b8cbe'];
   var domainsBar = ['Nederland', country];
 
-  var legendBar = svg.append('g')
-    .attr('class', 'legend')
-    .attr('transform',
-      'translate(' + (graph.width - graph.margin.left- graph.margin.padding) +
-      ',' + (graph.height / 3.5) + ')');
+  console.log(domainsBar)
 
   const colorBoxSize = 20 - 3; // in pixels
 
-  legendBar.selectAll('rect')
+  legend.selectAll('rect')
     .data(colorsBar)
     .enter()
     .append('rect')
@@ -109,7 +105,10 @@ function generateLegend(svg, graph, country) {
     .attr('height', colorBoxSize)
     .style('fill',(d, i) => colorsBar[i]);
 
-  legendBar.selectAll('text')
+
+  legend.selectAll('text')
+    .remove()
+    .exit()
     .data(domainsBar)
     .enter()
     .append('text')
@@ -126,18 +125,16 @@ function makeTitle(svg, graph) {
     .attr('x', (graph.width + graph.margin.left + graph.margin.right) / 2)
     .attr('y', graph.margin.top + graph.margin.padding / 2)
     .attr('text-anchor', 'middle')
-    .text('Vergelijk de vaccnaitiegraad met Nederland')
+    .text('Vergelijk de vaccinatiegraad met Nederland')
 }
 
 function update() {
   drawBars(g, graph, countryComparisonData, selectedCountry);
-  generateLegend(svg, graph, selectedCountry)
+  generateLegend(svg, graph, selectedCountry, legend)
 }
 
 function main(barData) {
   countryComparisonData = barData
-
-  // const countryComparisonData = await loadCountryComparisonData('Hib');
   xLabel(g, graph)
   yLabel(g, graph)
   makeTitle(svg, graph)
@@ -152,6 +149,12 @@ const svg = d3.select('.groupedBars')
 const g = svg.append('g')
   .attr('transform', 'translate(' + graph.margin.left + ','
     + (graph.margin.top + graph.margin.padding) + ')');
+
+const legend = svg.append('g')
+  .attr('class', 'legend')
+  .attr('transform',
+    'translate(' + (graph.width - graph.margin.left- graph.margin.padding) +
+    ',' + (graph.height / 3.5) + ')');
 
 let selectedCountry = 'DE';
 let countryComparisonData = null;

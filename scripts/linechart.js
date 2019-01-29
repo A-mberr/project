@@ -71,7 +71,6 @@ function drawLines(g_line, graph, data) {
 function makeTitle(svg_line, graph, country) {
 
   svg_line.selectAll('.title')
-  // .append('text')
     .remove()
     .exit()
     .data(country)
@@ -95,7 +94,7 @@ function updateVaccTypes() {
 function update() {
   updateVaccTypes();
   drawLines(g_line, graph, lineData[country])
-  makeTitle(svg_line, graph, country)
+  makeTitle(svg_line, graph, graph.fullCountryNames[country])
 }
 
 function main(data) {
@@ -104,14 +103,12 @@ function main(data) {
   xLabel(g_line, graph)
 
   yLabel(g_line, graph)
-
   update();
 }
 
 const svg_line = d3.select('.line')
   .attr('width', graph.width + graph.margin.left + graph.margin.right)
   .attr('height', graph.height + graph.margin.top + graph.margin.bottom + graph.margin.padding)
-  .style('background', 'white')
 
 const g_line = svg_line.append('g')
   .attr('transform', 'translate(' + graph.margin.left + ','
@@ -134,10 +131,13 @@ loadLineData().then(main);
 
 return {
   setSelectedCountry: function(countryCode) {
-    console.log('lineChart:', countryCode)
+    console.log('lineChart:', countryCode);
     country = countryCode;
     update();
-  }
+  },
+  setSelectedVaccType: function(vaccType) {
+    console.log('lineChart Vacc:', vaccType);
+  },
 }
 
 })();

@@ -69,7 +69,7 @@ function drawBars(g, graph, data, country) {
         .duration(200)
         .style('opacity', 0.9);
       div
-        .html(d.year + '<br/>' + d.rate)
+        .html(d.year + '<br/>' + d.rate + '%')
         .attr('style', "text-anchor:start; font-weight: bold;")
         .style('left', d3.event.pageX + 'px')
         .style('top', d3.event.pageY - 28 + 'px');

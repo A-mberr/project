@@ -67,6 +67,8 @@ function generateLegend(svg, graph) {
 
   // places legend catorgies net to the colored rectangles
   legendMap.selectAll('text')
+    .remove()
+    .exit()
     .data(domains)
     .enter()
     .append('text')
@@ -90,7 +92,7 @@ function updateTitle(yearUpdate, svg, graph) {
   svg.selectAll('.title')
     .remove()
     .exit()
-    
+
   // updates title based on the selected year on slider
   svg.append('text')
     .attr('class', 'title')
@@ -119,8 +121,6 @@ function main(data) {
 
   drawMap(svg, g, polygons)
 
-  generateLegend(svg, graph)
-
   updateMap(defaultSelectedYear, vaccData);
 
   d3.select('#slider').on('input', function() {
@@ -148,6 +148,7 @@ function load() {
 
 load();
 makeTitle(svg, graph)
+generateLegend(svg, graph)
 
 // returns selected vaccine type
 return {

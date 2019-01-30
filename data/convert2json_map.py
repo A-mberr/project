@@ -9,8 +9,8 @@ countries_in_eu = [
     'Denmark', 'Estonia', 'Finland', 'France', 'Germany', 'Greece',
     'Hungary', 'Iceland', 'Ireland', 'Italy', 'Latvia', 'Liechtenstein',
     'Lithuania', 'Luxembourg', 'The former Yugoslav republic of Macedonia',
-    'Malta', 'Republic of Moldova', 'Monaco', 'Montenegro', 'Netherlands',
-    'Norway', 'Poland', 'Portugal', 'Romania', 'San Marino',
+    'Malta', 'Republic of Moldova', 'Monaco', 'Montenegro', 'Netherlands', 'Norway',
+    'Poland', 'Portugal', 'Romania', 'Russia', 'San Marino',
     'Serbia and Montenegro', 'Serbia', 'Slovakia', 'Slovenia', 'Spain',
     'Sweden', 'Switzerland', 'Ukraine',
     'United Kingdom of Great Britain and Northern Ireland'
@@ -78,10 +78,13 @@ vacc_types = [
 for vacc_type in vacc_types:
     csvFilePath = "vacc_eu_{}.csv".format(vacc_type)
 
+    # skips the first line of csv
     df = pd.read_csv(csvFilePath, header=1)
 
+    # selects only countries in Europe
     df = df[df['Country'].isin(countries_in_eu)]
 
+    # changes country name to ocuntry code
     df["Country"] = df['Country'].map(codes).fillna(df['Country'])
 
     df = df.set_index('Country')

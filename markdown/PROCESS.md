@@ -94,3 +94,4 @@
 - Landen namen naar Nederlands veranderd
 - opmaak verbeterd
 - Github repo op orde gebracht
+- Tooltip functies aangebracht

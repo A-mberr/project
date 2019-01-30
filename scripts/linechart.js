@@ -7,31 +7,37 @@ function loadLineData() {
   return d3.json('data/vacc_line.json');
 }
 
-function xLabel(g_line, graph) {
+function xLabel(g, graph) {
   const xAxis = d3.axisBottom()
     .scale(graph.xScale)
     .tickFormat(d3.format('y')).ticks(20)
 
-  const gX_line = g_line.append('g')
+  const gX_line = g.append('g')
     .attr('transform', 'translate(0,' + (graph.height - graph.margin.top) + ')')
     .call(xAxis)
 }
 
-function yLabel(g_line, graph) {
+function yLabel(g, graph) {
   const yAxis = d3.axisLeft()
     .scale(graph.yScale)
     .tickFormat(d => d + '%');
 
-  gY_line = g_line.append('g')
+  gY_line = g.append('g')
     .attr('transform', 'translate(' + graph.margin.top + ',0)')
     .call(yAxis);
 }
 
-function drawLines(g_line, graph, data) {
+function drawLines(g, graph, data) {
   const dots = [];
 
+  //  creates array that contains info per country in whcih is divided per
+  //  vaccine type
   for (vaccType of vaccTypes) {
+    // if no data is available for a certain country, continue
+    if (!data[vaccType])
+      continue
     const values =  data[vaccType];
+    //  only take from the last 20 years
     for (const value of values.slice(-graph.maxYears)) {
       dots.push({
         year: value.year,
@@ -41,7 +47,8 @@ function drawLines(g_line, graph, data) {
     }
   }
 
-  g_line.selectAll('circle')
+  // draw circles for data
+  g.selectAll('circle')
     .remove()
     .exit()
     .data(dots)
@@ -52,7 +59,7 @@ function drawLines(g_line, graph, data) {
     .attr('r', 5)
     .attr('fill', d => colors[d.type]);
 
-  g_line.selectAll('.lines')
+  g.selectAll('.lines')
     .remove().exit();
 
   for (vaccType of vaccTypes) {
@@ -60,7 +67,8 @@ function drawLines(g_line, graph, data) {
       .x(d => graph.xScale(d.year))
       .y(d => graph.yScale(d.rate));
 
-    g_line.append('path')
+    // draw lines between the data
+    g.append('path')
       .attr('class', 'lines ' + vaccType)
       .attr('class', 'lines')
       .attr('stroke', colors[vaccType])
@@ -68,14 +76,14 @@ function drawLines(g_line, graph, data) {
   }
 }
 
-function makeTitle(svg_line, graph, country) {
+function makeTitle(svg, graph, country) {
 
-  svg_line.selectAll('.title')
+  // titles will be printed once
+  svg.selectAll('.title')
     .remove()
     .exit()
-    .data(country)
-    .enter()
-    .append('text')
+
+  svg.append('text')
     .attr('class', 'title')
     .attr('x', (graph.width + graph.margin.left + graph.margin.right) / 2)
     .attr('y', graph.margin.top + graph.margin.padding / 2)
@@ -83,9 +91,9 @@ function makeTitle(svg_line, graph, country) {
     .text('Vaccinatiegraad in ' + country)
 }
 
-// TODO: verander de variabele namen naar kortere namen
 function updateVaccTypes() {
   vaccTypes = [];
+  // checks whcih checkboxes has been checked
   d3.selectAll('.vacc-type-checkbox').each(function() {
     if (this.checked) vaccTypes.push(this.value);
   });
@@ -93,28 +101,28 @@ function updateVaccTypes() {
 
 function update() {
   updateVaccTypes();
-  drawLines(g_line, graph, lineData[country])
-  makeTitle(svg_line, graph, graph.fullCountryNames[country])
+  drawLines(g, graph, lineData[country])
+  makeTitle(svg, graph, graph.fullCountryNames[country])
 }
 
 function main(data) {
   lineData = data;
 
-  xLabel(g_line, graph)
+  xLabel(g, graph)
 
-  yLabel(g_line, graph)
+  yLabel(g, graph)
   update();
 }
 
-const svg_line = d3.select('.line')
+const svg = d3.select('.line')
   .attr('width', graph.width + graph.margin.left + graph.margin.right)
   .attr('height', graph.height + graph.margin.top + graph.margin.bottom + graph.margin.padding)
 
-const g_line = svg_line.append('g')
+const g = svg.append('g')
   .attr('transform', 'translate(' + graph.margin.left + ','
     + (graph.margin.top + graph.margin.padding) + ')');
 
-let country = 'AL';
+let country = 'DE';
 let lineData = null;
 
 const colors = {
@@ -129,14 +137,13 @@ d3.selectAll(".vacc-type-checkbox").on("change", update);
 
 loadLineData().then(main);
 
+// returns selected country and selecteted vaccine type
 return {
   setSelectedCountry: function(countryCode) {
-    console.log('lineChart:', countryCode);
     country = countryCode;
     update();
   },
   setSelectedVaccType: function(vaccType) {
-    console.log('lineChart Vacc:', vaccType);
   },
 }
 

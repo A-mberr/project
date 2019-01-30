@@ -22,9 +22,39 @@ Voor de visualisatie om de vaccinatiegraad van Nederland te vergelijken met een 
 De line chart zal de vaccinatiegraad over de jaren heen weergeven van het geselecteerde land van de choropleth. In de visualisatie zullen checkboxen weergegeven zijn. Hierdoor kan je aanklikken voor welke vaccinatietypen weergegeven wil hebben. Hierdoor kan je goed de verschillende trends vergelijken van verschillende vaccinatietypen.
 ![Line chart](doc/linechart.png)
 
-
 **Benodigde talen en libraries**<br>
 Voor het creëren van dit project heb zal ik gebruik maken van Javascript, HTML, Python, CSS en als extra library D3 en de functie om topojson te kunnen gebruiken
 
 **Uitdagende elementen**<br>
 Het lastigste dat ik tegen zal komen is het creëren van choropleths die ook nog eens informatie kunnen weergeven met behulp van de huidige informatie over d3 op het internet. Ook zullen de vele interactieve elementen een uitdaging zijn om de juiste data weer te geven. Ik heb bijvoorbeeld nog niet eerder met een tijdlijn functie gewerkt en het interactieve aspect ervan.
+
+**Gebruik van de website**br>
+Voor de beste weergave van de website is deze het best te openen via een FireFox browser.
+<br><br><br><br>
+De volgende bronnen zijn gebruikt voor dit project, waarvan ook de licences zijn gechekt voor het gebruik:
+<br><br>
+barchart.js:<br>
+https://bl.ocks.org/d3noob/0e276dc70bb9184727ee47d6dd06e915
+<br><br>
+choropleth.js:<br>
+https://www.youtube.com/watch?v=Qw6uAg3EO64
+<br><br>
+index.html<br>
+https://www.w3schools.com/css/css_navbar.asp
+<br><br>
+Kleuren schema's zijn gehaald van:<br>
+http://colorbrewer2.org/
+<br><br>
+Databases die zijn gebruikt voor dit project zijn afkomstig van:<br>
+http://apps.who.int/gho/data/node.main.A824?lang=en
+<br><br>
+De range slider in index.html en de layout ervan in vacc.css zijn tot stand gekomen door de code van:<br>
+https://www.w3schools.com/howto/howto_js_rangeslider.asp
+<br><br>
+De navigatiebar is tot stand gekomen door gebruik van de vogende website:<br>
+https://www.w3schools.com/css/css_navbar.asp
+<br><br>
+De background infomation in background.html is samengesteld aan de hand van de volgende websites:<br>
+https://rijksvaccinatieprogramma.nl/infectieziekten/groepsimmuniteit<br>
+https://www.cm.be/ziekte-en-behandeling/vaccinaties/algemeen/belang<br>
+https://nl.wikipedia.org/wiki/Vaccin

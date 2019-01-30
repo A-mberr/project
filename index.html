@@ -4,103 +4,96 @@ Student number: 11819359 -->
 <!DOCTYPE html>
 <html>
 
-<head>
-  <meta charset="utf-8">
-  <link href="style/vacc.css" rel="stylesheet">
-  <title>Vaccinatiegraad</title>
-</head>
+  <head>
+    <meta charset="utf-8">
+    <link href="style/vacc.css" rel="stylesheet">
+    <title>Vaccinatiegraad</title>
+  </head>
 
-<body>
-<!-- Navigation bar code came from:
-  https://www.w3schools.com/css/css_navbar.asp -->
-  <ul>
-    <li><a>Vaccinatiegraad</a></li>
-    <li><a href="index.html">Visualisatie</a></li>
-    <li><a href="background.html">Achtergrond</a></li>
-    <li><a href="about.html">About</a></li>
-  </ul>
+  <body>
+    <!-- Navigation bar code came from:
+    https://www.w3schools.com/css/css_navbar.asp -->
+    <ul>
+      <li><a>Vaccinatiegraad</a></li>
+      <li><a href="index.html">Visualisatie</a></li>
+      <li><a href="background.html">Achtergrond</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
 
-  <h1>Vaccinatiegraad in Europa</h1>
+    <h1>Vaccinatiegraad in Europa</h1>
 
-  <div class="flex-container">
+    <div class="flex-container">
 
-    <svg width="960" height="750">
-      <foreignObject x="0" y="0" width="960" height="600">
-      <p class= "intro">Vaccineren lijkt de laatste tijd weer een veel besproken
-        onderwerp in Nederland. Mensen trekken in twijfel of de vaccinaties wel
-        doen wat ze moeten doen of dat ze zelfs bepaalde ziektes kunnen
-        veroorzaken. Dit heeft geleid tot een afname in vaccinatiegraad in
-        Nederland, met als gevolg dat de groepsimmuniteit daalt. De WHO streeft
-        ernaar om een een vaccinatiegraad van 95% te bereiken om enigzins
-        groepsimmuniteit te kunnen garanderen. Wanneer deze vaccinatiegraad
-        lager is dan 95% kan dit als gevolg hebben dat mensen elkaar makkelijker
-        kunnen besmetten en er steeds meer gevallen van bijvoorbeeld de mazelen
-        in Nederland worden gerapporteerd.<br><br>
-        Op deze website kan je de vaccinatiegraad visualiseren in Europa. Aan de
-         hand van de slider kan je door de jaren heen zien hoe dit is veranderd.
-        Maar als eerste stap, kies een vaccinatietype waarvan je de
-        vaccinatiegraad wil zien in Europa en beweeg de slider om de
-        vaccinatiegraad over de jaren heen te bekijken.</p>
-        <p class="checks">
-          <input type="radio" id="DTP" name="vacc_type_radio" value="DTP"
-            onclick="graph.setSelectedVaccType(value);" checked>
-          <label for="DTP">DTP</label>
-        <input type="radio" id="Pneu" name="vacc_type_radio" value="Pneu"
-            onclick="graph.setSelectedVaccType(value);">
-          <label for="Pneu">Pneumokokken</label>
-        <input type="radio" id="Hepb" name="vacc_type_radio" value="Hepb"
-            onclick="graph.setSelectedVaccType(value);">
-          <label for="Hepb">Hepatitis B</label>
-        <input type="radio" id="Hib" name="vacc_type_radio" value="Hib"
-            onclick="graph.setSelectedVaccType(value);">
-          <label for="Hib">Haemophilus influenzae type B (Hib)</label>
-      </p>
-      </foreignObject>
-      <foreignObject x="17px" y="540" width="900" height="200">
-        <div class="slider" style="">
-        <div style="position: relative; width: 100%; height: 20px">
-          <span style="position: absolute; left: 0" >1997</span>
-          <span style="position: absolute; left: 49%" >2007</span>
-          <span style="position: absolute; right: 0">2017</span>
-        </div>
-        <input type="range" min="1997" step=1 max="2017" value="2007"
-          id="slider" name="slider" style="width: 100%">
-        </div>
+      <svg width="960" height="750">
+        <foreignObject x="0" y="0" width="960" height="600">
+          <p class= "intro">Vaccineren lijkt de laatste tijd weer een veel besproken
+            onderwerp in Nederland. Mensen trekken in twijfel of de vaccinaties wel
+            doen wat ze moeten doen of dat ze zelfs bepaalde ziektes kunnen
+            veroorzaken. Dit heeft geleid tot een afname in vaccinatiegraad in
+            Nederland, met als gevolg dat de groepsimmuniteit daalt. De WHO streeft
+            ernaar om een een vaccinatiegraad van 95% te bereiken om enigzins
+            groepsimmuniteit te kunnen garanderen. Wanneer deze vaccinatiegraad
+            lager is dan 95% kan dit als gevolg hebben dat mensen elkaar makkelijker
+            kunnen besmetten en er steeds meer gevallen van bijvoorbeeld de mazelen
+            in Nederland worden gerapporteerd.<br><br>
+            Op deze website kan je de vaccinatiegraad visualiseren in Europa van de
+            afgelopen 20 jaar. Aan de hand van de slider kan je door de jaren heen
+            zien hoe dit is veranderd. Maar als eerste stap, kies een
+            vaccinatietype waarvan je de vaccinatiegraad wil zien in Europa en
+            beweeg de slider om de vaccinatiegraad over de jaren heen te bekijken.
+          </p>
+          <p class="checks">
+            <input type="radio" id="DTP" name="vacc_type_radio" value="DTP"
+              onclick="graph.setSelectedVaccType(value);" checked>
+            <label for="DTP">DTP</label>
+            <input type="radio" id="Pneu" name="vacc_type_radio" value="Pneu"
+              onclick="graph.setSelectedVaccType(value);">
+            <label for="Pneu">Pneumokokken</label>
+            <input type="radio" id="Hepb" name="vacc_type_radio" value="Hepb"
+              onclick="graph.setSelectedVaccType(value);">
+            <label for="Hepb">Hepatitis B</label>
+            <input type="radio" id="Hib" name="vacc_type_radio" value="Hib"
+              onclick="graph.setSelectedVaccType(value);">
+            <label for="Hib">Haemophilus influenzae type B (Hib)</label>
+          </p>
         </foreignObject>
-    </svg>
-
-    <svg class="map"></svg>
-
-    <svg class="groupedBars">a</svg>
-
-    <svg class="line">
-      <foreignObject x="650" y="20" width="300" height="160">
-        <span style="width: 113px; display:inline-block">
-        <input type="checkbox" class="vacc-type-checkbox" name="vaccType"
-        value="DTP" checked><span style="color: #a6cee3">●</span> DTP
-        </span>
-
-        <span style="width: 70px; display:inline-block">
-          <input type="checkbox" class="vacc-type-checkbox" name="vaccType"
-          value="Hib"><span style="color: #1f78b4">●</span> Hib
-        </span><br>
-
-        <input type="checkbox" class="vacc-type-checkbox" name="vaccType"
-        value="Hepb"><span style="color: #b2df8a">●</span> Hepatitis b
-
-        <input type="checkbox" class="vacc-type-checkbox" name="vaccType"
-        value="Pneu"><span style="color: #33a02c">●</span> Pneumokokken <br>
-      </foreignObject>
-    </svg>
-  </div>
-
-    <script src="scripts/d3.v5.js"></script>
-    <script src="https://unpkg.com/topojson@3.0.2/dist/topojson.min.js"></script>
-    <script src="https://unpkg.com/d3-simple-slider"></script>
-    <script src="scripts/common.js"></script>
-    <script src="scripts/linechart.js"></script>
-    <script src="scripts/barchart.js"></script>
-    <script src="scripts/choropleth.js"></script>
-
+        <foreignObject x="17px" y="540" width="900" height="200">
+          <div class="slider" style="">
+            <div style="position: relative; width: 100%; height: 20px">
+                <span style="position: absolute; left: 0" >1997</span>
+                <span style="position: absolute; left: 49%" >2007</span>
+                <span style="position: absolute; right: 0">2017</span>
+              </div>
+              <input type="range" min="1997" step=1 max="2017" value="2007"
+                id="slider" name="slider" style="width: 100%">
+            </div>
+          </foreignObject>
+        </svg>
+        <svg class="map"></svg>
+        <svg class="groupedBars">a</svg>
+        <svg class="line">
+          <foreignObject x="650" y="20" width="300" height="160">
+            <span style="width: 113px; display:inline-block">
+            <input type="checkbox" class="vacc-type-checkbox" name="vaccType"
+              value="DTP" checked><span style="color: #a6cee3">●</span> DTP
+            </span>
+            <span style="width: 70px; display:inline-block">
+            <input type="checkbox" class="vacc-type-checkbox" name="vaccType"
+              value="Hib"><span style="color: #1f78b4">●</span> Hib
+            </span><br>
+            <input type="checkbox" class="vacc-type-checkbox" name="vaccType"
+              value="Hepb"><span style="color: #b2df8a">●</span> Hepatitis b
+            <input type="checkbox" class="vacc-type-checkbox" name="vaccType"
+              value="Pneu"><span style="color: #33a02c">●</span> Pneumokokken <br>
+          </foreignObject>
+        </svg>
+      </div>
+      <script src="scripts/d3.v5.js"></script>
+      <script src="https://unpkg.com/topojson@3.0.2/dist/topojson.min.js"></script>
+      <script src="https://unpkg.com/d3-simple-slider"></script>
+      <script src="scripts/common.js"></script>
+      <script src="scripts/linechart.js"></script>
+      <script src="scripts/barchart.js"></script>
+      <script src="scripts/choropleth.js"></script>
   </body>
 </html>

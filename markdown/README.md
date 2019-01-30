@@ -31,7 +31,7 @@ Het lastigste dat ik tegen zal komen is het creëren van choropleths die ook nog
 **Gebruik van de website**br>
 Voor de beste weergave van de website is deze het best te openen via een FireFox browser.
 <br><br><br><br>
-De volgende bronnen zijn gebruikt voor dit project, waarvan ook de licences zijn gechekt voor het gebruik:
+<!-- De volgende bronnen zijn gebruikt voor dit project, waarvan ook de licences zijn gechekt voor het gebruik. Alle genoemde bronnen vallen niet onder deze licentie: -->
 <br><br>
 barchart.js:<br>
 https://bl.ocks.org/d3noob/0e276dc70bb9184727ee47d6dd06e915
@@ -42,6 +42,9 @@ https://www.youtube.com/watch?v=Qw6uAg3EO64
 index.html<br>
 https://www.w3schools.com/css/css_navbar.asp
 <br><br>
+De tooltip dunctie is gebruikt in zowel linechart.js en barchart.js. Hiervoor is de code gebruikt van volgende website:<br>
+https://gist.github.com/woodyrew/645d0258415db9205da52cb0e049ca28
+<br><br>
 Kleuren schema's zijn gehaald van:<br>
 http://colorbrewer2.org/
 <br><br>
@@ -51,7 +54,7 @@ http://apps.who.int/gho/data/node.main.A824?lang=en
 De range slider in index.html en de layout ervan in vacc.css zijn tot stand gekomen door de code van:<br>
 https://www.w3schools.com/howto/howto_js_rangeslider.asp
 <br><br>
-De navigatiebar is tot stand gekomen door gebruik van de vogende website:<br>
+De navigatie bar is tot stand gekomen door gebruik van de vogende website:<br>
 https://www.w3schools.com/css/css_navbar.asp
 <br><br>
 De background infomation in background.html is samengesteld aan de hand van de volgende websites:<br>

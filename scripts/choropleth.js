@@ -111,6 +111,8 @@ function updateMap(yearUpdate, mapData) {
     .range(colors);
 
   let countryRate = mapData[yearUpdate]
+  if (!countryRate)
+    countryRate =[]
   g.selectAll('path')
     .attr('fill', (d, i) => color(countryRate[d.id] / 100));
 }

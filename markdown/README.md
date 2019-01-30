@@ -17,10 +17,10 @@ The choropleth geeft de kaart van Europa weer met hierin de vaccinatiegraad weer
 ![Range Slider](/doc/range_slider.png)
 
 Voor de visualisatie om de vaccinatiegraad van Nederland te vergelijken met een ander land wordt er een grouped bar chart gecreëerd. Deze bar chart geeft de vaccinatiegraad weer over de tijd vergeleken met een ander Europees land dat is geselecteerd via de choropleth. Je kan de data aanpassen door een ander land te selecteren en door met behulp van radio buttons een vaccinatiegraad te selecteren.
-![Grouped bar chart](doc/grouped_barchart.png)
+![Grouped bar chart](/doc/grouped_barchart.png)
 
 De line chart zal de vaccinatiegraad over de jaren heen weergeven van het geselecteerde land van de choropleth. In de visualisatie zullen checkboxen weergegeven zijn. Hierdoor kan je aanklikken voor welke vaccinatietypen weergegeven wil hebben. Hierdoor kan je goed de verschillende trends vergelijken van verschillende vaccinatietypen.
-![Line chart](doc/linechart.png)
+![Line chart](/doc/linechart.png)
 
 **Benodigde talen en libraries**<br>
 Voor het creëren van dit project heb zal ik gebruik maken van Javascript, HTML, Python, CSS en als extra library D3 en de functie om topojson te kunnen gebruiken

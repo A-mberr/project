@@ -1,4 +1,4 @@
-#Style guide
+## Style guide
 
 1. Gebruik van CamelCase in JavaScript and Snake_case in Python
 2. Consistente indentatie

@@ -26,15 +26,21 @@ Student number: 11819359 -->
 
     <svg width="960" height="750">
       <foreignObject x="0" y="0" width="960" height="600">
-      <p class= "intro">Vaccineren lijkt de laatste tijd weer een veel besproken onderwerp in Nederland.
-        Mensen trekken in twijfel of de vaccinaties wel doen wat ze moeten doen of dat ze zelfs
-        bepaalde ziektes kunnen veroorzaken. Dit heeft geleid tot een afname in vaccinatiegraad in Nederland,
-        met als gevolg dat de groepsimmuniteit daalt. De WHO streeft ernaar om een een vaccinatiegraad van 95% te
-        bereiken om enigzins groepsimmuniteit te kunnen garanderen. Wanneer deze vaccinatiegraad lager is dan 95%
-        kan dit als gevolg hebben dat mensen elkaar makkelijker kunnen besmetten en er steeds meer gevallen van bijvoorbeeld
-        de mazelen in Nederland worden gerapporteerd.<br><br>
-        Op deze website kan je de vaccinatiegraad visualiseren in Europa. Aan de hand van de slider kan je door de jaren heen zien hoe dit is veranderd.
-        Maar als eerste stap, kies een vaccinatietype waarvan je de vaccinatiegraad wil zien in Europa en beweeg de slider om de vaccinatiegraad over de jaren heen te bekijken.</p>
+      <p class= "intro">Vaccineren lijkt de laatste tijd weer een veel besproken
+        onderwerp in Nederland. Mensen trekken in twijfel of de vaccinaties wel
+        doen wat ze moeten doen of dat ze zelfs bepaalde ziektes kunnen
+        veroorzaken. Dit heeft geleid tot een afname in vaccinatiegraad in
+        Nederland, met als gevolg dat de groepsimmuniteit daalt. De WHO streeft
+        ernaar om een een vaccinatiegraad van 95% te bereiken om enigzins
+        groepsimmuniteit te kunnen garanderen. Wanneer deze vaccinatiegraad
+        lager is dan 95% kan dit als gevolg hebben dat mensen elkaar makkelijker
+        kunnen besmetten en er steeds meer gevallen van bijvoorbeeld de mazelen
+        in Nederland worden gerapporteerd.<br><br>
+        Op deze website kan je de vaccinatiegraad visualiseren in Europa. Aan de
+         hand van de slider kan je door de jaren heen zien hoe dit is veranderd.
+        Maar als eerste stap, kies een vaccinatietype waarvan je de
+        vaccinatiegraad wil zien in Europa en beweeg de slider om de
+        vaccinatiegraad over de jaren heen te bekijken.</p>
         <p class="checks">
           <input type="radio" id="DTP" name="vacc_type_radio" value="DTP"
             onclick="graph.setSelectedVaccType(value);" checked>
@@ -57,8 +63,8 @@ Student number: 11819359 -->
           <span style="position: absolute; left: 49%" >2007</span>
           <span style="position: absolute; right: 0">2017</span>
         </div>
-        <input type="range" min="1997" step=1 max="2017" value="2007" id="slider" name="slider"
-         style="width: 100%">
+        <input type="range" min="1997" step=1 max="2017" value="2007"
+          id="slider" name="slider" style="width: 100%">
         </div>
         </foreignObject>
     </svg>
@@ -67,35 +73,23 @@ Student number: 11819359 -->
 
     <svg class="groupedBars">a</svg>
 
-      <!-- <input type="range" min="1980" step=1 max="2017" value="50" class="slider" id="myRange" name="range" >
-      <output class="output" name="output" for="range">50</output> -->
-      <!-- <input type="range" name="range" min="1997" step=1 max="2017" value="50" class="slider" id="myRange" onchange="updateTextInput(this.value);">
-      <input type="text" id="textInput" value=""> -->
-
-      <!-- <form name="range">
-        <input class="slider" type="range" name="range" id="ageInputId" value="21" min="1997" max="2017" oninput="ageOutputId.value = ageInputId.value">
-
-        <output name="ageOutputName" id="ageOutputId">2008</output>
-      </form> -->
-
-      <!-- https://bl.ocks.org/johnwalley/e1d256b81e51da68f7feb632a53c3518 -->
-
-        <!-- <div class="row align-items-center">
-         <div class="col-sm-2"><p id="value-time"></p></div>
-         <div class="col-sm"><div id="slider-time"></div></div>
-       </div> -->
-
     <svg class="line">
-      <foreignObject x="700" y="20" width="300" height="160">
-        <span style="width: 70px; display:inline-block">
-        <input type="checkbox" class="vacc-type-checkbox" name="vaccType" value="DTP" checked><span style="color: #a6cee3">●</span> DTP
+      <foreignObject x="650" y="20" width="300" height="160">
+        <span style="width: 113px; display:inline-block">
+        <input type="checkbox" class="vacc-type-checkbox" name="vaccType"
+        value="DTP" checked><span style="color: #a6cee3">●</span> DTP
         </span>
-        <input type="checkbox" class="vacc-type-checkbox" name="vaccType" value="Pneu"><span style="color: #33a02c">●</span> Pneumokokken <br>
+
         <span style="width: 70px; display:inline-block">
           <input type="checkbox" class="vacc-type-checkbox" name="vaccType"
           value="Hib"><span style="color: #1f78b4">●</span> Hib
-        </span>
-        <input type="checkbox" class="vacc-type-checkbox" name="vaccType" value="Hepb"><span style="color: #b2df8a">●</span> Hepatitis b <br>
+        </span><br>
+
+        <input type="checkbox" class="vacc-type-checkbox" name="vaccType"
+        value="Hepb"><span style="color: #b2df8a">●</span> Hepatitis b
+
+        <input type="checkbox" class="vacc-type-checkbox" name="vaccType"
+        value="Pneu"><span style="color: #33a02c">●</span> Pneumokokken <br>
       </foreignObject>
     </svg>
   </div>

@@ -3,13 +3,13 @@
 ## Externe databronnen<br>
 Nederland<br>
 Voor meer uitgebreide data van Nederland:<br>
-https://www.volksgezondheidenzorg.info/onderwerp/vaccinaties/cijfers-context/trends#node-trend-vaccinatiegraad-zuigelingen 
+https://www.volksgezondheidenzorg.info/onderwerp/vaccinaties/cijfers-context/trends#node-trend-vaccinatiegraad-zuigelingen
 
 Deze data is een vrij eenvoudige dataset die veel interessante informatie weergeeft om visueel goed trends te kunnen weergeven. Ik heb getracht om deze dataset via een CSV te kunnen uploaden. Helaas kon ik hier geen link voor vinden. Door de grootte van de dataset heb ik voor gekozen om de dataset via de copy paste functie in een Excel weer te geven
 
 Europa<br>
 Voor data over Europa worden den volgende databases gebruikt:<br>
-http://apps.who.int/gho/data/node.main.A824?lang=en 
+http://apps.who.int/gho/data/node.main.A824?lang=en
 Hiervan worden de volgende 4 dataset gebruikt:
 -	Diphtheria tetanus toxoid and pertussis (DTP3)
 -	Hib (Hib3)
@@ -22,8 +22,8 @@ Helaas was er niet voor elk vaccinatie type die ook in de dataset van Nederland 
 
 ## Elements<br>
 ### Chloropleth<br>
--	Om de kaart van Europa weer te geven, zal ik gebruik maken van de d3 plug-in D3GeoProjection. Hiermee zal een kaart worden weergegeven. 
--	Met behulp van d3.scale zullen de thresholds worden bepaald waarmee de landen in de kaart worden ingekleurd. Hierbij wordt ook een geschaalde legende weergegeven aan de zijkant van de kaart. 
+-	Om de kaart van Europa weer te geven, zal ik gebruik maken van de d3 plug-in D3GeoProjection. Hiermee zal een kaart worden weergegeven.
+-	Met behulp van d3.scale zullen de thresholds worden bepaald waarmee de landen in de kaart worden ingekleurd. Hierbij wordt ook een geschaalde legende weergegeven aan de zijkant van de kaart.
 -	Met behulp van een tooltip functie kan er informatie over het geselecteerde land worden weergegeven.
 -	Met behulp van een slider kan je aanpassen van welk jaar de data wil hebben weergegeven.
 
@@ -52,8 +52,8 @@ D3 plugins<br>
 -	D3.scale<br>
 HTML 5 tags:
 -	Input type=range<br>
-http://thenewcode.com/757/Playing-With-The-HTML5-range-Slider-Input 
+http://thenewcode.com/757/Playing-With-The-HTML5-range-Slider-Input
 -	Input type=checkbox
 
 ## Project design
-![design](doc/design.png)
+![design](/doc/design.png)

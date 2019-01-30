@@ -37,6 +37,10 @@ function drawBars(g, graph, data, country) {
   const barWidth = 15;
   const colors = ['#a6bddb', '#4682B4'];
 
+  let div = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
   g.selectAll('.bar')
     .remove()
     .exit()
@@ -56,7 +60,26 @@ function drawBars(g, graph, data, country) {
     .attr('width', barWidth)
     .attr('height', d => (graph.height - graph.margin.top) - graph.yScale(d.rate))
     // fills the even and uneven bars seperately
-    .attr('fill', (d, i) => colors[i % 2]);
+    .attr('fill', (d, i) => colors[i % 2])
+    // tooltip code retrieved from:
+    // https://gist.github.com/woodyrew/645d0258415db9205da52cb0e049ca28
+    .on('mouseover', d => {
+      div
+        .transition()
+        .duration(200)
+        .style('opacity', 0.9);
+      div
+        .html(d.year + '<br/>' + d.rate)
+        .attr('style', "text-anchor:start; font-weight: bold;")
+        .style('left', d3.event.pageX + 'px')
+        .style('top', d3.event.pageY - 28 + 'px');
+      })
+      .on('mouseout', () => {
+      div
+        .transition()
+        .duration(500)
+        .style('opacity', 0);
+      });
 }
 
 function xLabel(g, graph) {

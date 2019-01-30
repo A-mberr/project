@@ -87,7 +87,6 @@ for vacc_type in vacc_types:
     df = df.set_index('Country')
 
     df = df.transpose()
-    print(df)
 
     df = df.apply(pd.to_numeric, errors='ignore')
 

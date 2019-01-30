@@ -81,8 +81,10 @@ for vacc_type in vacc_types:
 
     df = pd.read_csv(csvFilePath, header=1)
 
+    # selects only countries from Europe
     df = df[df['Country'].isin(countries_in_eu)]
 
+    # changes country name to country code
     df["Country"] = df['Country'].map(codes).fillna(df['Country'])
 
     df = df.set_index('Country')

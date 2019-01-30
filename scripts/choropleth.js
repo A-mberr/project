@@ -2,10 +2,10 @@
 // Student ID: 11819359
 
 const choropleth = (function() {
-  "use strict";
 
 function loadMapData(vaccType) {
   return Promise.all([
+    // also loads the topojson with the polygons of Europe in it
     d3.json('data/vacc_map_' + vaccType + '.json'),
     d3.json('data/eu.json'),
   ]);
@@ -17,18 +17,20 @@ function drawMap(svg, g, polygons) {
   const projection = d3.geoMercator()
     .scale(500)
     .center([27, 60])
-  const pathGenerator = d3.geoPath().projection(projection)
 
+  const pathGenerator = d3.geoPath().projection(projection)
   const countries = topojson.feature(polygons, polygons.objects.europe)
 
-  // TODO: verander colorscale en pas aan naar de juiste treshold grenzen
-  var colors = ['#f1eef6','#d0d1e6','#a6bddb','#74a9cf','#3690c0','#0570b0','#034e7b']
+  // sets margins to color the map
+  var colors = ['#fff7fb','#ece7f2','#d0d1e6','#a6bddb','#74a9cf','#3690c0','#0570b0','#034e7b']
   const color = d3.scaleThreshold()
     .domain([0.4, 0.5, 0.6, 0.7, 0.8, 0.85, 0.9, 0.95])
     .range(colors);
 
+  // draws the map
   let map = g.selectAll('path').data(countries.features)
-    .enter().append('path')
+    .enter()
+    .append('path')
     .attr('class', 'kaart')
     .attr('d', pathGenerator)
     .append('title')
@@ -36,24 +38,16 @@ function drawMap(svg, g, polygons) {
 }
 
 function generateLegend(svg, graph) {
-  // Legenda wordt nog gemaakt aan de hand van de data
-  // TODO: verander de legenda naar waarden die loppen met de margins
-  var colors = ['#fff7fb','#ece7f2','#d0d1e6','#a6bddb','#74a9cf','#3690c0','#0570b0','#034e7b']
-  var domains = ['<40%', '40-50%', '50-60%', '60-70%', '70-80%', '85-90%', '90-95%', '95-100%']
+  // set margins with sequential colors from http://colorbrewer2.org/
+  var colors = ['#ffffff', '#fff7fb','#ece7f2','#d0d1e6','#a6bddb','#74a9cf','#3690c0','#0570b0','#034e7b', '#000000']
+  var domains = ['Vaccinatiegraad', '<40%', '40-50%', '50-60%', '60-70%', '70-80%', '85-90%', '90-95%', '95-100%', 'Geen data']
 
-  // TODO add text 'Vacciantiegraad (%)'
   var legendMap = svg.append('g')
     .attr('class', 'legend')
     .attr('transform',
     'translate(' + (graph.width + graph.margin.left - 130) + ',' + (graph.height / 2) + ')');
 
   const colorBoxSize = 20 - 3; // in pixels
-
-  legendMap.selectAll('text')
-    .attr('x', 0)
-    .attr('y', 50)
-    .attr('text-anchor', 'middle')
-    .text('Vaccinatiegraad (%)')
 
   legendMap.selectAll('rect')
     .data(colors)
@@ -67,6 +61,7 @@ function generateLegend(svg, graph) {
     .attr('height', colorBoxSize)
     .style('fill',(d, i) => colors[i]);
 
+  // places legend catorgies net to the colored rectangles
   legendMap.selectAll('text')
     .data(domains)
     .enter()
@@ -79,7 +74,6 @@ function generateLegend(svg, graph) {
 }
 
 function makeTitle(svg, graph) {
-
   svg.append('text')
     .attr('class', 'title')
     .attr('x', (graph.width + graph.margin.left + graph.margin.right) / 2)
@@ -88,12 +82,12 @@ function makeTitle(svg, graph) {
     .text('Vaccinatiegraad in Europa')
 }
 
-// update the elements
+// update the elements based on the year of de slider
 function updateMap(yearUpdate, mapData) {
-
-  var colors = ['#f1eef6','#d0d1e6','#a6bddb','#74a9cf','#3690c0','#0570b0','#034e7b']
+  var colors = ['#fff7fb','#ece7f2','#d0d1e6','#a6bddb','#74a9cf',
+    '#3690c0','#0570b0','#034e7b']
   const color = d3.scaleThreshold()
-    .domain([0.5, 0.6, 0.7, 0.8, 0.85, 0.9, 0.95])
+    .domain([0.4, 0.5, 0.6, 0.7, 0.8, 0.85, 0.9, 0.95])
     .range(colors);
 
   let countryRate = mapData[yearUpdate]
@@ -108,8 +102,6 @@ function main(data) {
   drawMap(svg, g, polygons)
 
   generateLegend(svg, graph)
-
-  makeTitle(svg, graph)
 
   updateMap(defaultSelectedYear, vaccData);
 
@@ -136,10 +128,11 @@ function load() {
 }
 
 load();
+makeTitle(svg, graph)
 
+// returns selected vaccine type
 return {
   setSelectedVaccType: function(vaccType) {
-    console.log('map Vacc:', vaccType);
     selectedVaccType = vaccType;
     load();
   },

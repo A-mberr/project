@@ -87,3 +87,10 @@
 - interactie door het klikken op de radio buttons
 - checkboxes werken nu goed
 - License toegevoegd
+
+## Dag 18
+- Bugs in kaart gefixt
+- Titles worden niet meer meerdere malen getekend
+- Landen namen naar Nederlands veranderd
+- opmaak verbeterd
+- Github repo op orde gebracht

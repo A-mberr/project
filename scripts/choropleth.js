@@ -22,7 +22,8 @@ function drawMap(svg, g, polygons) {
   const countries = topojson.feature(polygons, polygons.objects.europe)
 
   // sets margins to color the map
-  var colors = ['#fff7fb','#ece7f2','#d0d1e6','#a6bddb','#74a9cf','#3690c0','#0570b0','#034e7b']
+  var colors = ['#fff7fb','#ece7f2','#d0d1e6','#a6bddb','#74a9cf','#3690c0',
+    '#0570b0','#034e7b']
   const color = d3.scaleThreshold()
     .domain([0.4, 0.5, 0.6, 0.7, 0.8, 0.85, 0.9, 0.95])
     .range(colors);
@@ -39,13 +40,16 @@ function drawMap(svg, g, polygons) {
 
 function generateLegend(svg, graph) {
   // set margins with sequential colors from http://colorbrewer2.org/
-  var colors = ['#ffffff', '#fff7fb','#ece7f2','#d0d1e6','#a6bddb','#74a9cf','#3690c0','#0570b0','#034e7b', '#000000']
-  var domains = ['Vaccinatiegraad', '<40%', '40-50%', '50-60%', '60-70%', '70-80%', '85-90%', '90-95%', '95-100%', 'Geen data']
+  var colors = ['#ffffff', '#fff7fb','#ece7f2','#d0d1e6','#a6bddb','#74a9cf',
+    '#3690c0','#0570b0','#034e7b', '#000000']
+  var domains = ['Vaccinatiegraad', '<40%', '40-50%', '50-60%', '60-70%',
+    '70-80%', '85-90%', '90-95%', '95-100%', 'Geen data']
 
   var legendMap = svg.append('g')
     .attr('class', 'legend')
     .attr('transform',
-    'translate(' + (graph.width + graph.margin.left - 130) + ',' + (graph.height / 2) + ')');
+    'translate(' + (graph.width + graph.margin.left - 130) + ',' +
+      (graph.height / 2) + ')');
 
   const colorBoxSize = 20 - 3; // in pixels
 

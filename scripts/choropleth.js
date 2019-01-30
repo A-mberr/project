@@ -83,7 +83,21 @@ function makeTitle(svg, graph) {
     .attr('x', (graph.width + graph.margin.left + graph.margin.right) / 2)
     .attr('y', graph.margin.top + graph.margin.padding / 2)
     .attr('text-anchor', 'middle')
-    .text('Vaccinatiegraad in Europa')
+    .text('Vaccinatiegraad in Europa in het jaar 2007')
+}
+
+function updateTitle(yearUpdate, svg, graph) {
+  svg.selectAll('.title')
+    .remove()
+    .exit()
+    
+  // updates title based on the selected year on slider
+  svg.append('text')
+    .attr('class', 'title')
+    .attr('x', (graph.width + graph.margin.left + graph.margin.right) / 2)
+    .attr('y', graph.margin.top + graph.margin.padding / 2)
+    .attr('text-anchor', 'middle')
+    .text('Vaccinatiegraad in Europa in het jaar ' + yearUpdate)
 }
 
 // update the elements based on the year of de slider
@@ -101,7 +115,7 @@ function updateMap(yearUpdate, mapData) {
 
 function main(data) {
   const [vaccData, polygons] = data;
-  const defaultSelectedYear = 2002;
+  const defaultSelectedYear = 2007;
 
   drawMap(svg, g, polygons)
 
@@ -110,7 +124,8 @@ function main(data) {
   updateMap(defaultSelectedYear, vaccData);
 
   d3.select('#slider').on('input', function() {
-    updateMap(+this.value, vaccData);
+    updateMap(+this.value, vaccData)
+    updateTitle(+this.value, svg, graph);
   });
 
   d3.selectAll('path').on('click', (d, i) => graph.setSelectedCountry(d.id));

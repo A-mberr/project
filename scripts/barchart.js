@@ -15,6 +15,8 @@ function drawBars(g, graph, data, country) {
 
   const bars = [];
 
+  // creates array in which a selected country and the Netherlands will be
+  // saved with their data
   for (let i = 0; i < years.length; i++) {
     let year = years[i];
     if (ratesInCountry[year] == null && ratesInNetherlands[year] == null) {
@@ -33,7 +35,7 @@ function drawBars(g, graph, data, country) {
   const gutterWidth = 8; // in pixels
   const halfGutterWidth = gutterWidth / 2;
   const barWidth = 15;
-  const colors = ['#4682B4', 'black'];
+  const colors = ['#a6bddb', '#4682B4'];
 
   g.selectAll('.bar')
     .remove()
@@ -42,6 +44,7 @@ function drawBars(g, graph, data, country) {
     .enter()
     .append('rect')
     .attr('class', 'bar')
+    // ensures that 2 grouped bars are drawn
     .attr('x', (d, i) => {
       let x = graph.xScale(d.year);
       if (i % 2 == 1) {
@@ -52,41 +55,47 @@ function drawBars(g, graph, data, country) {
     .attr('y', d => graph.yScale(d.rate))
     .attr('width', barWidth)
     .attr('height', d => (graph.height - graph.margin.top) - graph.yScale(d.rate))
+    // fills the even and uneven bars seperately
     .attr('fill', (d, i) => colors[i % 2]);
 }
 
 function xLabel(g, graph) {
   const xAxis = d3.axisBottom()
     .scale(graph.xScale)
+    // ensures that years do not have a delimeter
     .tickFormat(d3.format('y')).ticks(graph.maxYears)
 
-  var gX_bar = g.append('g')
+  var gX = g.append('g')
     .attr('transform', 'translate(15,' + (graph.height - graph.margin.top) + ')')
     .call(xAxis)
 
-  // Fix the border of the ticks.
-  gX_bar.append("line")
-    .attr("x1", -6)
-    .attr("y1", 1)
-    .attr("x2", 818)
-    .attr("y2", 1)
-    .attr("stroke-width", 1.7)
-    .attr("stroke", "black");
+  gX.selectAll('.xAxis')
+    .remove()
+    .exit()
+    .append('line')
+    .attr('class', '.xAxis')
+    .attr('x1', -6)
+    .attr('y1', 1)
+    .attr('x2', 818)
+    .attr('y2', 1)
+    .attr('stroke-width', 1.7)
+    .attr('stroke', 'black');
 }
 
 function yLabel(g, graph) {
   const yAxis = d3.axisLeft()
     .scale(graph.yScale)
+    // labels are placed as percentages
     .tickFormat(d => d + '%');
 
   let gY = g.append('g')
-    .attr('transform', 'translate(' + graph.margin.top + ',0)')
+    .attr('transform', 'translate(' + (graph.margin.top - 2) + ',0)')
     .call(yAxis);
 }
 
 function generateLegend(svg, graph, country, legend) {
 
-  var colorsBar = ['#000000', '#2b8cbe'];
+  var colorsBar = ['#2b8cbe', '#a6bddb', ];
   var domainsBar = ['Nederland', country];
 
   const colorBoxSize = 20 - 3; // in pixels
@@ -102,7 +111,6 @@ function generateLegend(svg, graph, country, legend) {
     .attr('width', colorBoxSize)
     .attr('height', colorBoxSize)
     .style('fill',(d, i) => colorsBar[i]);
-
 
   legend.selectAll('text')
     .remove()
@@ -133,9 +141,6 @@ function update() {
 
 function main(barData) {
   countryComparisonData = barData
-  xLabel(g, graph)
-  yLabel(g, graph)
-  makeTitle(svg, graph)
   update();
 }
 
@@ -162,15 +167,17 @@ function load() {
 }
 
 load();
+xLabel(g, graph)
+yLabel(g, graph)
+makeTitle(svg, graph)
 
+// returns selected country and selecteted vaccine type
 return {
   setSelectedCountry: function(countryCode) {
-    console.log('barChart:', countryCode);
     selectedCountry = countryCode;
     update();
   },
   setSelectedVaccType: function(vaccType) {
-    console.log('barChart Vacc:', vaccType);
     selectedVaccType = vaccType;
     load();
   },

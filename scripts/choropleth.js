@@ -85,7 +85,7 @@ function makeTitle(svg, graph) {
     .attr('x', (graph.width + graph.margin.left + graph.margin.right) / 2)
     .attr('y', graph.margin.top + graph.margin.padding / 2)
     .attr('text-anchor', 'middle')
-    .text('Vaccinatiegraad in Europa in het jaar 2007')
+    .text('Vaccinatiegraad in Europa in het jaar 2009')
 }
 
 function updateTitle(yearUpdate, svg, graph) {
@@ -117,7 +117,7 @@ function updateMap(yearUpdate, mapData) {
 
 function main(data) {
   const [vaccData, polygons] = data;
-  const defaultSelectedYear = 2007;
+  const defaultSelectedYear = 2009;
 
   drawMap(svg, g, polygons)
 

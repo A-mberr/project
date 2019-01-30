@@ -47,6 +47,10 @@ function drawLines(g, graph, data) {
     }
   }
 
+  let div = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
   // draw circles for data
   g.selectAll('circle')
     .remove()
@@ -57,7 +61,26 @@ function drawLines(g, graph, data) {
     .attr('cx', d => graph.xScale(d.year))
     .attr('cy', d => graph.yScale(d.rate))
     .attr('r', 5)
-    .attr('fill', d => colors[d.type]);
+    .attr('fill', d => colors[d.type])
+    // tooltip code retrieved from:
+    // https://gist.github.com/woodyrew/645d0258415db9205da52cb0e049ca28
+    .on('mouseover', d => {
+      div
+        .transition()
+        .duration(200)
+        .style('opacity', 0.9);
+      div
+        .html(d.year + '<br/>' + d.rate)
+        .attr('style', "text-anchor:start; font-weight: bold;")
+        .style('left', d3.event.pageX + 'px')
+        .style('top', d3.event.pageY - 28 + 'px');
+      })
+      .on('mouseout', () => {
+      div
+        .transition()
+        .duration(500)
+        .style('opacity', 0);
+      });
 
   g.selectAll('.lines')
     .remove().exit();

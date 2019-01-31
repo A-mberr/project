@@ -21,6 +21,10 @@ Voor de visualisatie om de vaccinatiegraad van Nederland te vergelijken met een 
 
 De line chart zal de vaccinatiegraad over de jaren heen weergeven van het geselecteerde land van de choropleth. In de visualisatie zullen checkboxen weergegeven zijn. Hierdoor kan je aanklikken voor welke vaccinatietypen weergegeven wil hebben. Hierdoor kan je goed de verschillende trends vergelijken van verschillende vaccinatietypen.
 ![Line chart](/doc/linechart.png)
+<br><br>
+De video die te zien is via onderstaande link zal een korte rondleiding geven over de website en de visualisaties die voor dit project zijn gecreeerd:<br>
+https://youtu.be/zD9nafG6Hzs
+
 
 **Benodigde talen en libraries**<br>
 Voor het creëren van dit project heb zal ik gebruik maken van Javascript, HTML, Python, CSS en als extra library D3 en de functie om topojson te kunnen gebruiken
@@ -30,7 +34,7 @@ Het lastigste dat ik tegen zal komen is het creëren van choropleths die ook nog
 
 **Gebruik van de website**<br>
 Voor de beste weergave van de website is deze het best te openen via een FireFox browser.
-<br><br><
+<br><br>
 De volgende bronnen zijn gebruikt voor dit project, waarvan ook de licences zijn gechekt voor het gebruik. Alle genoemde bronnen vallen niet onder deze licentie:
 <br><br>
 barchart.js:<br>

@@ -3,13 +3,13 @@ Deze website bevat drie verschillende elementen om de vaccinatiegraad weer te ge
 
 De website moet inzicht geven over de vaccinatiegraad in Europa en Nederland. Vaccinaties zorgen ervoor dat een persoon immuun wordt voor de specifiek infectieziekte waardoor ziekte en zelfs sterfte voorkomen kan worden. De afgelopen jaren is er een teruggang te zien in de vaccinatiegraad in landen zoals Nederland. De vaccinatiegraad is het percentage gevaccineerden mensen in een land. De World Health Organization (WHO) heeft een vaccinatiegraad van 95% vastgesteld om een groepsimmuniteit te kunnen garanderen. Groepsimmunteit is de beschermde immuniteit status van een populatie tegenover een bepaald infectieziekte. Groepsimmunteit zorgt ervoor dat ook de mensen met een minder goed immuunsysteem waaronder kinderen ook kunnen profiteren van de groepsimmuniteit.
 
-Voor de visualisaties zijn er vier databases gebruikt van het WHO om vier verschillende vaccinatietypen en hun vaccinatiegraad weer te geven in Europa. Ook kan er met behulp van de visualisaties zien hoe de vaccinatiegraad in Europa verschilt met dat van Nederland.
+Voor de visualisaties zijn er vier databases gebruikt van het WHO om vier verschillende vaccinatietypen en hun vaccinatiegraad weer te geven in Europa. Ook kan er met behulp van de visualisaties zien hoe de vaccinatiegraad in Europa verschilt met dat van Nederland.<br> 
 ![Project](/doc/project.png)
 
 ## File overzicht
 De data voor dit project was afkomstig uit vier verschillende CSV-bestanden die zijn samengesteld door de WHO. Om de data op een juiste manier in te laden is er voor elke visualisatie een Python file geschreven om een JSON in het juiste format te genereren. 
 
-Data
+*Data*
 *	Vacc_eu_DTP.csv
 *	Vacc_eu_Hepb.csv
 *	Vacc_eu_Hib.csv
@@ -30,7 +30,7 @@ Vacc_map_Pneu.json<br>
 
 Voor elke visualisatie is een aparte Javascript file gegenereerd. Dit zorgt ervoor dat de code niet te lang werd en overzichtelijk bleef. Ook is er een common file gecreëerd. Deze file heeft variabelen in zich die in de andere Javascript files worden gebruikt. 
 
-Scripts
+*Scripts*
 -	Barchart.js
 -	Linechart.js
 -	Choropleth.js
@@ -39,7 +39,7 @@ Scripts
 
 De visualisaties en interactieve elementen zijn te zien in de index.html page. Background.html bevat informatie over vaccins, vaccineren en vaccinatiegraad. About.html geeft persoonlijk informatie weer, de link van de gebruikte databases en een link naar de GitHub page met alle files.
 
-HTML
+*HTML*
 -	Index.html
 -	Background.html
 -	About.html
@@ -49,70 +49,70 @@ De styling is gecreëerd in a de file vacc.css
 ## Gedetailleerd overzicht
 In deze sectie van het wordt elke elk script dat is gebruikt voor de visualisatie uitgebreid besproken in hoe ze tot stand zijn gekomen en hoe ze met elkaar verhouden.
 
-**Choropleth.js**
-De choropleth is een visualisatie die goed de verandering in vaccinatiegraad in heel Europa weergeeft. In een oogopslag is het verschil goed te zien tussen west en oost Europa en de ontwikkeling van de vaccinatiegraad door de jaren heen wanneer men de range slider beweegt.
+**Choropleth.js**<br> 
+De choropleth is een visualisatie die goed de verandering in vaccinatiegraad in heel Europa weergeeft. In een oogopslag is het verschil goed te zien tussen west en oost Europa en de ontwikkeling van de vaccinatiegraad door de jaren heen wanneer men de range slider beweegt.<br> 
 
 ![Choropleth](/doc/map.png)
 
-Data 
+*Data*<br> 
 De file laadt vier JSON-files in die de data bevatten over de vaccinatiegraad in Europa en een topoJSON file.
 
 De choropleth is tot stand gekomen met behulp van een topoJSON. De topoJSON bevat de informatie en coördinaten om een kaart van Europa weer te geven. Met behulp van deze topoJSON was het mogelijk om de verschillende landen in te kleuren aan de hand van de vaccinatiegraad.
 
-Interacties
-De choropleth reageert op twee interactieve elementen. Ten eerste kan er door het selecteren van een radio button de data van verschillende vaccinatie typen worden getoond in de choropleth. Daarnaast heeft ook de range slider invloed op de weergave van de choropleth. Met behulp van de range slider kan er door de jaren heen worden gekeken hoe de vaccinatiegraad verandert door de verandering van de kleuren in de choropleth.
-![Range slider](/doc/range_slider.png)
+*Interacties*<br> 
+De choropleth reageert op twee interactieve elementen. Ten eerste kan er door het selecteren van een radio button de data van verschillende vaccinatie typen worden getoond in de choropleth. Daarnaast heeft ook de range slider invloed op de weergave van de choropleth. Met behulp van de range slider kan er door de jaren heen worden gekeken hoe de vaccinatiegraad verandert door de verandering van de kleuren in de choropleth.<br> 
+![Range slider](/doc/range_slider.png)<br> 
 ![Radio Buttons](/doc/radio_buttons.png)
 
 Door het klikken op een Europees land op de kaart zal er in de andere twee visualisaties informatie verschijnen over het geselecteerde land.
 
-Kaart
+*Kaart*<br> 
 De kaart is geconstrueerd met behulp van een topoJSON. Met behulp van deze JSON was het mogelijk om de verschillende landen in te kleuren aan de hand van de vaccinatiegraad. In dit geval was hoe donkerder de kleur, des te hoger de vaccinatiegraad. Op basis van de output van de range slider wordt de kaart met de bijbehorende vaccinatiegraad ingekleurd.
 
-Legenda
+*Legenda*<br> 
 De legenda is een hard coded en verklaart de welke kleuren bij welke percentage hoort.
 
-Titel 
+*Titel*<br> 
 De titel is net als het inkleuren van de kaart afhankelijk van de range slider. Met behulp van de range slider kan er door de jaren heen de vaccinatiegraad worden bekeken. Het geselecteerd jaar is te zien in de titel van deze visualisatie.
 
-**Linechart.js**
-De line chart laat goed zijn hoe de vaccinatiegraad in een bepaald land zich heeft ontwikkeld. De visualisatie laat goed zien wanneer vaccinatietypen in een vaccinatieprogramma zijn opgenomen en hoe de vaccinatiegraad schommelt over de jaren.
+**Linechart.js**<br> 
+De line chart laat goed zijn hoe de vaccinatiegraad in een bepaald land zich heeft ontwikkeld. De visualisatie laat goed zien wanneer vaccinatietypen in een vaccinatieprogramma zijn opgenomen en hoe de vaccinatiegraad schommelt over de jaren.<br> 
 ![Line chart](/doc/linechart.png)
 
-Data
+*Data*<br> 
 De line chart laadt een JSON in die de informatie bevat van alle vier de gebruikte CSV-files. De JSON is zo ingericht dat het zowel keys bevat voor het land en voor de verschillende vaccinatie typen.
 
-Interacties
+*Interacties*<br> 
 Door het selecteren van een land in de choropleth, verschijnt de land specifieke informatie in de line chart. Met behulp van de checkboxen kan er worden bepaald van welk vaccinatie type de lijn weergegeven wordt.
 
-Line chart
+*Line chart*<br> 
 De line chart is opgebouwd uit zowel een x as en een y as die apart in een functie worden gegenereerd. Vervolgens worden de punten in de line chart getekend en worden de punten verbonden met lijnen. De data te zich presenteert is afhankelijk van het geselecteerde land in de choropleth. 
 
 Door met de muis over de punten heen te bewegen verschijnt er een tooltip die de het jaar een specifieke vaccinatiegraad weergeeft. De lijnen die worden weergegeven kunnen worden bepaald door het checken van de gewenste checkboxen.
 
-Titel
+*Titel*<br> 
 De titel verander mee aan de hand van het geselecteerde land. Zo is duidelijk te zien voor welk land de informatie wordt weergegeven.
 
-**Barchart.js**
-De grouped bar chart geeft een goed beeld hoe de vaccinatiegraad van Nederland zich verhoudt met andere landen. Het is goed te zien dat Nederland een relatief hoge vaccinatiegraad heeft maar je ziet ook schommelingen hierin en schetst het goed de grootte van het probleem van de dalende vaccinatiegraad tegenover andere Europese landen.
+**Barchart.js**<br> 
+De grouped bar chart geeft een goed beeld hoe de vaccinatiegraad van Nederland zich verhoudt met andere landen. Het is goed te zien dat Nederland een relatief hoge vaccinatiegraad heeft maar je ziet ook schommelingen hierin en schetst het goed de grootte van het probleem van de dalende vaccinatiegraad tegenover andere Europese landen.<br> 
 ![Choropleth](/doc/barchart.png)
 
-Data 
+*Data*<br> 
 Voor deze visualisatie worden er vier verschillende JSONs ingeladen met informatie van elke vaccinatie type.
 
-Interacties
+*Interacties*<br> 
 De bar chart visualiseert de data van het land dat is geselecteerd via de choropleth.
 
-Bar chart
+*Bar chart*<br> 
 De bart chart is opgebouwd uit zowel een x as en een y as die apart in een functie worden gegenereerd. De bars zijn gegroepeerd gebaseerd op jaar. Dit betekend dus dat per jaar twee bars zijn weergegeven, een met de data van Nederland en een van het geselecteerde land. Wanneer je met de muis over een bar beweegt verschijnt er een tootlip met informatie over het jaar een de specifieke vaccinatiegraad.
 
-Titel
+*Titel*<br> 
 De titel is dit geval hard coded
 
-Legenda
+*Legenda*<br> 
 De legenda geeft twee kleuren weer. Hierin is een kleur voor de bars van Nederland gereserveerd en de tweede kleur is voor het geselecteerde land. De legenda verandert daarom dus mee afhankelijk van de het land dat op dat moment geselecteerd is.
 
-Common.js
+**Common.js**<br> 
 Deze file bevat variabelen die voor elke Javascript file hetzelfde zijn. Zo zijn hier de margins vastgesteld en zijn zowel de x scale en de y scale hier gedefinieerd. Daarnaast is staat hierin in een dictionary die de landcodes die gebruikt worden om de kaart weer te geven worden omgezet in het volledige land namen. 
 
 Deze file wordt ook gebruikt om de interacties van de radio buttons en de range slider te delen met de andere files. Hierdoor kunnen de visualisatie interactief element hebben.

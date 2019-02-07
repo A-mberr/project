@@ -21,6 +21,8 @@ function drawBars(g, graph, data, country) {
     let year = years[i];
     if (ratesInCountry[year] == null && ratesInNetherlands[year] == null) {
       continue;
+    if (!countryRate)
+      countryRate =[]
     }
     bars.push({
       year: year,
